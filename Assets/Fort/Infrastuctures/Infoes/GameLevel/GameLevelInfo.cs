@@ -1,0 +1,20 @@
+﻿using System;
+using Fort.Inspector;
+
+namespace Fort.Info
+{
+    public class GameLevelInfo
+    {
+        public GameLevelInfo()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+        [IgnoreProperty]
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+        public string SceneName { get; set; }
+        public string DisplayName { get; set; }
+        
+    }
+}

@@ -1,0 +1,88 @@
+﻿using System;
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using Fort;
+using Fort.Info;
+using Fort.Inspector;
+using Fort.Serializer;
+
+public class FortTest : MonoBehaviour
+{
+
+    // Use this for initialization
+    void Start()
+    {
+        /*	    ServiceLocator.Resolve<ISettingService>().ResolveServerSettings<TestGameServerSetting>().Then(settings =>
+                {
+                });*/
+        /*        ServiceLocator.Resolve<IStoreService>().ResolvePackages().Then(packages =>
+                {
+
+                });*/
+        /*        using (FileStream stream = File.Create(@"d:\1.bin"))
+                {
+                    Serializer serializer = new Serializer();
+                    Test test = new Test
+                    {
+                        List = new List<string> {"Arash", "Mostafa"},
+                        TokenType = SerializationTokenType.List,
+                        Strings = new[] {"Arash"},
+                        Dictionary = new Dictionary<int, string> {{12, "Arash"}},
+                        Type = typeof (Test),
+                        Value = null
+                    };
+                    test.Test1 = test;
+                    serializer.Serialize(stream, test);
+                }
+                using (FileStream stream = File.OpenRead(@"d:\1.bin"))
+                {
+                    Serializer serializer = new Serializer();
+                    object deserialize = serializer.Deserialize(stream);
+                    Test test = (Test)deserialize;
+                    object data = test.Value;
+                    Debug.Log(data);
+                }*/
+        /*        int compareTo = 1.CompareTo(2);
+                Test test = new Test
+                {
+                    List = new List<string> { "Arash", "Mostafa" },
+                    TokenType = SerializationTokenType.List,
+                    Strings = new[] { "Arash" },
+                    Dictionary = new Dictionary<int, string> { { 12, "Arash" } },
+                    Type = typeof(Test),
+                    Value = null
+                };
+                test.Test1 = test;*/
+        //Test resolveData = ServiceLocator.Resolve<IStorageService>().ResolveData<Test>();
+        //ServiceLocator.Resolve<IStorageService>().UpdateData(test);
+        //ServiceLocator.Resolve<IStorageService>().ResolveData<Test>();
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    /*    class TestGameServerSetting : GameServerSetting
+        {
+            public bool Active { get; set; }
+        }*/
+
+    [Serializable]
+    public class Test
+    {
+        public int? Value { get; set; }
+        public Test Test1 { get; set; }
+        public List<string> List { get; set; }
+        public string[] Strings { get; set; }
+        public Dictionary<int,string> Dictionary { get; set; }
+        public Type Type { get; set; }
+        public SerializationTokenType TokenType { get; set; }
+    }
+}
