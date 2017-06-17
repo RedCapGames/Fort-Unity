@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine.SceneManagement;
 
-namespace Fort.Info
+namespace Fort.Info.GameLevel
 {
     public class GameLevel
     {
@@ -56,7 +56,7 @@ namespace Fort.Info
             Dictionary<GameLevelCategory, GameLevelCategory> gameLevelCategoriesDic = new Dictionary<GameLevelCategory, GameLevelCategory>();
             GetAllCategories(_gameLevelCategories, gameLevelCategoriesDic);
             GameLevelCategory[] allGameLevelCategories = gameLevelCategoriesDic.Keys.ToArray();
-            foreach (GameLevelCategory gameLevelCategory in allGameLevelCategories)
+            foreach (GameLevelCategory gameLevelCategory in allGameLevelCategories.Where(category => category != null).ToArray())
             {
                 _gameLevelCategoriesMap[gameLevelCategory.Id] = gameLevelCategory;
                 if (gameLevelCategory.ChildrenCategory != null)
@@ -68,7 +68,7 @@ namespace Fort.Info
                 }
                 if (gameLevelCategory.GameLevelInfos != null)
                 {
-                    foreach (GameLevelInfo gameLevelInfo in gameLevelCategory.GameLevelInfos)
+                    foreach (GameLevelInfo gameLevelInfo in gameLevelCategory.GameLevelInfos.Where(info => info != null))
                     {
                         _gameLevelInfos[gameLevelInfo.Id] = gameLevelInfo;
                         _gameLevelCategoriesParentMap[gameLevelInfo.Id] = gameLevelCategory;
@@ -79,7 +79,7 @@ namespace Fort.Info
 
         private void GetAllCategories(GameLevelCategory[] categories, Dictionary<GameLevelCategory, GameLevelCategory> gameLevelCategories)
         {
-            foreach (GameLevelCategory category in categories)
+            foreach (GameLevelCategory category in categories.Where(category => category != null).ToArray())
             {
                 if (!gameLevelCategories.ContainsKey(category))
                 {

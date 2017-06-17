@@ -6,7 +6,7 @@ using System.Reflection;
 using Fort.Inspector;
 using Newtonsoft.Json;
 
-namespace Fort.Info
+namespace Fort.Info.Achievement
 {
     public class Achievement
     {

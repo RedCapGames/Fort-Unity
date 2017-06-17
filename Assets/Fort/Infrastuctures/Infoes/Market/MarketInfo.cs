@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Fort.Inspector;
 
-namespace Fort.Info
+namespace Fort.Info.Market
 {
     public abstract class MarketInfo
     {

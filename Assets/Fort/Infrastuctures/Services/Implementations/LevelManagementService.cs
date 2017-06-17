@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Fort.Info;
+using Fort.Info.GameLevel;
 using UnityEngine;
 
 namespace Fort

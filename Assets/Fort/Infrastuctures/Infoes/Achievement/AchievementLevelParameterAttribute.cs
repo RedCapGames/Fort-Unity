@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fort.Info
+namespace Fort.Info.Achievement
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class AchievementLevelParameterAttribute : Attribute

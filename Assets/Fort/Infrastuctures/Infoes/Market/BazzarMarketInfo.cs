@@ -1,4 +1,4 @@
-﻿namespace Fort.Info
+﻿namespace Fort.Info.Market
 {
     public class BazzarMarketInfo:MarketInfo
     {

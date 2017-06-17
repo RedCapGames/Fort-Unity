@@ -1,7 +1,7 @@
 using System;
 using Fort.Inspector;
 
-namespace Fort.Info
+namespace Fort.Info.PurchasableItem
 {
     public class PurchasableLevelInfo
     {

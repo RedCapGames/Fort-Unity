@@ -1,4 +1,4 @@
-﻿using Fort.Info;
+﻿using Fort.Info.PurchasableItem;
 
 public class CarPurchasableItem:NoneLevelBasePurchasableItemInfo
 {

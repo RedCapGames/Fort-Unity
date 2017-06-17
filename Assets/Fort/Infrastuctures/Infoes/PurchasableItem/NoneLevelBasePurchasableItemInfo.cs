@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fort.Info
+namespace Fort.Info.PurchasableItem
 {
     public abstract class NoneLevelBasePurchasableItemInfo : PurchasableItemInfo
     {

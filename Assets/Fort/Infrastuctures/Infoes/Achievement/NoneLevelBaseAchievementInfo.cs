@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Fort.Info
+namespace Fort.Info.Achievement
 {
     [Serializable]
     public abstract class NoneLevelBaseAchievementInfo : AchievementInfo

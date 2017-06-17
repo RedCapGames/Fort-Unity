@@ -2,6 +2,7 @@
 using System.Linq;
 using Fort.Advertisement;
 using Fort.Info;
+using Fort.Info.Advertisement;
 using UnityEngine;
 
 namespace Fort

@@ -4,20 +4,13 @@ using System.Linq;
 using Fort.Inspector;
 using Newtonsoft.Json;
 
-namespace Fort.Info
+namespace Fort.Info.PurchasableItem
 {
     public class Purchase
     {
-        private Dictionary<string, BundlePurchasableItemInfo> _bundleChilderenMap;
         private Dictionary<string, PurchasableToken> _purchasableTokens;
 
         private PurchasableItemInfo[] _purchasableItemInfos;
-
-#if UNITY_EDITOR
-        [Inspector(Presentation = "Fort.CustomEditor.PurchaseCategoryDefenitionPresentation")]
-#endif
-        public string[] Categories { get; set; }
-
 
         [JsonIgnore]
         [IgnoreProperty]
@@ -32,16 +25,6 @@ namespace Fort.Info
                 return _purchasableTokens;
             }
             //set { _purchasableTokens = value; }
-        }
-
-        public Dictionary<string, BundlePurchasableItemInfo> BundleChilderenMap
-        {
-            get
-            {
-                if(_bundleChilderenMap == null)
-                    SyncBundle();
-                return _bundleChilderenMap;
-            }
         }
 
 
@@ -111,35 +94,6 @@ namespace Fort.Info
             }
         }
 
-        private void SyncBundle()
-        {
-            _bundleChilderenMap = new Dictionary<string, BundlePurchasableItemInfo>();
-            PurchasableItemInfo[] allPurchasableItemInfos = GetAllPurchasableItemInfos();
-            foreach (BundlePurchasableItemInfo bundlePurchasableItemInfo in allPurchasableItemInfos.OfType<BundlePurchasableItemInfo>())
-            {
-                if (bundlePurchasableItemInfo.BundleItems != null)
-                    foreach (PurchasableItemInfo purchasableItemInfo in bundlePurchasableItemInfo.BundleItems)
-                    {
-                        NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo =
-                            purchasableItemInfo as NoneLevelBasePurchasableItemInfo;
-                        if (noneLevelBasePurchasableItemInfo != null)
-                        {
-                            _bundleChilderenMap[noneLevelBasePurchasableItemInfo.Id] = bundlePurchasableItemInfo;
-                        }
-                        else
-                        {
-                            LevelBasePurchasableItemInfo levelBasePurchasableItemInfo = (LevelBasePurchasableItemInfo)purchasableItemInfo;
-                            PurchasableLevelInfo[] purchasableLevelInfos = levelBasePurchasableItemInfo.GetPurchasableLevelInfos();
-                            _bundleChilderenMap[levelBasePurchasableItemInfo.Id] = bundlePurchasableItemInfo;
-                            if(purchasableLevelInfos != null)
-                                foreach (PurchasableLevelInfo purchasableLevelInfo in purchasableLevelInfos)
-                                {
-                                    _bundleChilderenMap[purchasableLevelInfo.Id] = bundlePurchasableItemInfo;
-                                }
-                        }
-                    }
-            }
-        }
 
         public PurchasableItemInfo[] PurchasableItemInfos
         {
@@ -147,8 +101,7 @@ namespace Fort.Info
             set
             {
                 _purchasableItemInfos = value;
-                SyncPurchasableTokens();
-                SyncBundle();
+                SyncPurchasableTokens();                
             }
         }
 

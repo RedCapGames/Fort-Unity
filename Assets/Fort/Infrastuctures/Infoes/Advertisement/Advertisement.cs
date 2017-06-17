@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Fort.Advertisement;
 
-namespace Fort.Info
+namespace Fort.Info.Advertisement
 {
     public class Advertisement
     {

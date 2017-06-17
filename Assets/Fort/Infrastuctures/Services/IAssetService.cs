@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using Fort.Info;
-
+﻿using Fort.Info.GameItem;
+using UnityEngine;
 
 namespace Fort
 {

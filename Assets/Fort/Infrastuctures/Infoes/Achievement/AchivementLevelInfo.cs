@@ -1,7 +1,7 @@
 ﻿using System;
 using Fort.Inspector;
 
-namespace Fort.Info
+namespace Fort.Info.Achievement
 {
     [Serializable]
     public class AchievementLevelInfo

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Fort.Info
+namespace Fort.Info.Achievement
 {
     public class LevelBaseAchievementInfo: AchievementInfo
     {

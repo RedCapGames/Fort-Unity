@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Fort.Info;
+using Fort.Info.Market.Iap;
+using Fort.Info.PurchasableItem;
 using Fort.Market;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -88,8 +90,6 @@ namespace Fort
 
         public void RentItem(NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo, TimeSpan rentDuration)
         {
-            if (noneLevelBasePurchasableItemInfo is BundlePurchasableItemInfo)
-                throw new Exception("Bundle Purchasable item cannot be purchased");
             PurchasableItemStoredData purchasableItemStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemStoredData>() ??
                 new PurchasableItemStoredData();
@@ -123,20 +123,24 @@ namespace Fort
 
         public bool IsItemUsable(string id)
         {
+            return InternalIsItemUsable(id,new List<string>());
+        }
+
+        private bool InternalIsItemUsable(string id,List<string> traversedItemids)
+        {
+            if (traversedItemids.Contains(id))
+                return false;
+            traversedItemids.Add(id);
             bool result = IsSingleItemUsable(id);
             if (result)
                 return true;
-            if (InfoResolver.FortInfo.Purchase.BundleChilderenMap.ContainsKey(id))
-            {
-                if (IsItemUsable(InfoResolver.FortInfo.Purchase.BundleChilderenMap[id].Id))
-                    return true;
-            }
+
             PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[id];
             if (purchasableToken.Parent == null)
                 return false;
             if (purchasableToken.Parent.GetType().GetCustomAttribute<ChildrenPurchasedOnParentPurchaseAttribute>() !=
                 null)
-                return IsItemUsable(purchasableToken.Parent.Id);
+                return InternalIsItemUsable(purchasableToken.Parent.Id, traversedItemids);
             return false;
         }
 

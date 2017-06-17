@@ -1,9 +1,9 @@
 ﻿using System;
 using Fort.Inspector;
 
-namespace Fort.Info
+namespace Fort.Info.GameLevel
 {
-    public class GameLevelInfo
+    public abstract class GameLevelInfo
     {
         public GameLevelInfo()
         {

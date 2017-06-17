@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Fort.Info
+namespace Fort.Info.GameItem
 {
     public sealed class DirectGameItem<T> : GameItemInfo where T : Object
     {

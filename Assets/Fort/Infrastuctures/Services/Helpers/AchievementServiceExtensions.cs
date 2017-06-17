@@ -1,5 +1,6 @@
 using System;
 using Fort.Info;
+using Fort.Info.Achievement;
 
 namespace Fort
 {

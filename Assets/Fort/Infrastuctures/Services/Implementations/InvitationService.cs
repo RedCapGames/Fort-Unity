@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.Text.RegularExpressions;
 using Fort.Info;
-using Fort.Inspector;
+using Fort.Info.Market;
 using Newtonsoft.Json;
 using UnityEngine;
 

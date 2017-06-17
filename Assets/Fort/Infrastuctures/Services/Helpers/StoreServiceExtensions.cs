@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Fort.Info;
+using Fort.Info.Market.Iap;
 
 namespace Fort
 {

@@ -1,6 +1,6 @@
 ﻿using Fort.Analytics;
 
-namespace Fort.Info
+namespace Fort.Info.Analytics
 {
     public class Analytic
     {

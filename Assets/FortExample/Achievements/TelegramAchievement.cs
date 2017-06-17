@@ -1,8 +1,6 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Fort.Info;
+using Fort.Info.Achievement;
 
 [Serializable]
 public class TelegramAchievement : NoneLevelBaseAchievementInfo

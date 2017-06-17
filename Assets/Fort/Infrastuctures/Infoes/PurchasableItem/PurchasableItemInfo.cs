@@ -1,7 +1,7 @@
 ﻿using System;
 using Fort.Inspector;
 
-namespace Fort.Info
+namespace Fort.Info.PurchasableItem
 {
     public abstract class PurchasableItemInfo
     {
@@ -12,7 +12,6 @@ namespace Fort.Info
         [IgnoreProperty]
         public string Id { get; set; }
         public bool ChildrenPurchased { get; set; }
-        public string Category { get; set; }
         public string DisplayName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

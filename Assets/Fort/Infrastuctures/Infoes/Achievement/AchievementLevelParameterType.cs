@@ -1,4 +1,4 @@
-﻿namespace Fort.Info
+﻿namespace Fort.Info.Achievement
 {
     public enum AchievementLevelParameterType
     {

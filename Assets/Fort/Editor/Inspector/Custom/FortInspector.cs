@@ -37,6 +37,7 @@ namespace Fort.Inspector
                 return;
             _targetType = FindGenericFortScriptableObjectInParent(target.GetType()).GetGenericArguments().First();
             _target = ((FortScriptableObject) target).Load(_targetType);
+            OnTargetChanged(_target);
             _presentationData = ((FortScriptableObject) target).LoadPresentationData();
             _presentation = new ConcretePresentation();
            

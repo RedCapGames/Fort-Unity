@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using Fort.Info;
+﻿using Fort.Info.Achievement;
 
 public class PlayerLevelAchievement : LevelBaseAchievementInfo<PlayerLevelAchievementLevelInfo>
 {

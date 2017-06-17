@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Fort.Info
+namespace Fort.Info.PurchasableItem
 {
     public abstract class LevelBasePurchasableItemInfo : PurchasableItemInfo
     {

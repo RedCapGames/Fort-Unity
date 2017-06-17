@@ -1,5 +1,7 @@
 ﻿using System;
 using Fort.Info;
+using Fort.Info.GameLevel;
+using Fort.Info.Market.Iap;
 
 namespace Fort
 {

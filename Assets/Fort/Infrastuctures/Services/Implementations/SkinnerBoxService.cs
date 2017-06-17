@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fort.Info;
+using Fort.Info.SkinnerBox;
 
 namespace Fort
 {
@@ -50,6 +51,21 @@ namespace Fort
             }
             return result;
         }
+
+        private void ApplySkinnerBoxItemInfo(SkinnerBoxItemInfo skinnerBoxItemInfo)
+        {
+            ValueSkinnerBoxItemInfo valueSkinnerBoxItemInfo = skinnerBoxItemInfo as ValueSkinnerBoxItemInfo;
+            if (valueSkinnerBoxItemInfo != null)
+            {
+                ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0,valueSkinnerBoxItemInfo.Value);
+            }
+            PurchasableItemSkinnerBoxItemInfo purchasableItemSkinnerBoxItemInfo = skinnerBoxItemInfo as PurchasableItemSkinnerBoxItemInfo;
+            if (purchasableItemSkinnerBoxItemInfo != null)
+            {
+                //purchasableItemSkinnerBoxItemInfo.PurchasableItemInfo
+            }
+        }
+
         public SkinnerBoxItemInfo OpenBox(SkinnerBoxInfo boxInfo)
         {
             SkinnerBoxSavedData skinnerBoxSavedData =
@@ -64,6 +80,7 @@ namespace Fort
                 skinnerBoxSavedData.FreeItemUseTime[boxInfo.Id] = DateTime.Now +
                                                                   TimeSpan.FromSeconds(freeSkinnerBoxInfo.UseDelay);
                 ServiceLocator.Resolve<IStorageService>().UpdateData(skinnerBoxSavedData);
+                ApplySkinnerBoxItemInfo(skinnerBoxItemInfo);
                 return skinnerBoxItemInfo;
             }
             PurchableSkinnerBoxInfo purchableSkinnerBoxInfo = boxInfo as PurchableSkinnerBoxInfo;
@@ -74,6 +91,7 @@ namespace Fort
                 SkinnerBoxItemInfo skinnerBoxItemInfo = PickItem(purchableSkinnerBoxInfo.Items);
                 skinnerBoxSavedData.ItemCount[purchableSkinnerBoxInfo.Id]--;
                 ServiceLocator.Resolve<IStorageService>().UpdateData(skinnerBoxSavedData);
+                ApplySkinnerBoxItemInfo(skinnerBoxItemInfo);
                 return skinnerBoxItemInfo;
             }
             return null;

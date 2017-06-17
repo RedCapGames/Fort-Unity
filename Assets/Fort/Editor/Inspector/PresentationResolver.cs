@@ -39,6 +39,11 @@ namespace Fort.Inspector
                                     .Presentation);
                 presentation = (Presentation) Activator.CreateInstance(presentationType);
             }
+            else if (parameter.PresentationSite.SiteType == PresentationSiteType.Property &&
+                     parameter.PresentationSite.PropertyInfo.GetCustomAttribute<PropertyInstanceResolveAttribute>() != null)
+            {
+                return new PropertyResolvablePresentation();
+            }
             else if (type == typeof(string))
             {
                 presentation = new StringPresentation();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Fort.Info.Achievement;
+using Fort.Info.PurchasableItem;
 using Fort.Inspector;
 using Newtonsoft.Json;
 using UnityEditor;

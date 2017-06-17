@@ -1,11 +1,11 @@
 ﻿using System;
 using Fort.Inspector;
 
-namespace Fort.Info
+namespace Fort.Info.GameLevel
 {
-    public class GameLevelCategory
+    public abstract class GameLevelCategory
     {
-        public GameLevelCategory()
+        protected GameLevelCategory()
         {
             Id = Guid.NewGuid().ToString();
         }

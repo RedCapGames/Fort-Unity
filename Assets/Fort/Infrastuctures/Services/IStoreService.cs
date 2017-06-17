@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Fort.Info;
+using Fort.Info.Market.Iap;
+using Fort.Info.PurchasableItem;
 
 namespace Fort
 {

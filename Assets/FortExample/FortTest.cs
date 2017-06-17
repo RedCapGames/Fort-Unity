@@ -1,14 +1,8 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using Fort;
-using Fort.Info;
-using Fort.Inspector;
 using Fort.Serializer;
+using UnityEngine;
 
 public class FortTest : MonoBehaviour
 {
@@ -23,29 +17,35 @@ public class FortTest : MonoBehaviour
                 {
 
                 });*/
-        /*        using (FileStream stream = File.Create(@"d:\1.bin"))
-                {
-                    Serializer serializer = new Serializer();
-                    Test test = new Test
-                    {
-                        List = new List<string> {"Arash", "Mostafa"},
-                        TokenType = SerializationTokenType.List,
-                        Strings = new[] {"Arash"},
-                        Dictionary = new Dictionary<int, string> {{12, "Arash"}},
-                        Type = typeof (Test),
-                        Value = null
-                    };
-                    test.Test1 = test;
-                    serializer.Serialize(stream, test);
-                }
-                using (FileStream stream = File.OpenRead(@"d:\1.bin"))
-                {
-                    Serializer serializer = new Serializer();
-                    object deserialize = serializer.Deserialize(stream);
-                    Test test = (Test)deserialize;
-                    object data = test.Value;
-                    Debug.Log(data);
-                }*/
+        using (FileStream stream = File.Create(@"d:\1.bin"))
+        {
+            Serializer serializer = new Serializer();
+            Test test = new Test
+            {
+                List = new List<string> { "Arash", "Mostafa" },
+                TokenType = SerializationTokenType.List,
+                Strings = new[] { "Arash" },
+                Dictionary = new Dictionary<int, string> { { 12, "Arash" } },
+                Type = typeof(Test),
+                Value = null
+            };
+            test.Test1 = test;
+            test.Ghaz = new Ghaz();
+            test.Ghaz.Tests = new[] {test};
+            serializer.Serialize(stream, test);
+        }
+        using (FileStream stream = File.OpenRead(@"d:\1.bin"))
+        {
+            Serializer serializer = new Serializer();
+            object deserialize = serializer.Deserialize(stream);
+            Test test = (Test)deserialize;
+            if (ReferenceEquals(test, test.Ghaz.Tests[0]))
+            {
+                object data = test.Value;
+                Debug.Log(data);
+            }
+        }
+        
         /*        int compareTo = 1.CompareTo(2);
                 Test test = new Test
                 {
@@ -80,9 +80,20 @@ public class FortTest : MonoBehaviour
         public int? Value { get; set; }
         public Test Test1 { get; set; }
         public List<string> List { get; set; }
+        public Ghaz Ghaz { get; set; }
         public string[] Strings { get; set; }
         public Dictionary<int,string> Dictionary { get; set; }
         public Type Type { get; set; }
         public SerializationTokenType TokenType { get; set; }
     }
+
+    public class Ghaz
+    {
+        public Test[] Tests { get; set; }
+    }
+/*    public class TestGameCategory : GameLevelCategory
+    {
+        [GameItemFilter(typeof(Text))]
+        public GameItemInfo Image { get; set; }
+    }*/
 }

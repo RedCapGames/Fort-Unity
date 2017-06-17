@@ -1,4 +1,4 @@
-﻿namespace Fort.Info
+﻿namespace Fort.Info.GameItem
 {
     public sealed class ResourceGameItem : GameItemInfo
     {
