@@ -1,9 +1,10 @@
 ﻿using Fort.Info.PurchasableItem;
+using Newtonsoft.Json;
 
 namespace Fort.Info.SkinnerBox
 {
     public abstract class PurchasableItemSkinnerBoxItemInfo : SkinnerBoxItemInfo
     {
-        public PurchasableItemInfo PurchasableItemInfo { get; set; }
+        public PurchaseData[] PurchaseDatas { get; set; }
     }
 }

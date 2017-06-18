@@ -17,6 +17,19 @@ namespace Fort
             return null;
         }
 
+        public static Type[] GetAllTypes()
+        {
+            return
+                AppDomain.CurrentDomain.GetAssemblies()
+                    .Where(
+                        assembly =>
+                            assembly.GetName().Name == "Assembly-CSharp" ||
+                            assembly.GetName().Name == "Assembly-CSharp-Editor"||
+                            assembly.GetName().Name == "Fort-Game-Plugin" ||
+                            assembly.GetName().Name == "Fort-Editor-Plugin")
+                    .SelectMany(assembly => assembly.GetTypes())
+                    .ToArray();
+        }
         
     }
    

@@ -14,7 +14,7 @@ namespace Fort.Info.PurchasableItem
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public bool DefaultBought { get; set; }
-        public Balance Cost { get; set; }
+        public ItemCosts Costs { get; set; }
 
     }
 }

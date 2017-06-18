@@ -11,6 +11,9 @@ using Fort.Info.Market.Iap;
 using Fort.Info.PurchasableItem;
 using Fort.Info.SkinnerBox;
 
+
+using UnityEngine;
+
 namespace Fort.Inspector
 {
     public class FortInfo
@@ -61,7 +64,7 @@ namespace Fort.Inspector
             if(marketInfos == null)
                 marketInfos = new MarketInfo[0];
             Type[] possibleTypes =
-                GetType().Assembly.GetTypes()
+                TypeExtensions.GetAllTypes()
                     .Where(type => typeof (MarketInfo).IsAssignableFrom(type) && !type.IsAbstract)
                     .Where(type => marketInfos.Select(info => info.GetType()).All(type1 => type1 != type))
                     .ToArray();

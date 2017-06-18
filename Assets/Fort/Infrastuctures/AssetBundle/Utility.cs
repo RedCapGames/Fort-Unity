@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-#if UNITY_EDITOR	
+/*#if UNITY_EDITOR	
 using UnityEditor;
-#endif
+#endif*/
 
 namespace Fort.AssetBundle
 {
-    public class Utility
+    /*public class Utility
     {
         public const string AssetBundlesOutputPath = "AssetBundles";
 
@@ -69,5 +69,5 @@ namespace Fort.AssetBundle
                     return null;
             }
         }
-    }
+    }*/
 }

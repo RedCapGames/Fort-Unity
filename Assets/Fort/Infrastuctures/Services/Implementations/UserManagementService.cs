@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Backtory.Core.Public;
 using Fort.Info;
+using Fort.Info.PurchasableItem;
 using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Fort
 {
     [Service(ServiceType = typeof(IUserManagementService))]
-    public class UserManagementService : MonoBehaviour,IUserManagementService
+    public class UserManagementService : MonoBehaviour, IUserManagementService
     {
         List<Deferred> _fullUpdateDeferreds = new List<Deferred>();
 
@@ -63,7 +64,7 @@ namespace Fort
                     return result;
                 }
                 return userInfo.Balance;
-                
+
             }
         }
 
@@ -72,8 +73,8 @@ namespace Fort
             ErrorDeferred<RegisterationErrorResultStatus> deferred = new ErrorDeferred<RegisterationErrorResultStatus>();
             BacktoryUser newUser = new BacktoryUser
             {
-                Username = username,                
-                Password = password                
+                Username = username,
+                Password = password
             };
             newUser.RegisterInBackground(response =>
             {
@@ -83,7 +84,7 @@ namespace Fort
                     ServiceLocator.Resolve<IStorageService>().UpdateData(new AuthenticationInfo { UserName = username, Password = password });
                     deferred.Resolve();
                 }
-                else if (response.Code == (int) BacktoryHttpStatusCode.Conflict)
+                else if (response.Code == (int)BacktoryHttpStatusCode.Conflict)
                     deferred.Reject(RegisterationErrorResultStatus.UsernameIsInUse);
                 else
                     deferred.Reject(RegisterationErrorResultStatus.CannotConnectToServer);
@@ -99,7 +100,7 @@ namespace Fort
                 if (response.Successful)
                 {
                     deferred.Resolve();
-                }                
+                }
                 else
                 {
                     deferred.Reject();
@@ -174,17 +175,17 @@ namespace Fort
                 return deferred.Promise();
             }
             UserInfo userInfo = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>() ?? new UserInfo();
-            if(!userInfo.AddedScoreBalance.IsEmpty())
-                userInfo.NotSyncedScoreBalances.Add(Guid.NewGuid().ToString(),userInfo.AddedScoreBalance);
+            if (!userInfo.AddedScoreBalance.IsEmpty())
+                userInfo.NotSyncedScoreBalances.Add(Guid.NewGuid().ToString(), userInfo.AddedScoreBalance);
             userInfo.AddedScoreBalance = new ScoreBalance();
             FullData fullData = new FullData();
             fullData.AddScoreDatas =
                 userInfo.NotSyncedScoreBalances.Select(
-                    pair => new AddScoreData {Token = pair.Key, Score = pair.Value.Score, Values = pair.Value.Balance})
+                    pair => new AddScoreData { Token = pair.Key, Score = pair.Value.Score, Values = pair.Value.Balance })
                     .ToArray();
             fullData.AchievementIds =
-                ((AchievementService) ServiceLocator.Resolve<IAchievementService>()).GetNotSyncAchievementIds();
-            fullData.PurchasedItemIds = ((StoreService) ServiceLocator.Resolve<IStoreService>()).GetNotPurchasableIds();
+                ((AchievementService)ServiceLocator.Resolve<IAchievementService>()).GetNotSyncAchievementIds();
+            fullData.PurchasedItemIds = ((StoreService)ServiceLocator.Resolve<IStoreService>()).GetNotPurchasableIds();
             if (fullData.AddScoreDatas.Length == 0 && fullData.AchievementIds.Length == 0 &&
                 fullData.PurchasedItemIds.Length == 0)
             {
@@ -194,7 +195,7 @@ namespace Fort
             ServiceLocator.Resolve<IServerService>().CallTokenFull<FullDataResult>("FullUpdateData", fullData).Then(
                 result =>
                 {
-                    UserInfo info = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>()?? new UserInfo();
+                    UserInfo info = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>() ?? new UserInfo();
                     info.Score = result.UserData.Score;
                     info.Balance = result.UserData.Values;
                     if (!userInfo.AddedScoreBalance.IsEmpty())
@@ -212,13 +213,13 @@ namespace Fort
                                 .Then(
                                     claimedAchievements =>
                                     {
-                                        ((AchievementService) ServiceLocator.Resolve<IAchievementService>())
+                                        ((AchievementService)ServiceLocator.Resolve<IAchievementService>())
                                             .OnServerAchievementResolved(
                                                 achievements.ToDictionary(achievement => achievement.AchievementId,
                                                     achievement =>
                                                         new AchievementService.ServerAchievementInfo
                                                         {
-                                                            Balance = new Balance {Values = achievement.Values},
+                                                            Balance = new Balance { Values = achievement.Values },
                                                             Score = achievement.Score
                                                         }), claimedAchievements);
                                         ServiceLocator.Resolve<IServerService>().Call<ServerPurchasableItem[]>("GetItems", null).Then(
@@ -227,14 +228,22 @@ namespace Fort
                                                 ServiceLocator.Resolve<IServerService>().Call<string[]>("GetPurchasedItems", null).Then(
                                                     purchasedItems =>
                                                     {
-                                                        ((StoreService)ServiceLocator.Resolve<IStoreService>()).OnServerPurchaseResolved(items.ToDictionary(item => item.ItemId,item => new Balance {Values = item.Costs}),purchasedItems);
+                                                        ((StoreService)ServiceLocator.Resolve<IStoreService>())
+                                                            .OnServerPurchaseResolved(
+                                                                items.ToDictionary(item => item.ItemId,
+                                                                    item => new ItemCosts
+                                                                    {
+                                                                        Purchase =
+                                                                            new Balance { Values = item.PurchaseCost },
+                                                                        Rent = new Balance { Values = item.RentCost }
+                                                                    }), purchasedItems);
                                                         deferred.Resolve();
-                                                    },() => deferred.Reject());
-                                            },() => deferred.Reject());
-                                    },() => deferred.Reject());
-                        },() => deferred.Reject());
-                    
-                },() => deferred.Reject());
+                                                    }, () => deferred.Reject());
+                                            }, () => deferred.Reject());
+                                    }, () => deferred.Reject());
+                        }, () => deferred.Reject());
+
+                }, () => deferred.Reject());
             return deferred.Promise();
 
         }
@@ -288,10 +297,10 @@ namespace Fort
             AddedScoreBalance = new ScoreBalance();
             NotSyncedScoreBalances = new Dictionary<string, ScoreBalance>();
             Balance = new Balance();
-        }        
+        }
         public int Score { get; set; }
         public Balance Balance { get; set; }
         public ScoreBalance AddedScoreBalance { get; set; }
-        public Dictionary<string,ScoreBalance> NotSyncedScoreBalances { get; set; }
+        public Dictionary<string, ScoreBalance> NotSyncedScoreBalances { get; set; }
     }
 }

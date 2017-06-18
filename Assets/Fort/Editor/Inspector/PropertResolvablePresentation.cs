@@ -134,8 +134,7 @@ namespace Fort.Inspector
                 {
                     int selectedIndex = parameter.Instance == null || instanceResolverResult.PresentableInstanceTokens.Length==0
                         ? 0
-                        : instanceResolverResult.PossibleInstanceTokens.IndexOf(
-                            token => token == instanceResolverResult.PresentableInstanceTokens.Single()) + 1;
+                        : instanceResolverResult.PossibleInstanceTokens.ToList().IndexOf(instanceResolverResult.PresentableInstanceTokens.Single()) + 1;
 
                     selectedIndex = EditorGUILayout.Popup("", selectedIndex,
                             new[] { "None" }.Concat(

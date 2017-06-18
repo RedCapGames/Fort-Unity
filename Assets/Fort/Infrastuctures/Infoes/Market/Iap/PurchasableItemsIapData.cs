@@ -1,3 +1,4 @@
+using Fort.Info.PurchasableItem;
 using Newtonsoft.Json;
 
 namespace Fort.Info.Market.Iap

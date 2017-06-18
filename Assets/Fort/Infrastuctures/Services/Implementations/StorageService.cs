@@ -311,7 +311,20 @@ namespace Fort
             {
                 return (byte)(data ^ 0x9e);
             }
+#else
+            private static byte Change(byte data)
+            {
+                return (byte)(data ^ 0x9e);
+            }
 
+#endif
+
+
+#if !UNITY_EDITOR && UNITY_STANDALONE_WIN
+            private static byte Change(byte data)
+            {
+                return (byte)(data ^ 0x9e);
+            }
 #endif
 #if !UNITY_EDITOR && UNITY_ANDROID
         [DllImport("native")]

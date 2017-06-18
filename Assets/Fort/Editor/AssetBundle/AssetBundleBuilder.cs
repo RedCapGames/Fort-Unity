@@ -13,7 +13,7 @@ namespace Fort.AssetBundle
     {
         public static void Build()
         {
-            string outputPath = Path.Combine(Utility.AssetBundlesOutputPath, Utility.GetPlatformName());
+/*            string outputPath = Path.Combine(Utility.AssetBundlesOutputPath, Utility.GetPlatformName());
             //string[] splitedPath = outputPath.Split('\\');
             //@TODO: use append hash... (Make sure pipeline works correctly with it.)
             //string currentDirectory = Directory.GetCurrentDirectory();
@@ -23,7 +23,7 @@ namespace Fort.AssetBundle
                 Directory.CreateDirectory(outputPath);
 
 
-            BuildPipeline.BuildAssetBundles(outputPath, BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);
+            BuildPipeline.BuildAssetBundles(outputPath, BuildAssetBundleOptions.None, EditorUserBuildSettings.activeBuildTarget);*/
         }
     }
 }

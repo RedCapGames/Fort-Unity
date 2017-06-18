@@ -10,6 +10,12 @@ namespace Fort.Info
         {
             _fortInfo = fortInfo;
         }
+#else
+        internal static void UpdateFortInfo(FortInfo fortInfo)
+        {
+            _fortInfo = fortInfo;
+        }
+
 #endif
         private static FortInfo _fortInfo;
 

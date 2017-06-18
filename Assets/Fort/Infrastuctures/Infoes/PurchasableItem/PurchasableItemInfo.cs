@@ -11,12 +11,11 @@ namespace Fort.Info.PurchasableItem
         }
         [IgnoreProperty]
         public string Id { get; set; }
-        public bool ChildrenPurchased { get; set; }
+        
         public string DisplayName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool DefaultBought { get; set; }
         public string Tag { get; set; }
-        public Balance Cost { get; set; }
     }
 }

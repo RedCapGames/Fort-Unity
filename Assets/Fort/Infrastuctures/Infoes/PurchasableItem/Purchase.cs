@@ -24,7 +24,6 @@ namespace Fort.Info.PurchasableItem
                 }
                 return _purchasableTokens;
             }
-            //set { _purchasableTokens = value; }
         }
 
 
@@ -46,7 +45,6 @@ namespace Fort.Info.PurchasableItem
                 else
                 {
 
-                    //PropertyInfo propertyInfo = purchasableItemInfo.GetType().GetProperty("LevelInfos");
                     int index = 0;
                     _purchasableTokens.Add(purchasableItemInfo.Id, new PurchasableToken
                     {
@@ -92,6 +90,36 @@ namespace Fort.Info.PurchasableItem
                         }
                     }
             }
+            //Bundle assignment
+            foreach (
+                BundlePurchasableItemInfo bundlePurchasableItemInfo in
+                    allPurchasableItemInfos.Where(info => info != null).OfType<BundlePurchasableItemInfo>())
+            {
+                if (bundlePurchasableItemInfo.PurchaseDatas != null)
+                {
+                    foreach (PurchaseData purchaseData in bundlePurchasableItemInfo.PurchaseDatas.Where(data => data != null))
+                    {
+                        PurchaseNoneLevelBaseData purchaseNoneLevelBaseData = purchaseData as PurchaseNoneLevelBaseData;
+                        if (purchaseNoneLevelBaseData != null)
+                        {
+                            if(purchaseNoneLevelBaseData.PurchasableItemInfo != null)
+                                _purchasableTokens[purchaseNoneLevelBaseData.PurchasableItemInfo.Id].Bundles.Add(bundlePurchasableItemInfo);
+                        }
+                        PurchaseLevelBaseData purchaseLevelBaseData = purchaseData as PurchaseLevelBaseData;
+                        if (purchaseLevelBaseData != null)
+                        {
+                            if (purchaseLevelBaseData.PurchasableItemInfo != null && purchaseLevelBaseData.Level >= 0 &&
+                                purchaseLevelBaseData.Level <
+                                purchaseLevelBaseData.PurchasableItemInfo.GetPurchasableLevelInfos().Length)
+                            {
+                                _purchasableTokens[
+                                    purchaseLevelBaseData.PurchasableItemInfo.GetPurchasableLevelInfos()[
+                                        purchaseLevelBaseData.Level].Id].Bundles.Add(bundlePurchasableItemInfo);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -113,7 +141,7 @@ namespace Fort.Info.PurchasableItem
                 InternalGetAllPurchasableItemInfos(result, purchasableItemInfo);
             }
             return result.ToArray();
-        }
+        }        
 
         private void InternalGetAllPurchasableItemInfos(List<PurchasableItemInfo> items, PurchasableItemInfo purchasableItemInfo)
         {
@@ -131,6 +159,10 @@ namespace Fort.Info.PurchasableItem
     }
     public class PurchasableToken
     {
+        public PurchasableToken()
+        {
+            Bundles = new List<BundlePurchasableItemInfo>();
+        }
         #region Properties
 
         public bool NoneLevelBase { get; set; }
@@ -138,7 +170,7 @@ namespace Fort.Info.PurchasableItem
         public PurchasableItemInfo PurchasableItemInfo { get; set; }
         public PurchasableLevelInfo PurchasableLevelInfo { get; set; }
         public NoneLevelBasePurchasableItemInfo Parent { get; set; }
-
+        public List<BundlePurchasableItemInfo> Bundles { get; private set; }
         #endregion
     }
 }

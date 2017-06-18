@@ -13,7 +13,7 @@ namespace Fort.Info.GameLevel
         public string Id { get; set; }
 
         public string Name { get; set; }
-        public string SceneName { get; set; }
+        public FortScene Scene { get; set; }
         public string DisplayName { get; set; }
         
     }

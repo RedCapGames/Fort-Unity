@@ -30,8 +30,7 @@ namespace Fort.Inspector
             if (parameter.PresentationSite.SiteType == PresentationSiteType.Property && parameter.PresentationSite.PropertyInfo.GetCustomAttribute<InspectorAttribute>() != null)
             {
                 Type presentationType =
-                    GetType()
-                        .Assembly.GetTypes()
+                    TypeExtensions.GetAllTypes()
                         .First(
                             type1 =>
                                 string.Format("{0}.{1}", type1.Namespace, type1.Name) ==
@@ -80,7 +79,7 @@ namespace Fort.Inspector
                 }
                 else
                 {
-                    Type presentationType = GetType().Assembly.GetTypes().First(type1 => string.Format("{0}.{1}", type1.Namespace, type1.Name) == type.GetCustomAttribute<InspectorAttribute>().Presentation);
+                    Type presentationType = TypeExtensions.GetAllTypes().First(type1 => string.Format("{0}.{1}", type1.Namespace, type1.Name) == type.GetCustomAttribute<InspectorAttribute>().Presentation);
                     presentation = (Presentation)Activator.CreateInstance(presentationType);
                 }
             }

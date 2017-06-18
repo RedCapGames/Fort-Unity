@@ -8,11 +8,14 @@ namespace Fort
 {
     public interface IStoreService
     {
-        void RentItem(NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo, TimeSpan rentDuration);
-        void RentItem(PurchasableLevelInfo purchasableLevelInfo, TimeSpan rentDuration);
+        void RentItem(NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo,int discount, TimeSpan rentDuration);
+        void RentItem(PurchasableLevelInfo purchasableLevelInfo, int discount, TimeSpan rentDuration);
         void PurchaseItem(PurchasableItemInfo purchasableItem,int discount);
         bool IsItemUsable(string id);
-        Balance ResolvePurchasableItemCost(string id);
+        ItemCosts ResolvePurchasableItemCost(string id);
+        bool IsItemPurchased(string id);
+        bool IsItemRented(string id);
+        bool IsEnoughFundToPurchaseItem(PurchasableItemInfo purchasableItem, int discount);
         void SetDiscount(Type packageType, int discount,TimeSpan duration);
         int GetDiscount(Type packageType);
         void RemoveDiscount(Type packageType);
@@ -34,6 +37,7 @@ namespace Fort
     {
         public string Name { get; set; }
         public string ItemId { get; set; }
-        public Dictionary<string, int> Costs { get; set; }
+        public Dictionary<string, int> RentCost { get; set; }
+        public Dictionary<string, int> PurchaseCost { get; set; }
     }
 }

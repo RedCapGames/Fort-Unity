@@ -13,7 +13,7 @@ namespace Fort.Info.Achievement
 
         [IgnoreProperty]
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get { return GetType().Name; } }
         public string DisplayName { get; set; }
     }
 }

@@ -45,7 +45,7 @@ public class FortTest : MonoBehaviour
                 Debug.Log(data);
             }
         }
-        
+        //gameObject.AddComponent<TestLibrary.Class1>();
         /*        int compareTo = 1.CompareTo(2);
                 Test test = new Test
                 {

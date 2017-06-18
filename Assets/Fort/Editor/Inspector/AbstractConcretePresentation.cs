@@ -32,7 +32,7 @@ namespace Fort.Inspector
                 else
                 {
                     possibleTypes =
-                    parameter.DataType.Assembly.GetTypes()
+                    TypeExtensions.GetAllTypes()
                         .Where(type => parameter.DataType.IsAssignableFrom(type) && !type.IsAbstract)
                         .ToArray();
                 }
@@ -41,7 +41,7 @@ namespace Fort.Inspector
                 int selectedIndex = 0;
                 if (parameter.Instance != null)
                 {
-                    selectedIndex = possibleTypes.IndexOf(type => type == parameter.Instance.GetType()) + 1;
+                    selectedIndex = possibleTypes.ToList().IndexOf(parameter.Instance.GetType()) + 1;
 
                 }
                 selectedIndex = EditorGUILayout.Popup("Class Type", selectedIndex,

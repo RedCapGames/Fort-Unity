@@ -11,7 +11,7 @@ namespace Fort.Info.GameLevel
         private Dictionary<string, GameLevelCategory> _gameLevelCategoriesMap = new Dictionary<string, GameLevelCategory>();
         private Dictionary<string, GameLevelCategory> _gameLevelCategoriesParentMap = new Dictionary<string, GameLevelCategory>();
         private GameLevelCategory[] _gameLevelCategories;
-        public string DefaultSceneName { get; set; }
+        public FortScene DefaultScene { get; set; }
 
         public Dictionary<string, GameLevelInfo> GameLevelInfos
         {

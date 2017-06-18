@@ -73,8 +73,7 @@ namespace Fort.Info.Achievement
         private void SyncAchievements()
         {
             Type[] allAchievementTypes =
-                GetType()
-                    .Assembly.GetTypes()
+               TypeExtensions.GetAllTypes()
                     .Where(type => typeof (AchievementInfo).IsAssignableFrom(type))
                     .ToArray();
             allAchievementTypes =

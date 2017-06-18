@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fort.Info;
+using Fort.Info.PurchasableItem;
 using Fort.Info.SkinnerBox;
+using UnityEngine;
+using Random = System.Random;
 
 namespace Fort
 {
     [Service(ServiceType = typeof(ISkinnerBoxService))]
-    public class SkinnerBoxService:ISkinnerBoxService
+    public class SkinnerBoxService :MonoBehaviour, ISkinnerBoxService
     {
         #region Implementation of ISkinnerBoxService
 
@@ -57,12 +60,53 @@ namespace Fort
             ValueSkinnerBoxItemInfo valueSkinnerBoxItemInfo = skinnerBoxItemInfo as ValueSkinnerBoxItemInfo;
             if (valueSkinnerBoxItemInfo != null)
             {
-                ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0,valueSkinnerBoxItemInfo.Value);
+                ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0, valueSkinnerBoxItemInfo.Value);
             }
             PurchasableItemSkinnerBoxItemInfo purchasableItemSkinnerBoxItemInfo = skinnerBoxItemInfo as PurchasableItemSkinnerBoxItemInfo;
             if (purchasableItemSkinnerBoxItemInfo != null)
             {
-                //purchasableItemSkinnerBoxItemInfo.PurchasableItemInfo
+                RentSkinnerBoxItemInfo rentSkinnerBoxItemInfo = purchasableItemSkinnerBoxItemInfo as RentSkinnerBoxItemInfo;
+                if (rentSkinnerBoxItemInfo != null)
+                {
+                    if (rentSkinnerBoxItemInfo.PurchaseDatas != null)
+                    {
+                        foreach (PurchaseData purchaseData in rentSkinnerBoxItemInfo.PurchaseDatas.Where(data => data != null))
+                        {
+                            PurchaseNoneLevelBaseData purchaseNoneLevelBaseData = purchaseData as PurchaseNoneLevelBaseData;
+                            if (purchaseNoneLevelBaseData != null && purchaseNoneLevelBaseData.PurchasableItemInfo != null)
+                            {
+                                ServiceLocator.Resolve<IStoreService>().RentItem(purchaseNoneLevelBaseData.PurchasableItemInfo, 100, TimeSpan.FromSeconds(rentSkinnerBoxItemInfo.RentDuration));
+                            }
+                            PurchaseLevelBaseData purchaseLevelBaseData = purchaseData as PurchaseLevelBaseData;
+                            if (purchaseLevelBaseData != null && purchaseLevelBaseData.PurchasableItemInfo != null)
+                            {
+                                PurchasableLevelInfo[] purchasableLevelInfos = purchaseLevelBaseData.PurchasableItemInfo.GetPurchasableLevelInfos();
+                                if (purchaseLevelBaseData.Level >= 0 && purchaseLevelBaseData.Level < purchasableLevelInfos.Length)
+                                    ((StoreService)ServiceLocator.Resolve<IStoreService>()).RentItem(purchasableLevelInfos[purchaseLevelBaseData.Level], 100, TimeSpan.FromSeconds(rentSkinnerBoxItemInfo.RentDuration));
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (purchasableItemSkinnerBoxItemInfo.PurchaseDatas != null)
+                    {
+                        foreach (PurchaseData purchaseData in purchasableItemSkinnerBoxItemInfo.PurchaseDatas.Where(data => data != null))
+                        {
+                            PurchaseNoneLevelBaseData purchaseNoneLevelBaseData = purchaseData as PurchaseNoneLevelBaseData;
+                            if (purchaseNoneLevelBaseData != null && purchaseNoneLevelBaseData.PurchasableItemInfo != null)
+                            {
+                                ServiceLocator.Resolve<IStoreService>().PurchaseItem(purchaseNoneLevelBaseData.PurchasableItemInfo, 100);
+                            }
+                            PurchaseLevelBaseData purchaseLevelBaseData = purchaseData as PurchaseLevelBaseData;
+                            if (purchaseLevelBaseData != null && purchaseLevelBaseData.PurchasableItemInfo != null)
+                            {
+                                ((StoreService)ServiceLocator.Resolve<IStoreService>()).InternalPurchaseItem(purchaseLevelBaseData.PurchasableItemInfo, 100, purchaseLevelBaseData.Level);
+                            }
+                        }
+                    }
+
+                }
             }
         }
 
@@ -74,7 +118,7 @@ namespace Fort
             FreeSkinnerBoxInfo freeSkinnerBoxInfo = boxInfo as FreeSkinnerBoxInfo;
             if (freeSkinnerBoxInfo != null)
             {
-                if(!IsFreeSkinnerBoxAvailable(freeSkinnerBoxInfo))
+                if (!IsFreeSkinnerBoxAvailable(freeSkinnerBoxInfo))
                     throw new Exception("no free skinner box avialable.");
                 SkinnerBoxItemInfo skinnerBoxItemInfo = PickItem(freeSkinnerBoxInfo.Items);
                 skinnerBoxSavedData.FreeItemUseTime[boxInfo.Id] = DateTime.Now +
@@ -86,7 +130,7 @@ namespace Fort
             PurchableSkinnerBoxInfo purchableSkinnerBoxInfo = boxInfo as PurchableSkinnerBoxInfo;
             if (purchableSkinnerBoxInfo != null)
             {
-                if (GetPurchableskinnerBoxCount(purchableSkinnerBoxInfo)<=0)
+                if (GetPurchableskinnerBoxCount(purchableSkinnerBoxInfo) <= 0)
                     throw new Exception("no purchasable skinner box avialable.");
                 SkinnerBoxItemInfo skinnerBoxItemInfo = PickItem(purchableSkinnerBoxInfo.Items);
                 skinnerBoxSavedData.ItemCount[purchableSkinnerBoxInfo.Id]--;
@@ -119,6 +163,6 @@ namespace Fort
             FreeItemUseTime = new Dictionary<string, DateTime>();
         }
         public Dictionary<string, int> ItemCount { get; set; }
-        public Dictionary<string,DateTime> FreeItemUseTime { get; set; }
+        public Dictionary<string, DateTime> FreeItemUseTime { get; set; }
     }
 }

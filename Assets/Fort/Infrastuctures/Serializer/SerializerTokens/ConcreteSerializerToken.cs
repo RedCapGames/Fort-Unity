@@ -14,10 +14,6 @@ namespace Fort.Serializer
 
         public void Serialize(object graph, IGenericSerialierToken serializerToken, SerializationToken resultSerializationToken)
         {
-            if (graph is ValueIapPackage)
-            {
-                Debug.Log("Test");
-            }
             PropertyInfo[] info = graph.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
             List<SerializationToken> serializationTokens = new List<SerializationToken>();
             
@@ -49,10 +45,6 @@ namespace Fort.Serializer
                 deserializeResult.Result = null;
                 deserializeResult.Use = false;
                 return;
-            }
-            if (graph is ValueIapPackage)
-            {
-                Debug.Log("Test");
             }
             serializerToken.RegisterReverseToken(serializationToken,graph);
             for (int i = 0; i < serializationToken.SerializationTokens.Length / 2; i++)

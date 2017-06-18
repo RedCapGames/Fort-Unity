@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Fort.Info.Market.Iap;
+using Fort.Info.PurchasableItem;
 
 namespace Fort
 {
@@ -47,8 +48,29 @@ namespace Fort
         {
             storeService.RemoveDiscount(typeof(T));
         }
-
-        /*        public static bool IsNoneLevelBaseItemPurchased(this IStoreService storeService,NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo);
-                public static int GetLevelBaseItemPurchasedIndex(LevelBasePurchasableItemInfo levelBasePurchasableItemInfo);*/
+        public static bool IsItemUsable(this NoneLevelBasePurchasableItemInfo purchasableItemInfo)
+        {
+            return ServiceLocator.Resolve<IStoreService>().IsItemUsable(purchasableItemInfo.Id);
+        }
+        public static bool IsItemUsable(this PurchasableLevelInfo purchasableLevelInfo)
+        {
+            return ServiceLocator.Resolve<IStoreService>().IsItemUsable(purchasableLevelInfo.Id);
+        }
+        public static bool IsItemPurchased(this NoneLevelBasePurchasableItemInfo purchasableItemInfo)
+        {
+            return ServiceLocator.Resolve<IStoreService>().IsItemPurchased(purchasableItemInfo.Id);
+        }
+        public static bool IsItemPurchased(this PurchasableLevelInfo purchasableLevelInfo)
+        {
+            return ServiceLocator.Resolve<IStoreService>().IsItemPurchased(purchasableLevelInfo.Id);
+        }
+        public static bool IsItemRented(this NoneLevelBasePurchasableItemInfo purchasableItemInfo)
+        {
+            return ServiceLocator.Resolve<IStoreService>().IsItemRented(purchasableItemInfo.Id);
+        }
+        public static bool IsItemRented(this PurchasableLevelInfo purchasableLevelInfo)
+        {
+            return ServiceLocator.Resolve<IStoreService>().IsItemRented(purchasableLevelInfo.Id);
+        }
     }
 }

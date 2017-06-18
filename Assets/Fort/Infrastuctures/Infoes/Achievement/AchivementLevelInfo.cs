@@ -13,7 +13,6 @@ namespace Fort.Info.Achievement
         [IgnoreProperty]
         public string Id { get; set; }
         public int Score { get; set; }
-
         public Balance Balance { get; set; }
     }
 }

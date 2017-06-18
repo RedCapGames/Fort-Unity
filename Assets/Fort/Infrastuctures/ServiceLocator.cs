@@ -24,7 +24,7 @@ namespace Fort
             if (!serviceInstanceType.IsClass)
                 throw new Exception("Service instance type can only be Class");
             if (!typeof(MonoBehaviour).IsAssignableFrom(serviceInstanceType))
-                throw new Exception("Service instace type can only be child of MonoBehaviour");
+                throw new Exception("Service instace type can only be child of MonoBehaviour:"+ serviceInstanceType.AssemblyQualifiedName);
             if (!serviceType.IsAssignableFrom(serviceInstanceType))
                 throw new Exception("Service instance type must be child of service type");
             if (RegisteredServicesTypes.ContainsKey(serviceType))
@@ -41,7 +41,7 @@ namespace Fort
             if (_isInitialized)
                 return;
             _isInitialized = true;
-            Type[] unityAssemblyTypes = typeof(ServiceLocator).Assembly.GetTypes();
+            Type[] unityAssemblyTypes = TypeExtensions.GetAllTypes();
             foreach (Type type in unityAssemblyTypes)
             {
                 ServiceAttribute serviceAttribute = type.GetCustomAttribute<ServiceAttribute>();

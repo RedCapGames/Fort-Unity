@@ -9,8 +9,7 @@ namespace Fort.Info.GameLevel
         {
             Id = Guid.NewGuid().ToString();
         }
-
-        public string DefaultSceneName { get; set; }
+        public FortScene DefaultScene { get; set; }
         [IgnoreProperty]
         public string Id { get; set; }
 

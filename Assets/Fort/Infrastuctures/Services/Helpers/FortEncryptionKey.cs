@@ -49,7 +49,7 @@ namespace Fort
             };
         }
 #endif
-#if UNITY_EDITOR
+#if !UNITY_EDITOR && UNITY_STANDALONE_WIN
         public static byte Change(byte data)
         {
             return (byte)(data ^ 0xdd);
@@ -60,6 +60,27 @@ namespace Fort
             return new byte[] { 39, 118, 0, 86, 77, 226, 202, 65, 128, 8, 232, 62, 229, 16, 22, 125 };
         }
 
+#endif
+#if UNITY_EDITOR
+        public static byte Change(byte data)
+        {
+            return (byte)(data ^ 0xdd);
+        }
+        public static byte[] ResolveKey()
+        {
+            //return Encoding.ASCII.GetBytes("ArashJafarzadeh");
+            return new byte[] { 39, 118, 0, 86, 77, 226, 202, 65, 128, 8, 232, 62, 229, 16, 22, 125 };
+        }
+# else
+        public static byte Change(byte data)
+        {
+            return (byte)(data ^ 0xdd);
+        }
+        public static byte[] ResolveKey()
+        {
+            //return Encoding.ASCII.GetBytes("ArashJafarzadeh");
+            return new byte[] { 39, 118, 0, 86, 77, 226, 202, 65, 128, 8, 232, 62, 229, 16, 22, 125 };
+        }
 #endif
 
     }
