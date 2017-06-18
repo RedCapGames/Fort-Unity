@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D6BF9AA9-C03D-4010-9F62-94753C174FCE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fort_Editor_Plugin</RootNamespace>
+    <AssemblyName>Fort-Editor-Plugin</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Backtory">
+      <HintPath>..\..\Assets\Backtory\Backtory.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Fort\Editor\AssetBundle\AssetBundleBuilder.cs">
+      <Link>Fort\Editor\AssetBundle\AssetBundleBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\AssetBundle\AssetBundleMenuItem.cs">
+      <Link>Fort\Editor\AssetBundle\AssetBundleMenuItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Export\AchievementExporter.cs">
+      <Link>Fort\Editor\Export\AchievementExporter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Export\ExportData.cs">
+      <Link>Fort\Editor\Export\ExportData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Export\PurchaseExporter.cs">
+      <Link>Fort\Editor\Export\PurchaseExporter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\FortInfoAsest.cs">
+      <Link>Fort\Editor\FortInfoAsest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\FortInfoEditor.cs">
+      <Link>Fort\Editor\FortInfoEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Helpers\CustomAssetUtility.cs">
+      <Link>Fort\Editor\Helpers\CustomAssetUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Helpers\FortInfoEditorExtentions.cs">
+      <Link>Fort\Editor\Helpers\FortInfoEditorExtentions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\AbstractConcretePresentation.cs">
+      <Link>Fort\Editor\Inspector\AbstractConcretePresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\ArrayPresentation.cs">
+      <Link>Fort\Editor\Inspector\ArrayPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\BoolPresentation.cs">
+      <Link>Fort\Editor\Inspector\BoolPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\ConcretePresentation.cs">
+      <Link>Fort\Editor\Inspector\ConcretePresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\AchievementsPresentation.cs">
+      <Link>Fort\Editor\Inspector\Custom\AchievementsPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\BalancePresentation.cs">
+      <Link>Fort\Editor\Inspector\Custom\BalancePresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\FortInspector.cs">
+      <Link>Fort\Editor\Inspector\Custom\FortInspector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\FortScenePresentation.cs">
+      <Link>Fort\Editor\Inspector\Custom\FortScenePresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\PurchasableItemPresentation.cs">
+      <Link>Fort\Editor\Inspector\Custom\PurchasableItemPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\ValueDefenitionsPresenter.cs">
+      <Link>Fort\Editor\Inspector\Custom\ValueDefenitionsPresenter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\EnumPresentation.cs">
+      <Link>Fort\Editor\Inspector\EnumPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\IPresentationResolver.cs">
+      <Link>Fort\Editor\Inspector\IPresentationResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\NumberPresentation.cs">
+      <Link>Fort\Editor\Inspector\NumberPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Presentation.cs">
+      <Link>Fort\Editor\Inspector\Presentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\PresentationResolver.cs">
+      <Link>Fort\Editor\Inspector\PresentationResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\PropertResolvablePresentation.cs">
+      <Link>Fort\Editor\Inspector\PropertResolvablePresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Scene\SceneNamePostProccess.cs">
+      <Link>Fort\Editor\Inspector\Scene\SceneNamePostProccess.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\StringPresentation.cs">
+      <Link>Fort\Editor\Inspector\StringPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\UnityObjectPresentation.cs">
+      <Link>Fort\Editor\Inspector\UnityObjectPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Sync\ServerAchievement.cs">
+      <Link>Fort\Editor\Sync\ServerAchievement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Sync\ServerInfo.cs">
+      <Link>Fort\Editor\Sync\ServerInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Sync\ServerPurchasableItem.cs">
+      <Link>Fort\Editor\Sync\ServerPurchasableItem.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fort-Game-Plugin\Fort-Game-Plugin.csproj">
+      <Project>{107f7095-20d6-4b1e-a9b3-42c8e49d1d0e}</Project>
+      <Name>Fort-Game-Plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

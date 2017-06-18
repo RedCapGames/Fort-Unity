@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{107F7095-20D6-4B1E-A9B3-42C8E49D1D0E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fort_Game_Plugin</RootNamespace>
+    <AssemblyName>Fort-Game-Plugin</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Backtory">
+      <HintPath>..\..\Assets\Backtory\Backtory.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Advertisement\IAdvertisementProvider.cs">
+      <Link>Fort\Infrastuctures\Advertisement\IAdvertisementProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Analytics\IAnalyticsProvider.cs">
+      <Link>Fort\Infrastuctures\Analytics\IAnalyticsProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\AssetBundle\Utility.cs">
+      <Link>Fort\Infrastuctures\AssetBundle\Utility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\PersianHelper.cs">
+      <Link>Fort\Infrastuctures\Helpers\PersianHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\TypeExtensions.cs">
+      <Link>Fort\Infrastuctures\Helpers\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\TypeFinder.cs">
+      <Link>Fort\Infrastuctures\Helpers\TypeFinder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\Achievement.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\Achievement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\AchievementInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\AchievementInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\AchievementLevelParameterAttribute.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\AchievementLevelParameterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\AchievementLevelParameterType.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\AchievementLevelParameterType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\AchivementLevelInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\AchivementLevelInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\AttributeType.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\AttributeType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\IgnoreAchievementAttribute.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\IgnoreAchievementAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\LevelBaseAchievementInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\LevelBaseAchievementInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\LevelBaseAttributeInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\LevelBaseAttributeInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\NoneLevelBaseAchievementInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Achievement\NoneLevelBaseAchievementInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Advertisement\Advertisement.cs">
+      <Link>Fort\Infrastuctures\Infoes\Advertisement\Advertisement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Analytics\Analytic.cs">
+      <Link>Fort\Infrastuctures\Infoes\Analytics\Analytic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Balance.cs">
+      <Link>Fort\Infrastuctures\Infoes\Balance.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\ExportAttribute.cs">
+      <Link>Fort\Infrastuctures\Infoes\ExportAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\FortInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\FortInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\FortInfoScriptable.cs">
+      <Link>Fort\Infrastuctures\Infoes\FortInfoScriptable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameItem\AssetBundleGameItem.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameItem\AssetBundleGameItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameItem\DirectGameItem.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameItem\DirectGameItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameItem\GameItemAbstractTypeChildResolver.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameItem\GameItemAbstractTypeChildResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameItem\GameItemFilterAttribute.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameItem\GameItemFilterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameItem\GameItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameItem\GameItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameItem\ResourceGameItem.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameItem\ResourceGameItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameLevel\FortScene.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameLevel\FortScene.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameLevel\GameLevel.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameLevel\GameLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameLevel\GameLevelCategory.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameLevel\GameLevelCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameLevel\GameLevelInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameLevel\GameLevelInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameLevel\SimpleGameLevelCategory.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameLevel\SimpleGameLevelCategory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameLevel\SimpleGameLevelInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\GameLevel\SimpleGameLevelInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\InfoResolver.cs">
+      <Link>Fort\Infrastuctures\Infoes\InfoResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Invitation\InvitationInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Invitation\InvitationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\BazzarMarketInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\BazzarMarketInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\DiscountIapData.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\DiscountIapData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\DiscountIapPackage.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\DiscountIapPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\DiscountSkuJsonConverter.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\DiscountSkuJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\IapPackage.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\IapPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\IapPackageInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\IapPackageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\MarketInfoesJsonConverter.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\MarketInfoesJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\PurchasableItemsIapData.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\PurchasableItemsIapData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\PurchasableItemsIapPackageInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\PurchasableItemsIapPackageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\PurchaseDatasItemsJsonConverter.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\PurchaseDatasItemsJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\RemoveAdsIapPackageInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\RemoveAdsIapPackageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\SkinnerBoxIap.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\SkinnerBoxIap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\SkinnerBoxIapData.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\SkinnerBoxIapData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\SkinnerBoxIapPackageInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\SkinnerBoxIapPackageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\SkinnerBoxJsonConverter.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\SkinnerBoxJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\ValueIapData.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\ValueIapData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\ValueIapPackage.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\Iap\ValueIapPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\MarketInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Market\MarketInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\BundlePurchasableItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\BundlePurchasableItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\ItemCosts.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\ItemCosts.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\LevelBasePurchasableItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\LevelBasePurchasableItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\MultiPurchasableItemAttribute.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\MultiPurchasableItemAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\NoneLevelBasePurchasableItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\NoneLevelBasePurchasableItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\PurchasableItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\PurchasableItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\PurchasableLevelInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\PurchasableLevelInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\Purchase.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\Purchase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\PurchaseData.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\PurchaseData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\PurchaseLevelBaseData.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\PurchaseLevelBaseData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\PurchaseNoneLevelBaseData.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\PurchaseNoneLevelBaseData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\PurchasableItem\ValuePurchasableItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\PurchasableItem\ValuePurchasableItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\FreeSkinnerBoxInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\FreeSkinnerBoxInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\PurchableSkinnerBoxInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\PurchableSkinnerBoxInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\PurchasableItemSkinnerBoxItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\PurchasableItemSkinnerBoxItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\RentSkinnerBoxItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\RentSkinnerBoxItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\SimpleFreeSkinnerBoxInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\SimpleFreeSkinnerBoxInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\SimplePurchasableItemSkinnerBoxItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\SimplePurchasableItemSkinnerBoxItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\SimplePurchasableSkinnerBoxInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\SimplePurchasableSkinnerBoxInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\SimpleRentSkinnerBoxItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\SimpleRentSkinnerBoxItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\SimpleValueSkinnerBoxItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\SimpleValueSkinnerBoxItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\SkinnerBox.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\SkinnerBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\SkinnerBoxInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\SkinnerBoxInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\SkinnerBoxItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\SkinnerBoxItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\ValueSkinnerBoxItemInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\SkinnerBox\ValueSkinnerBoxItemInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Market\Bazzar\BazzarMarket.cs">
+      <Link>Fort\Infrastuctures\Market\Bazzar\BazzarMarket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Market\IMarket.cs">
+      <Link>Fort\Infrastuctures\Market\IMarket.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Promise.cs">
+      <Link>Fort\Infrastuctures\Promise.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\ConverterAttribute.cs">
+      <Link>Fort\Infrastuctures\Serializer\ConverterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\DeserializeResult.cs">
+      <Link>Fort\Infrastuctures\Serializer\DeserializeResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\Helper\Helper.cs">
+      <Link>Fort\Infrastuctures\Serializer\Helper\Helper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\ISerilazerToken.cs">
+      <Link>Fort\Infrastuctures\Serializer\ISerilazerToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializationToken.cs">
+      <Link>Fort\Infrastuctures\Serializer\SerializationToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializationTokenType.cs">
+      <Link>Fort\Infrastuctures\Serializer\SerializationTokenType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\Serializer.cs">
+      <Link>Fort\Infrastuctures\Serializer\Serializer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializerTokens\ArraySerializerToken.cs">
+      <Link>Fort\Infrastuctures\Serializer\SerializerTokens\ArraySerializerToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializerTokens\ConcreteSerializerToken.cs">
+      <Link>Fort\Infrastuctures\Serializer\SerializerTokens\ConcreteSerializerToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializerTokens\DictionarySerializerToken.cs">
+      <Link>Fort\Infrastuctures\Serializer\SerializerTokens\DictionarySerializerToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializerTokens\ListSerializerToken.cs">
+      <Link>Fort\Infrastuctures\Serializer\SerializerTokens\ListSerializerToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializerTokens\PrimitiveSerializerToken.cs">
+      <Link>Fort\Infrastuctures\Serializer\SerializerTokens\PrimitiveSerializerToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializerTokens\TypeSerializerToken.cs">
+      <Link>Fort\Infrastuctures\Serializer\SerializerTokens\TypeSerializerToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\ServiceLocator.cs">
+      <Link>Fort\Infrastuctures\ServiceLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Helpers\AchievementServiceExtensions.cs">
+      <Link>Fort\Infrastuctures\Services\Helpers\AchievementServiceExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Helpers\FortEncryptionKey.cs">
+      <Link>Fort\Infrastuctures\Services\Helpers\FortEncryptionKey.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Helpers\InvitationServiceExtensions.cs">
+      <Link>Fort\Infrastuctures\Services\Helpers\InvitationServiceExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Helpers\StorageServiceExtensions.cs">
+      <Link>Fort\Infrastuctures\Services\Helpers\StorageServiceExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Helpers\StoreServiceExtensions.cs">
+      <Link>Fort\Infrastuctures\Services\Helpers\StoreServiceExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IAchievementService.cs">
+      <Link>Fort\Infrastuctures\Services\IAchievementService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IAdvertisementService.cs">
+      <Link>Fort\Infrastuctures\Services\IAdvertisementService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IAnalyticsService.cs">
+      <Link>Fort\Infrastuctures\Services\IAnalyticsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IAssetService.cs">
+      <Link>Fort\Infrastuctures\Services\IAssetService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IAudioService.cs">
+      <Link>Fort\Infrastuctures\Services\IAudioService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IInvitationService.cs">
+      <Link>Fort\Infrastuctures\Services\IInvitationService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\ILeaderboardService.cs">
+      <Link>Fort\Infrastuctures\Services\ILeaderboardService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\ILevelManagementService.cs">
+      <Link>Fort\Infrastuctures\Services\ILevelManagementService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\AchievementService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\AchievementService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\AdvertisementService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\AdvertisementService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\AnalyticsService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\AnalyticsService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\AssetService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\AssetService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\AudioService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\AudioService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\InvitationService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\InvitationService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\LeaderboardService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\LeaderboardService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\LevelManagementService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\LevelManagementService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\RewardService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\RewardService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\SceneLoaderService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\SceneLoaderService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\ServerService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\ServerService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\SettingService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\SettingService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\SkinnerBoxService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\SkinnerBoxService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\StorageService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\StorageService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\StoreService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\StoreService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\TimeoutService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\TimeoutService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\UserManagementService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\UserManagementService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IRewardService.cs">
+      <Link>Fort\Infrastuctures\Services\IRewardService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\ISceneLoaderService.cs">
+      <Link>Fort\Infrastuctures\Services\ISceneLoaderService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IServerService.cs">
+      <Link>Fort\Infrastuctures\Services\IServerService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\ISettingService.cs">
+      <Link>Fort\Infrastuctures\Services\ISettingService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IskinnerBoxService.cs">
+      <Link>Fort\Infrastuctures\Services\IskinnerBoxService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IStorageService.cs">
+      <Link>Fort\Infrastuctures\Services\IStorageService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IStoreService.cs">
+      <Link>Fort\Infrastuctures\Services\IStoreService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\ITimeoutService.cs">
+      <Link>Fort\Infrastuctures\Services\ITimeoutService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IUserManagementService.cs">
+      <Link>Fort\Infrastuctures\Services\IUserManagementService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Inspector\AbstractTypeChildResolverAttribure.cs">
+      <Link>Fort\Inspector\AbstractTypeChildResolverAttribure.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Inspector\EnumPresentationAttribute.cs">
+      <Link>Fort\Inspector\EnumPresentationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Inspector\FortScriptableObject.cs">
+      <Link>Fort\Inspector\FortScriptableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Inspector\IgnorePropertyAttribute.cs">
+      <Link>Fort\Inspector\IgnorePropertyAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Inspector\InspectorAttribute.cs">
+      <Link>Fort\Inspector\InspectorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Inspector\PropertyInstanceResolveAttribute.cs">
+      <Link>Fort\Inspector\PropertyInstanceResolveAttribute.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

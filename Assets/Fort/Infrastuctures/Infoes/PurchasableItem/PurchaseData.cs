@@ -1,4 +1,4 @@
-﻿namespace Fort.Info.Market.Iap
+﻿namespace Fort.Info.PurchasableItem
 {
     public abstract class PurchaseData
     {

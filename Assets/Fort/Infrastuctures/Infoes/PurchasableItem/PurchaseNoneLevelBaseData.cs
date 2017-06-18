@@ -1,9 +1,8 @@
 using System.Linq;
 using System.Reflection;
-using Fort.Info.PurchasableItem;
 using Fort.Inspector;
 
-namespace Fort.Info.Market.Iap
+namespace Fort.Info.PurchasableItem
 {
     public class PurchaseNoneLevelBaseData : PurchaseData
     {
