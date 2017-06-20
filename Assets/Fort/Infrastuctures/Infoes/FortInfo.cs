@@ -6,6 +6,7 @@ using Fort.Info.Achievement;
 using Fort.Info.Analytics;
 using Fort.Info.GameLevel;
 using Fort.Info.Invitation;
+using Fort.Info.Language;
 using Fort.Info.Market;
 using Fort.Info.Market.Iap;
 using Fort.Info.PurchasableItem;
@@ -30,7 +31,10 @@ namespace Fort.Inspector
             Analytic = new Analytic();
             Advertisement = new Info.Advertisement.Advertisement();
             SkinnerBox = new SkinnerBox();
+            Language = new FortLanguage();
         }
+
+        public FortLanguage Language { get; set; }
 
         [Inspector(Presentation = "Fort.CustomEditor.ValueDefenitionsPresenter")]
 
@@ -46,7 +50,7 @@ namespace Fort.Inspector
         public GameLevel GameLevel { get; set; }
         public Analytic Analytic { get; set; }
         public Info.Advertisement.Advertisement Advertisement { get; set; }
-        public SkinnerBox SkinnerBox { get; set; }
+        public SkinnerBox SkinnerBox { get; set; }        
     }
     public class ActiveMarketPropertyInstanceResolver : IPropertyInstanceResolver
     {

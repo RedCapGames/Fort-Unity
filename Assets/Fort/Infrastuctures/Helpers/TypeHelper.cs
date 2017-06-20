@@ -10,6 +10,18 @@ namespace Fort
     {
         #region  Public Methods
 
+        private static void InternalGetAddAllParent(Type type, List<Type> types)
+        {
+            types.Add(type);
+            if(type.BaseType != null)
+                InternalGetAddAllParent(type.BaseType,types);
+        }
+        public static Type[] GetAllParent(Type type)
+        {
+            List<Type> types = new List<Type>();
+            InternalGetAddAllParent(type,types);
+            return types.ToArray();
+        }
         public static object GetDefault(this Type type)
         {
             if (type.IsValueType)
@@ -75,7 +87,11 @@ namespace Fort
                 return new object[0];
             traversedObjects.Add(target);
             List<object> result = new List<object>();
-            if (target.GetType() == type)
+            if (type.ContainsGenericParameters && GetAllParent(target.GetType()).Any(type1 => type1.IsGenericTypeDefinition && type1.GetGenericTypeDefinition() == type))
+            {
+                result.Add(target);
+            }
+            else if (type.IsInstanceOfType(target))
             {
                 result.Add(target);
             }
@@ -105,7 +121,7 @@ namespace Fort
             {
                 foreach (
                     PropertyInfo propertyInfo in
-                        target.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                        target.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(info => info.CanRead && info.CanWrite))
                 {
                     try
                     {

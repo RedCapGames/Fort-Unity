@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace Fort.Inspector
 {
-    [IgnoreProperty]
+    [IgnorePresentation]
     [Serializable]
     public class FortScriptableObject : ScriptableObject
     {
@@ -113,7 +113,7 @@ namespace Fort.Inspector
         }
 
     }
-    [IgnoreProperty]
+    [IgnorePresentation]
     public class FortScriptableObject<T> : FortScriptableObject
     {
         

@@ -1,4 +1,5 @@
 ﻿using System;
+using Fort.Info.Language;
 using Fort.Inspector;
 
 namespace Fort.Info.GameLevel
@@ -8,14 +9,16 @@ namespace Fort.Info.GameLevel
         public GameLevelInfo()
         {
             Id = Guid.NewGuid().ToString();
-            Scene = new FortScene();
+            Scene = new InfoLanguageItem<FortScene> { UseOverridedValue = true };
+            DisplayName = new InfoLanguageItem<string>();
         }
-        [IgnoreProperty]
+        [IgnorePresentation]
         public string Id { get; set; }
 
         public string Name { get; set; }
-        public FortScene Scene { get; set; }
-        public string DisplayName { get; set; }
+        [OverridableLanguage]
+        public LanguageItem<FortScene> Scene { get; set; }
+        public LanguageItem<string> DisplayName { get; set; }
         
     }
 }

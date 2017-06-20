@@ -10,7 +10,7 @@ namespace Fort.Info.SkinnerBox
             Id = Guid.NewGuid().ToString();
             Items = new SkinnerBoxItemInfo[0];
         }
-        [IgnoreProperty]
+        [IgnorePresentation]
         public string Id { get; set; }
 
         public string Name { get; set; }

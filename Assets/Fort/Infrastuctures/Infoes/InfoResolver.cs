@@ -17,6 +17,7 @@ namespace Fort.Info
         }
 
 #endif
+        public static bool LoadingSequence { get; private set; }
         private static FortInfo _fortInfo;
 
         public static FortInfo FortInfo
@@ -28,7 +29,10 @@ namespace Fort.Info
                 FortInfoScriptable fortInfoScriptable = Resources.Load<FortInfoScriptable>("FortInfo");
                 if(fortInfoScriptable == null)
                     return _fortInfo = new FortInfo();
-                return _fortInfo = (FortInfo)fortInfoScriptable.Load(typeof(FortInfo));
+                LoadingSequence = true;
+                _fortInfo = (FortInfo)fortInfoScriptable.Load(typeof(FortInfo));
+                LoadingSequence = false;
+                return _fortInfo;
             }
         }
 

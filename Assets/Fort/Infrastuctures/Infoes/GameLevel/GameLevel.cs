@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Fort.Info.Language;
 
 namespace Fort.Info.GameLevel
-{
+{    
     public class GameLevel
     {
         private Dictionary<string, GameLevelInfo> _gameLevelInfos = new Dictionary<string, GameLevelInfo>();
@@ -13,9 +14,10 @@ namespace Fort.Info.GameLevel
         public GameLevel()
         {
             _gameLevelCategories = new GameLevelCategory[0];
-            DefaultScene = new FortScene();
+            DefaultScene = new InfoLanguageItem<FortScene> { UseOverridedValue = true };
         }
-        public FortScene DefaultScene { get; set; }
+        [OverridableLanguage]
+        public LanguageItem<FortScene> DefaultScene { get; set; }
 
         public Dictionary<string, GameLevelInfo> GameLevelInfos
         {

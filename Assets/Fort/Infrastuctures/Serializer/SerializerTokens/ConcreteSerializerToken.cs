@@ -14,7 +14,7 @@ namespace Fort.Serializer
 
         public void Serialize(object graph, IGenericSerialierToken serializerToken, SerializationToken resultSerializationToken)
         {
-            PropertyInfo[] info = graph.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo[] info = graph.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
             List<SerializationToken> serializationTokens = new List<SerializationToken>();
             
             foreach (
@@ -52,7 +52,7 @@ namespace Fort.Serializer
                 string propertyName = (string) serializerToken.Deserialize(serializationToken.SerializationTokens[2 * i]).Result;
                 
                 PropertyInfo propertyInfo = serializationToken.Type.GetProperty(propertyName,
-                    BindingFlags.Public | BindingFlags.Instance);
+                    BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
                 if ( propertyInfo != null && propertyInfo.CanRead && propertyInfo.CanWrite &&
                     propertyInfo.GetIndexParameters().Length == 0)
                 {

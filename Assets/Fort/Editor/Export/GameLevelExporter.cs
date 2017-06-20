@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Assets.Fort.Editor.Helpers;
 using Fort;
 using Fort.Export;
 using Fort.Info;
-using Fort.Info.Achievement;
 using Fort.Info.GameLevel;
 using NPOI.HSSF.UserModel;
 using UnityEditor;
@@ -34,16 +31,16 @@ namespace Assets.Fort.Editor.Export
                         Value = gameLevelCategory.Id,
                         Type = typeof(string)
                     });
-                    exportRow.AddParameter("DefaultScene", new Parameter
+/*                    exportRow.AddParameter("DefaultScene", new Parameter
                     {
-                        Value = gameLevelCategory.DefaultScene == null?null: gameLevelCategory.DefaultScene.SceneName,
+                        Value = gameLevelCategory.DefaultScene == null?null: gameLevelCategory.DefaultScene.Value.SceneName,
                         Type = typeof(string)
-                    });
-                    exportRow.AddParameter("DisplayName", new Parameter
+                    });*/
+/*                    exportRow.AddParameter("DisplayName", new Parameter
                     {
                         Value = gameLevelCategory.DisplayName,
                         Type = typeof(string)
-                    });
+                    });*/
                     exportRow.AddParameter("Name", new Parameter
                     {
                         Value = gameLevelCategory.Name,
@@ -76,16 +73,16 @@ namespace Assets.Fort.Editor.Export
                         Value = gameLevel.Id,
                         Type = typeof(string)
                     });
-                    exportRow.AddParameter("Scene", new Parameter
+/*                    exportRow.AddParameter("Scene", new Parameter
                     {
-                        Value = gameLevel.Scene == null?null: gameLevel.Scene.SceneName,
+                        Value = gameLevel.Scene == null?null: gameLevel.Scene.Value.SceneName,
                         Type = typeof(string)
-                    });
-                    exportRow.AddParameter("DisplayName", new Parameter
+                    });*/
+/*                    exportRow.AddParameter("DisplayName", new Parameter
                     {
                         Value = gameLevel.DisplayName,
                         Type = typeof(string)
-                    });
+                    });*/
                     exportRow.AddParameter("Name", new Parameter
                     {
                         Value = gameLevel.Name,
@@ -118,8 +115,8 @@ namespace Assets.Fort.Editor.Export
                             .ToArray());
                 Dictionary<string, Type> parameters = new Dictionary<string, Type>();
                 parameters["Id"] = typeof(string);
-                parameters["DefaultScene"] = typeof(string);
-                parameters["DisplayName"] = typeof(string);
+                //parameters["DefaultScene"] = typeof(string);
+                //parameters["DisplayName"] = typeof(string);
                 parameters["Name"] = typeof(string);
                 foreach (KeyValuePair<string, PropertyInfo> pair in customPossibleProperties)
                 {
@@ -137,13 +134,13 @@ namespace Assets.Fort.Editor.Export
                     GameLevelCategory gameLevelCategory = InfoResolver.FortInfo.GameLevel.LevelCategories[id];
                     if (exportRow.ContainsParameter("DefaultScene"))
                     {
-                        gameLevelCategory.DefaultScene = new FortScene();
-                        gameLevelCategory.DefaultScene.SceneName = (string)exportRow.GetValue("DefaultScene").Value;
+/*                        gameLevelCategory.DefaultScene = new FortScene();
+                        gameLevelCategory.DefaultScene.Value.SceneName = (string)exportRow.GetValue("DefaultScene").Value;*/
                     }
-                    if (exportRow.ContainsParameter("DisplayName"))
+/*                    if (exportRow.ContainsParameter("DisplayName"))
                     {                        
                         gameLevelCategory.DisplayName = (string)exportRow.GetValue("DisplayName").Value;
-                    }
+                    }*/
                     if (exportRow.ContainsParameter("Name"))
                     {
                         gameLevelCategory.Name = (string)exportRow.GetValue("Name").Value;
@@ -171,8 +168,8 @@ namespace Assets.Fort.Editor.Export
                             .ToArray());
                 Dictionary<string, Type> parameters = new Dictionary<string, Type>();
                 parameters["Id"] = typeof(string);
-                parameters["Scene"] = typeof(string);
-                parameters["DisplayName"] = typeof(string);
+                //parameters["Scene"] = typeof(string);
+                //parameters["DisplayName"] = typeof(string);
                 parameters["Name"] = typeof(string);
                 foreach (KeyValuePair<string, PropertyInfo> pair in customPossibleProperties)
                 {
@@ -190,13 +187,13 @@ namespace Assets.Fort.Editor.Export
                     GameLevelInfo gameLevelInfo = InfoResolver.FortInfo.GameLevel.GameLevelInfos[id];
                     if (exportRow.ContainsParameter("Scene"))
                     {
-                        gameLevelInfo.Scene = new FortScene();
-                        gameLevelInfo.Scene.SceneName = (string)exportRow.GetValue("Scene").Value;
+/*                        gameLevelInfo.Scene = new FortScene();
+                        gameLevelInfo.Scene.SceneName = (string)exportRow.GetValue("Scene").Value;*/
                     }
-                    if (exportRow.ContainsParameter("DisplayName"))
+/*                    if (exportRow.ContainsParameter("DisplayName"))
                     {
                         gameLevelInfo.DisplayName = (string)exportRow.GetValue("DisplayName").Value;
-                    }
+                    }*/
                     if (exportRow.ContainsParameter("Name"))
                     {
                         gameLevelInfo.Name = (string)exportRow.GetValue("Name").Value;

@@ -10,10 +10,12 @@ namespace Fort.Info
     [Serializable]
     [Inspector(Presentation = "Fort.CustomEditor.BalancePresentation")]
     [JsonConverter(typeof(BalanceJsonConverter))]
-    public class Balance
+    public sealed class Balance
     {
         public Balance()
         {
+            if(InfoResolver.LoadingSequence)
+                return;
             Values = InfoResolver.FortInfo.ValueDefenitions.ToDictionary(s => s, s => 0);
         }
         public void SyncValues()

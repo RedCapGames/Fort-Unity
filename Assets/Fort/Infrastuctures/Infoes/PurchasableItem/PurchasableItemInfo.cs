@@ -9,7 +9,7 @@ namespace Fort.Info.PurchasableItem
         {
             Id = Guid.NewGuid().ToString();
         }
-        [IgnoreProperty]
+        [IgnorePresentation]
         public string Id { get; set; }
         
         public string DisplayName { get; set; }

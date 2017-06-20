@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Fort.Info;
+using Fort.Info.Language;
 using Fort.Info.Market.Iap;
 using Fort.Info.PurchasableItem;
 using Fort.Market;
@@ -715,7 +716,7 @@ namespace Fort
                     return null;
                 IapPackageInfo iapPackage = (IapPackageInfo) Activator.CreateInstance(type);
                 iapPackage.Sku = package.Sku;
-                iapPackage.DisplayName = package.DisplayName;
+                iapPackage.DisplayName = new CustomLanguageItem<string>(InfoResolver.FortInfo.Language.ActiveLanguages.Select(info => info.Id).ToDictionary(s => s,s => package.DisplayName));
                 iapPackage.Markets =
                     package.Markets.Select(
                         s => InfoResolver.FortInfo.MarketInfos.FirstOrDefault(info => info.MarketName == s))

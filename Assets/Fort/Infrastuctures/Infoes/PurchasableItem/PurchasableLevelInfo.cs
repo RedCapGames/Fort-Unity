@@ -11,7 +11,7 @@ namespace Fort.Info.PurchasableItem
             Id = Guid.NewGuid().ToString();
             Costs = new ItemCosts();
         }
-        [IgnoreProperty]
+        [IgnorePresentation]
         public string Id { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }

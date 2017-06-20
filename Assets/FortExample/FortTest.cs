@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Fort;
+using Fort.Info;
 using Fort.Serializer;
 using UnityEngine;
 
@@ -18,34 +20,34 @@ public class FortTest : MonoBehaviour
                 {
 
                 });*/
-/*        using (FileStream stream = File.Create(@"d:\1.bin"))
-        {
-            Serializer serializer = new Serializer();
-            Test test = new Test
-            {
-                List = new List<string> { "Arash", "Mostafa" },
-                TokenType = SerializationTokenType.List,
-                Strings = new[] { "Arash" },
-                Dictionary = new Dictionary<int, string> { { 12, "Arash" } },
-                Type = typeof(Test),
-                Value = null
-            };
-            test.Test1 = test;
-            test.Ghaz = new Ghaz();
-            test.Ghaz.Tests = new[] {test};
-            serializer.Serialize(stream, test);
-        }
-        using (FileStream stream = File.OpenRead(@"d:\1.bin"))
-        {
-            Serializer serializer = new Serializer();
-            object deserialize = serializer.Deserialize(stream);
-            Test test = (Test)deserialize;
-            if (ReferenceEquals(test, test.Ghaz.Tests[0]))
-            {
-                object data = test.Value;
-                Debug.Log(data);
-            }
-        }*/
+        /*        using (FileStream stream = File.Create(@"d:\1.bin"))
+                {
+                    Serializer serializer = new Serializer();
+                    Test test = new Test
+                    {
+                        List = new List<string> { "Arash", "Mostafa" },
+                        TokenType = SerializationTokenType.List,
+                        Strings = new[] { "Arash" },
+                        Dictionary = new Dictionary<int, string> { { 12, "Arash" } },
+                        Type = typeof(Test),
+                        Value = null
+                    };
+                    test.Test1 = test;
+                    test.Ghaz = new Ghaz();
+                    test.Ghaz.Tests = new[] {test};
+                    serializer.Serialize(stream, test);
+                }
+                using (FileStream stream = File.OpenRead(@"d:\1.bin"))
+                {
+                    Serializer serializer = new Serializer();
+                    object deserialize = serializer.Deserialize(stream);
+                    Test test = (Test)deserialize;
+                    if (ReferenceEquals(test, test.Ghaz.Tests[0]))
+                    {
+                        object data = test.Value;
+                        Debug.Log(data);
+                    }
+                }*/
         //gameObject.AddComponent<TestLibrary.Class1>();
         /*        int compareTo = 1.CompareTo(2);
                 Test test = new Test
@@ -61,7 +63,10 @@ public class FortTest : MonoBehaviour
         //Test resolveData = ServiceLocator.Resolve<IStorageService>().ResolveData<Test>();
         //ServiceLocator.Resolve<IStorageService>().UpdateData(test);
         //ServiceLocator.Resolve<IStorageService>().ResolveData<Test>();
-        ServiceLocator.Resolve<IStorageService>().UpdateData(new Test());
+        //ServiceLocator.Resolve<IStorageService>().UpdateData(new Test());
+        Debug.Log(typeof(object).ContainsGenericParameters);
+        Debug.Log(typeof(List<>).ContainsGenericParameters);
+        Debug.Log(typeof(List<int>).ContainsGenericParameters);
     }
 
     // Update is called once per frame
@@ -75,6 +80,10 @@ public class FortTest : MonoBehaviour
             public bool Active { get; set; }
         }*/
 
+        public class InternalTest
+        {
+            internal string Value { get; set; } 
+        }
     [Serializable]
     public class Test
     {

@@ -5,7 +5,7 @@ namespace Fort.Info.GameLevel
 
     [Inspector(Presentation = "Fort.CustomEditor.FortScenePresentation")]
 
-    public class FortScene
+    public sealed class FortScene
     {
         public string SceneName { get; set; }
 

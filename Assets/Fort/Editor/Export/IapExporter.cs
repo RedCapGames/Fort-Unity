@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using Fort;
 using Fort.Export;
 using Fort.Info;
+using Fort.Info.Language;
 using Fort.Info.Market.Iap;
 using NPOI.HSSF.UserModel;
 using UnityEditor;
@@ -26,15 +28,48 @@ namespace Assets.Fort.Editor.Export
                         Value = iapPackageInfo.Sku,
                         Type = typeof(string)
                     });
-                    exportRow.AddParameter("DisplayName", new Parameter
+                    LanguageInfo[] languageInfos = LanguageInfoResolver.LanguageEditorInfo.Languages;
+                    if (languageInfos.Length == 1)
                     {
-                        Value = iapPackageInfo.DisplayName,
-                        Type = typeof(string)
-                    });
+                        if (iapPackageInfo.DisplayName != null)
+                        {
+                            if (languageInfos[0].LanguageDatas.ContainsKey(iapPackageInfo.DisplayName.Id))
+                            {
+                                exportRow.AddParameter("DisplayName", new Parameter
+                                {
+                                    Value = languageInfos[0].LanguageDatas[iapPackageInfo.DisplayName.Id],
+                                    Type = typeof(string)
+                                });
+
+                            }
+
+                        }
+
+                    }
+                    else
+                    {
+                        foreach (LanguageInfo languageInfo in LanguageInfoResolver.LanguageEditorInfo.Languages)
+                        {
+                            if (iapPackageInfo.DisplayName != null)
+                            {
+                                if (languageInfo.LanguageDatas.ContainsKey(iapPackageInfo.DisplayName.Id))
+                                {
+                                    exportRow.AddParameter(string.Format("DisplayName-{0}", languageInfo.Name), new Parameter
+                                    {
+                                        Value = languageInfo.LanguageDatas[iapPackageInfo.DisplayName.Id],
+                                        Type = typeof(string)
+                                    });
+
+                                }
+
+                            }
+                        }
+
+                    }
                     exportRow.AddParameter("Price", new Parameter
                     {
-                        Value = iapPackageInfo.DisplayName,
-                        Type = typeof(string)
+                        Value = iapPackageInfo.Price,
+                        Type = typeof(int)
                     });
                     exportRow.AddCustomExportParameter(iapPackageInfo);
                     exportData.AddRow(exportRow);

@@ -15,9 +15,9 @@ namespace Fort.Inspector
         private bool _isFoldout;
         PropertyInfo[] GetAllProperties(Type baseType)
         {
-            if(baseType.GetCustomAttribute<IgnorePropertyAttribute>() != null)
+            if(baseType.GetCustomAttribute<IgnorePresentationAttribute>() != null)
                 return new PropertyInfo[0];
-            PropertyInfo[] propertyInfos = baseType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            PropertyInfo[] propertyInfos = baseType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             if (baseType.BaseType == null)
                 return propertyInfos;
             return propertyInfos.Concat(GetAllProperties(baseType.BaseType)).ToArray();
@@ -27,7 +27,7 @@ namespace Fort.Inspector
             if (_presentationFieldInfos != null)
                 return;
             _presentationFieldInfos =
-                GetAllProperties(_objectType).Where(info => info.GetCustomAttribute<IgnorePropertyAttribute>()==null && info.CanRead && info.CanWrite)
+                GetAllProperties(_objectType).Where(info => info.GetCustomAttribute<IgnorePresentationAttribute>()==null && info.CanRead && info.CanWrite)
                     .Select(
                         info =>
                             new PresentationField

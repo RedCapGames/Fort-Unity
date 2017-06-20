@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Fort.Info.Language;
 using Fort.Inspector;
 using Newtonsoft.Json;
 
@@ -13,7 +14,7 @@ namespace Fort.Info.Market.Iap
             Markets = new MarketInfo[0];
         }
         public string Sku { get; set; }
-        public string DisplayName { get; set; }
+        public LanguageItem<string> DisplayName { get; set; }
         public int Price { get; set; }
         [JsonConverter(typeof(MarketInfoesJsonConverter))]
         [PropertyInstanceResolve(typeof(MarketInfoesPropertyInstanceResolver))]

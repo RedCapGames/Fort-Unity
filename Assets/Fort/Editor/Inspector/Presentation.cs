@@ -52,6 +52,15 @@ namespace Fort.Inspector
         public PresentationSiteType SiteType { get; set; }
         public PropertyInfo PropertyInfo { get; set; }
         public object Base { get; set; }
+
+        public PropertyInfo GetFirtTargetedPropertyInfo()
+        {
+            if (PropertyInfo != null)
+                return PropertyInfo;
+            if (BaseSite == null)
+                return null;
+            return BaseSite.GetFirtTargetedPropertyInfo();
+        }
     }
 
     public enum PresentationSiteType

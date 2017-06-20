@@ -8,9 +8,9 @@ namespace Fort.Info.Market
 {
     public abstract class MarketInfo
     {
-        [IgnoreProperty]
+        [IgnorePresentation]
         public string MarketName { get; private set; }
-        [IgnoreProperty]
+        [IgnorePresentation]
         public string MarketDisplayName { get; private set; }
         public string ApplicationUrl { get; set; }
 

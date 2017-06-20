@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace Fort.Inspector
 {
-    public class IgnorePropertyAttribute : Attribute
+    public class IgnorePresentationAttribute : Attribute
     {
     }
 }

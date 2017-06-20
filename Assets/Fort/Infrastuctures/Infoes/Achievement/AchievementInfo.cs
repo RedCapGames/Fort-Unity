@@ -11,7 +11,7 @@ namespace Fort.Info.Achievement
             Id = Guid.NewGuid().ToString();
         }
 
-        [IgnoreProperty]
+        [IgnorePresentation]
         public string Id { get; set; }
         public string Name { get { return GetType().Name; } }
         public string DisplayName { get; set; }

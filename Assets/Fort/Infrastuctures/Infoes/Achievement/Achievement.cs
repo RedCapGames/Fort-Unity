@@ -21,7 +21,7 @@ namespace Fort.Info.Achievement
         #region Properties
 
         [JsonIgnore]
-        [IgnoreProperty]
+        [IgnorePresentation]
         public Dictionary<string, AchievementToken> AchievementTokens
         {
             get
@@ -35,7 +35,7 @@ namespace Fort.Info.Achievement
         }
 
         [JsonIgnore]
-        [IgnoreProperty]
+        [IgnorePresentation]
         public Dictionary<Type, AchievementInfo> AchievementTypes
         {
             get

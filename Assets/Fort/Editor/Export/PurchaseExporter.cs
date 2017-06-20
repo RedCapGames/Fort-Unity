@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Assets.Fort.Editor.Helpers;
 using Fort.Info;
 using Fort.Info.PurchasableItem;
 using NPOI.HSSF.UserModel;
@@ -35,11 +34,11 @@ namespace Fort.Export
                         Value = purchasableItemInfo.Name,
                         Type = typeof(string)
                     });
-                    exportRow.AddParameter("DisplayName", new Parameter
+/*                    exportRow.AddParameter("DisplayName", new Parameter
                     {
                         Value = purchasableItemInfo.DisplayName,
                         Type = typeof(string)
-                    });
+                    });*/
                     exportRow.AddParameter("Description", new Parameter
                     {
                         Value = purchasableItemInfo.Description,
@@ -102,11 +101,11 @@ namespace Fort.Export
                                     Value = string.Format("{0}_{1}", purchasableItemInfo.Name,index++),
                                     Type = typeof(string)
                                 });
-                                levelExportRow.AddParameter("DisplayName", new Parameter
+/*                                levelExportRow.AddParameter("DisplayName", new Parameter
                                 {
                                     Value = purchasableLevelInfo.DisplayName,
                                     Type = typeof(string)
-                                });
+                                });*/
                                 levelExportRow.AddParameter("Description", new Parameter
                                 {
                                     Value = purchasableLevelInfo.Description,
@@ -177,7 +176,7 @@ namespace Fort.Export
                 Dictionary<string, Type> parameters = new Dictionary<string, Type>();
                 parameters["Id"] = typeof(string);
                 parameters["Name"] = typeof(string);
-                parameters["DisplayName"] = typeof(string);
+                //parameters["DisplayName"] = typeof(string);
                 parameters["Description"] = typeof(string);
                 parameters["DefaultBought"] = typeof(bool);
                 foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
@@ -206,10 +205,10 @@ namespace Fort.Export
                         {
                             noneLevelBasePurchasableItemInfo.Name = (string) exportRow.GetValue("Name").Value;
                         }
-                        if (exportRow.ContainsParameter("DisplayName"))
+/*                        if (exportRow.ContainsParameter("DisplayName"))
                         {
                             noneLevelBasePurchasableItemInfo.DisplayName = (string)exportRow.GetValue("DisplayName").Value;
-                        }
+                        }*/
                         if (exportRow.ContainsParameter("Description"))
                         {
                             noneLevelBasePurchasableItemInfo.Description = (string)exportRow.GetValue("Description").Value;
@@ -247,10 +246,10 @@ namespace Fort.Export
                             {
                                 levelBasePurchasableItemInfo.Name = (string)exportRow.GetValue("Name").Value;
                             }
-                            if (exportRow.ContainsParameter("DisplayName"))
+/*                            if (exportRow.ContainsParameter("DisplayName"))
                             {
                                 levelBasePurchasableItemInfo.DisplayName = (string)exportRow.GetValue("DisplayName").Value;
-                            }
+                            }*/
                             if (exportRow.ContainsParameter("Description"))
                             {
                                 levelBasePurchasableItemInfo.Description = (string)exportRow.GetValue("Description").Value;
@@ -264,10 +263,10 @@ namespace Fort.Export
                         else
                         {
                             PurchasableLevelInfo purchasableLevelInfo = purchasableToken.PurchasableLevelInfo;
-                            if (exportRow.ContainsParameter("DisplayName"))
+/*                            if (exportRow.ContainsParameter("DisplayName"))
                             {
                                 purchasableLevelInfo.DisplayName = (string)exportRow.GetValue("DisplayName").Value;
-                            }
+                            }*/
                             if (exportRow.ContainsParameter("Description"))
                             {
                                 purchasableLevelInfo.Description = (string)exportRow.GetValue("Description").Value;

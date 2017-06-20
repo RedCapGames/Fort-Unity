@@ -4,7 +4,7 @@ using Fort.Inspector;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Fort.Editor.Helpers
+namespace Fort
 {
     public static class FortInfoEditorExtentions
     {
@@ -41,7 +41,7 @@ namespace Assets.Fort.Editor.Helpers
             }
         }
 
-        [MenuItem("Fort/Settings")]
+        [MenuItem("Fort/Settings/Global Settings")]
         public static void ShowFortSettings()
         {
             FortInfoScriptable fortInfoScriptable = Resources.Load<FortInfoScriptable>("FortInfo");

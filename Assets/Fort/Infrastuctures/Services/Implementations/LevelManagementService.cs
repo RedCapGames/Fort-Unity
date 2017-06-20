@@ -80,17 +80,17 @@ namespace Fort
         private string ResolveGameLevelSceneName(GameLevelInfo level)
         {
             if (!FortScene.IsNullOrEmpty(level.Scene))
-                return level.Scene.SceneName;
+                return level.Scene.Value.SceneName;
             string categorySceneName = GetCategorySceneName(InfoResolver.FortInfo.GameLevel.LevelCategoriesParentMap[level.Id]);
             if (!string.IsNullOrEmpty(categorySceneName))
                 return categorySceneName;
-            return FortScene.IsNullOrEmpty(InfoResolver.FortInfo.GameLevel.DefaultScene)?null: InfoResolver.FortInfo.GameLevel.DefaultScene.SceneName;
+            return FortScene.IsNullOrEmpty(InfoResolver.FortInfo.GameLevel.DefaultScene)?null: InfoResolver.FortInfo.GameLevel.DefaultScene.Value.SceneName;
         }
 
         private string GetCategorySceneName(GameLevelCategory category)
         {
             if (!FortScene.IsNullOrEmpty(category.DefaultScene))
-                return category.DefaultScene.SceneName;
+                return category.DefaultScene.Value.SceneName;
             if (InfoResolver.FortInfo.GameLevel.LevelCategoriesParentMap.ContainsKey(category.Id))
             {
                 return GetCategorySceneName(InfoResolver.FortInfo.GameLevel.LevelCategoriesParentMap[category.Id]);

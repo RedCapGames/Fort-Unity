@@ -17,7 +17,7 @@ namespace Fort.Info.PurchasableItem
         private PurchasableItemInfo[] _purchasableItemInfos;
 
         [JsonIgnore]
-        [IgnoreProperty]
+        [IgnorePresentation]
         public Dictionary<string, PurchasableToken> PurchasableTokens
         {
             get

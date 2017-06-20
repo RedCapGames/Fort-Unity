@@ -12,7 +12,7 @@ namespace Fort.Info.Achievement
             Id = Guid.NewGuid().ToString();
             Balance = new Balance();
         }
-        [IgnoreProperty]
+        [IgnorePresentation]
         public string Id { get; set; }
         public int Score { get; set; }
         public Balance Balance { get; set; }
