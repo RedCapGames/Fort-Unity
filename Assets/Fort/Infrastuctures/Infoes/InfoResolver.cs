@@ -21,7 +21,15 @@ namespace Fort.Info
 
         public static FortInfo FortInfo
         {
-            get { return _fortInfo = _fortInfo ?? (FortInfo)Resources.Load<FortInfoScriptable>("FortInfo").Load(typeof(FortInfo)); }
+            get
+            {
+                if (_fortInfo != null)
+                    return _fortInfo;
+                FortInfoScriptable fortInfoScriptable = Resources.Load<FortInfoScriptable>("FortInfo");
+                if(fortInfoScriptable == null)
+                    return _fortInfo = new FortInfo();
+                return _fortInfo = (FortInfo)fortInfoScriptable.Load(typeof(FortInfo));
+            }
         }
 
     }

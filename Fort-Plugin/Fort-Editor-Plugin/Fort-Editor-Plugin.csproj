@@ -34,8 +34,18 @@
     <Reference Include="Backtory">
       <HintPath>..\..\Assets\Backtory\Backtory.dll</HintPath>
     </Reference>
+    <Reference Include="Excel">
+      <HintPath>..\..\Assets\Fort\ExternalPlugins\Uni-Excel\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\..\Assets\Fort\ExternalPlugins\Uni-Excel\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="PersianFix">
+      <HintPath>..\..\Assets\Fort\ExternalPlugins\Uni-Excel\PersianFix.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -54,11 +64,20 @@
     <Compile Include="..\..\Assets\Fort\Editor\AssetBundle\AssetBundleMenuItem.cs">
       <Link>Fort\Editor\AssetBundle\AssetBundleMenuItem.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\EditorFortEncryptionKey.cs">
+      <Link>Fort\Editor\EditorFortEncryptionKey.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Export\AchievementExporter.cs">
       <Link>Fort\Editor\Export\AchievementExporter.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Export\ExportData.cs">
       <Link>Fort\Editor\Export\ExportData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Export\GameLevelExporter.cs">
+      <Link>Fort\Editor\Export\GameLevelExporter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Export\IapExporter.cs">
+      <Link>Fort\Editor\Export\IapExporter.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Export\PurchaseExporter.cs">
       <Link>Fort\Editor\Export\PurchaseExporter.cs</Link>

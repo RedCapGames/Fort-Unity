@@ -6,9 +6,11 @@ namespace Fort.Info.Achievement
     [Serializable]
     public class AchievementLevelInfo
     {
+        
         public AchievementLevelInfo()
         {
             Id = Guid.NewGuid().ToString();
+            Balance = new Balance();
         }
         [IgnoreProperty]
         public string Id { get; set; }

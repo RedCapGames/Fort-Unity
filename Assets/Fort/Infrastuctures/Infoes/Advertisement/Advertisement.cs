@@ -8,6 +8,10 @@ namespace Fort.Info.Advertisement
 {
     public class Advertisement
     {
+        public Advertisement()
+        {
+            AdvertisementProviders = new AdvertisementPriority[0];
+        }
         public AdvertisementPriority[] AdvertisementProviders { get; set; }
     }
 

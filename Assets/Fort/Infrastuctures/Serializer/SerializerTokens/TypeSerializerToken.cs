@@ -2,7 +2,7 @@
 
 namespace Fort.Serializer
 {
-    public class TypeSerializerToken:ISerializerToken
+    internal class TypeSerializerToken:ISerializerToken
     {
         #region Implementation of ISerializerToken
 

@@ -8,6 +8,10 @@ namespace Fort.Info.PurchasableItem
 {
     public class Purchase
     {
+        public Purchase()
+        {
+            _purchasableItemInfos = new PurchasableItemInfo[0];
+        }
         private Dictionary<string, PurchasableToken> _purchasableTokens;
 
         private PurchasableItemInfo[] _purchasableItemInfos;
@@ -77,6 +81,8 @@ namespace Fort.Info.PurchasableItem
                 if ((pair.Value.PurchasableItemInfo is NoneLevelBasePurchasableItemInfo) && ((NoneLevelBasePurchasableItemInfo)pair.Value.PurchasableItemInfo).ChildrenPurchasableItems != null)
                     foreach (PurchasableItemInfo childrenPurchasableItem in ((NoneLevelBasePurchasableItemInfo)pair.Value.PurchasableItemInfo).ChildrenPurchasableItems)
                     {
+                        if(childrenPurchasableItem == null)
+                            continue;
                         if (childrenPurchasableItem is NoneLevelBasePurchasableItemInfo)
                         {
                             _purchasableTokens[childrenPurchasableItem.Id].Parent = (NoneLevelBasePurchasableItemInfo)pair.Value.PurchasableItemInfo;

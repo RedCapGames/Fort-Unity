@@ -8,7 +8,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Fort.Serializer
 {
-    public class ConcreteSerializerToken:ISerializerToken
+    internal class ConcreteSerializerToken:ISerializerToken
     {
         #region Implementation of ISerilazerToken
 

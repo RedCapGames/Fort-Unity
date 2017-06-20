@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Fort.Serializer
 {
-    public class ListSerializerToken : ISerializerToken
+    internal class ListSerializerToken : ISerializerToken
     {
 /*        private static object GetDefault(Type type)
         {

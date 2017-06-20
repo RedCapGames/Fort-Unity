@@ -9,9 +9,8 @@ namespace Fort.Market
 
         void Update()
         {
-#if UNITY_EDITOR
-            return;
-#endif
+            if(Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.WindowsEditor)
+                return;
             if (_deferred == null)
                 return;
             var jc = new AndroidJavaClass("com.redcap.thugs.PurchaseActivity");
@@ -42,11 +41,13 @@ namespace Fort.Market
         public Promise<string, MarketPurchaseError> PurchasePackage(string sku, string payload)
         {
             _deferred = new Deferred<string, MarketPurchaseError>();
-#if UNITY_EDITOR
-            _deferred.Resolve("FiB5nxjC8mxzwxLG");
-            return _deferred.Promise();
-#endif
+            if (Application.platform == RuntimePlatform.OSXEditor ||
+                Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                _deferred.Resolve("FiB5nxjC8mxzwxLG");
+                return _deferred.Promise();
 
+            }
             var androidJc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             var jo = androidJc.GetStatic<AndroidJavaObject>("currentActivity");
             // Accessing the class to call a static method on it

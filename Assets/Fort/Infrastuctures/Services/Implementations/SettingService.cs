@@ -59,9 +59,7 @@ namespace Fort
     public class ServerSettings
     {
         [JsonProperty("StartupValues")]
-        [JsonConverter(typeof(BalanceJsonConverter))]
         public Balance StartupBalance { get; set; }
-        [JsonConverter(typeof(BalanceJsonConverter))]
         public Balance InvitationPrize { get; set; }
         public bool IsPublished { get; set; }
         public AdvertisementSettings AdvertisementSettings { get; set; }

@@ -1,8 +1,18 @@
+using System;
+using System.Linq;
+using System.Runtime.InteropServices;
+using UnityEngine;
+
 namespace Fort
 {
-    public static class FortEncryptionKey
+    public interface IFortEncryptionKey
     {
-#if !UNITY_EDITOR && UNITY_ANDROID
+        byte ChangeData(byte data);
+        byte[] ResolveKey();
+    }
+
+    public class GameFortEncryptionKey: IFortEncryptionKey
+    {
         [DllImport("native")]
         public static extern byte Change(byte data);
         [DllImport("native")]
@@ -39,49 +49,59 @@ namespace Fort
         [DllImport("native")]
         private static extern byte GetEncoding15();
 
-        public static byte[] ResolveKey()
+        #region Implementation of IFortEncryptionKey
+
+        public byte ChangeData(byte data)
         {
-            return new[]
-            {
+            return Change(data);
+        }
+
+        public byte[] ResolveKey()
+        {
+            return new[]{
                 GetEncoding0(), GetEncoding1(), GetEncoding2(), GetEncoding3(), GetEncoding4(), GetEncoding5(),
                 GetEncoding6(), GetEncoding7(), GetEncoding8(), GetEncoding9(), GetEncoding10(), GetEncoding11(),
                 GetEncoding12(), GetEncoding13(), GetEncoding14(), GetEncoding15()
             };
         }
-#endif
-#if !UNITY_EDITOR && UNITY_STANDALONE_WIN
+
+        #endregion
+    }
+    public static class FortEncryptionKey
+    {
+        private static IFortEncryptionKey _fortEncryptionKey;
+
+        private static void Initialize()
+        {
+            if (_fortEncryptionKey != null)
+                return;
+            if (Application.platform == RuntimePlatform.WindowsEditor ||
+                Application.platform == RuntimePlatform.OSXEditor)
+            {
+                Type fortEncryptionType =
+                    TypeHelper.GetAllTypes(AllTypeCategory.Editor)
+                        .Single(
+                            type =>
+                                string.Format("{0}.{1}", type.Namespace, type.Name) == "Fort.EditorFortEncryptionKey");
+                _fortEncryptionKey = (IFortEncryptionKey) Activator.CreateInstance(fortEncryptionType);
+            }
+            else
+            {
+                _fortEncryptionKey = new GameFortEncryptionKey();
+            }
+            
+        }
         public static byte Change(byte data)
         {
-            return (byte)(data ^ 0xdd);
+            Initialize();
+            return _fortEncryptionKey.ChangeData(data);
         }
         public static byte[] ResolveKey()
         {
-            //return Encoding.ASCII.GetBytes("ArashJafarzadeh");
-            return new byte[] { 39, 118, 0, 86, 77, 226, 202, 65, 128, 8, 232, 62, 229, 16, 22, 125 };
+            Initialize();            
+            return _fortEncryptionKey.ResolveKey();
         }
 
-#endif
-#if UNITY_EDITOR
-        public static byte Change(byte data)
-        {
-            return (byte)(data ^ 0xdd);
-        }
-        public static byte[] ResolveKey()
-        {
-            //return Encoding.ASCII.GetBytes("ArashJafarzadeh");
-            return new byte[] { 39, 118, 0, 86, 77, 226, 202, 65, 128, 8, 232, 62, 229, 16, 22, 125 };
-        }
-# else
-        public static byte Change(byte data)
-        {
-            return (byte)(data ^ 0xdd);
-        }
-        public static byte[] ResolveKey()
-        {
-            //return Encoding.ASCII.GetBytes("ArashJafarzadeh");
-            return new byte[] { 39, 118, 0, 86, 77, 226, 202, 65, 128, 8, 232, 62, 229, 16, 22, 125 };
-        }
-#endif
 
     }
 }

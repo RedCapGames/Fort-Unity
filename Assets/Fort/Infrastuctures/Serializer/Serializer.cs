@@ -32,17 +32,7 @@ namespace Fort.Serializer
 
         #endregion
 
-        #region Private Methods
-
-
-
-
-        #endregion
-
         #region Nested types
-
-
-
         private class RefrenceEqualityComperer : IEqualityComparer<object>
         {
             #region IEqualityComparer<object> Members
@@ -59,7 +49,6 @@ namespace Fort.Serializer
 
             #endregion
         }
-
         private class ReverceRefrenceEqualityComperer : IEqualityComparer<SerializationToken>
         {
             #region IEqualityComparer<SerializationToken> Members
@@ -173,7 +162,6 @@ namespace Fort.Serializer
 
             #endregion
         }
-
         #endregion
     }
 }

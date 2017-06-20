@@ -5,11 +5,11 @@ namespace Fort.Info
 {
     public static class FortInfoAsest
     {
-        [MenuItem("Assets/Create/FortInfo")]
+/*        [MenuItem("Assets/Create/FortInfo")]
         public static void CreateAsset()
         {
             CustomAssetUtility.CreateAsset<FortInfoScriptable>();
-        }
+        }*/
 /*        [MenuItem("Fort/Server Sync/Generate synchronization file")]
         public static void GenerateSynchronizationFile()
         {

@@ -8,6 +8,7 @@ namespace Fort.Info.GameLevel
         public GameLevelInfo()
         {
             Id = Guid.NewGuid().ToString();
+            Scene = new FortScene();
         }
         [IgnoreProperty]
         public string Id { get; set; }

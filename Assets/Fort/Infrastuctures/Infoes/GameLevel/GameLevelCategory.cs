@@ -8,6 +8,9 @@ namespace Fort.Info.GameLevel
         protected GameLevelCategory()
         {
             Id = Guid.NewGuid().ToString();
+            ChildrenCategory = new GameLevelCategory[0];
+            GameLevelInfos = new GameLevelInfo[0];
+            DefaultScene = new FortScene();
         }
         public FortScene DefaultScene { get; set; }
         [IgnoreProperty]

@@ -8,6 +8,7 @@ namespace Fort.Info.SkinnerBox
         protected SkinnerBoxInfo()
         {
             Id = Guid.NewGuid().ToString();
+            Items = new SkinnerBoxItemInfo[0];
         }
         [IgnoreProperty]
         public string Id { get; set; }

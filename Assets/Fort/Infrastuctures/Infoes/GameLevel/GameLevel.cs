@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine.SceneManagement;
 
 namespace Fort.Info.GameLevel
 {
@@ -11,6 +9,12 @@ namespace Fort.Info.GameLevel
         private Dictionary<string, GameLevelCategory> _gameLevelCategoriesMap = new Dictionary<string, GameLevelCategory>();
         private Dictionary<string, GameLevelCategory> _gameLevelCategoriesParentMap = new Dictionary<string, GameLevelCategory>();
         private GameLevelCategory[] _gameLevelCategories;
+
+        public GameLevel()
+        {
+            _gameLevelCategories = new GameLevelCategory[0];
+            DefaultScene = new FortScene();
+        }
         public FortScene DefaultScene { get; set; }
 
         public Dictionary<string, GameLevelInfo> GameLevelInfos

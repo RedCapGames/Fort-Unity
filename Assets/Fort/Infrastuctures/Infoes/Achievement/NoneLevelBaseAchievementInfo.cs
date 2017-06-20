@@ -7,6 +7,10 @@ namespace Fort.Info.Achievement
     [Serializable]
     public abstract class NoneLevelBaseAchievementInfo : AchievementInfo
     {
+        protected NoneLevelBaseAchievementInfo()
+        {
+            Balance = new Balance();
+        }
         public int Score { get; set; }
         public Balance Balance { get; set; }
         public string Link { get; set; }

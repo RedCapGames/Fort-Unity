@@ -32,7 +32,7 @@ namespace Fort.Inspector
                 else
                 {
                     possibleTypes =
-                    TypeExtensions.GetAllTypes()
+                    TypeHelper.GetAllTypes(AllTypeCategory.Game)
                         .Where(type => parameter.DataType.IsAssignableFrom(type) && !type.IsAbstract)
                         .ToArray();
                 }

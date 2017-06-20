@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Fort.Serializer
 {
-    public class ArraySerializerToken:ISerializerToken
+    internal class ArraySerializerToken:ISerializerToken
     {
         #region Implementation of ISerializerToken
 

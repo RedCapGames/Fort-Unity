@@ -6,6 +6,7 @@ using System.Reflection;
 using Assets.Fort.Editor.Helpers;
 using Fort.Info;
 using Fort.Info.Achievement;
+using NPOI.HSSF.UserModel;
 using UnityEditor;
 
 namespace Fort.Export
@@ -14,13 +15,13 @@ namespace Fort.Export
     public static class AchievementExporter
     {
 
-        [MenuItem("Fort/Import-Export/Export Achievements")]
+        [MenuItem("Fort/Import-Export/Achievement/Export Achievements")]
         public static void ExportAchievements()
         {
-            string path = EditorUtility.SaveFilePanel("Export Achievements", "", "", "csv");
+            string path = EditorUtility.SaveFilePanel("Export Achievements", "", "", "xls");
             if (string.IsNullOrEmpty(path))
                 return;
-            using (StreamWriter writer = new StreamWriter(path))
+            using (Stream writer = File.Create(path))
             {
                 ExportData exportData = new ExportData();
                 foreach (AchievementInfo achievementInfo in InfoResolver.FortInfo.Achievement.AchievementInfos)
@@ -103,26 +104,29 @@ namespace Fort.Export
                         }
                     }
                 }
-
-                writer.Write(exportData.SerializeToCsv());
+                HSSFWorkbook workbook = new HSSFWorkbook();
+                
+                HSSFSheet sheet = (HSSFSheet) workbook.CreateSheet("Achievements");
+                exportData.SerializeToSheet(sheet);
+                workbook.Write(writer);                
             }
         }
 
-        [MenuItem("Fort/Import-Export/Import Achievements")]
+        [MenuItem("Fort/Import-Export/Achievement/Import Achievements")]
         public static void ImportAchievements()
         {
             
-            string path = EditorUtility.OpenFilePanel("Import Achievements", "", "csv");
+            string path = EditorUtility.OpenFilePanel("Import Achievements", "", "xls");
             if (string.IsNullOrEmpty(path))
                 return;
-            using (StreamReader reader = new StreamReader(path))
+            using (Stream reader = File.OpenRead(path))
             {
                 IDictionary<string, PropertyInfo> customPossibleProperties =
                     ExportData.GetCustomPossibleProperties(
-                        TypeExtensions.GetAllTypes()
+                        TypeHelper.GetAllTypes(AllTypeCategory.Game)
                             .Where(type => typeof (NoneLevelBaseAchievementInfo).IsAssignableFrom(type))
                             .Concat(
-                                TypeExtensions.GetAllTypes()
+                                TypeHelper.GetAllTypes(AllTypeCategory.Game)
                                     .Where(type => typeof (AchievementLevelInfo).IsAssignableFrom(type)))
                             .ToArray());
                 Dictionary<string,Type> parameters = new Dictionary<string, Type>();
@@ -136,7 +140,8 @@ namespace Fort.Export
                 {
                     parameters[pair.Key] = pair.Value.PropertyType;
                 }
-                ExportData exportData = ExportData.DeserializeFromCsv(parameters, reader);
+                HSSFWorkbook workbook = new HSSFWorkbook(reader);
+                ExportData exportData = ExportData.DeserializeFromSheet(parameters, workbook.GetSheetAt(0));
                 foreach (ExportRow exportRow in exportData.ExportRows)
                 {
                     if(!exportRow.ContainsParameter("Id"))

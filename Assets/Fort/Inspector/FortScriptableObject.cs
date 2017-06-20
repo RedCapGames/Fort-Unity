@@ -72,7 +72,12 @@ namespace Fort.Inspector
                 using (MemoryStream stream = new MemoryStream(Convert.FromBase64String(SerializedData)))
                 {
                     Serializer.Serializer serializer = new Serializer.Serializer();
-                    return serializer.Deserialize(stream, new UnityObjectSerializerToken(this));
+                    object deserialize = serializer.Deserialize(stream, new UnityObjectSerializerToken(this));
+                    if (deserialize == null)
+                        return null;
+                    if(!objectType.IsInstanceOfType(deserialize))
+                        throw new Exception("Invalid Item on loading in FortScriptableObject");
+                    return deserialize;
                 }
                               
 /*                return

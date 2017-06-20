@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Fort;
 using Fort.Serializer;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class FortTest : MonoBehaviour
                 {
 
                 });*/
-        using (FileStream stream = File.Create(@"d:\1.bin"))
+/*        using (FileStream stream = File.Create(@"d:\1.bin"))
         {
             Serializer serializer = new Serializer();
             Test test = new Test
@@ -44,7 +45,7 @@ public class FortTest : MonoBehaviour
                 object data = test.Value;
                 Debug.Log(data);
             }
-        }
+        }*/
         //gameObject.AddComponent<TestLibrary.Class1>();
         /*        int compareTo = 1.CompareTo(2);
                 Test test = new Test
@@ -60,7 +61,7 @@ public class FortTest : MonoBehaviour
         //Test resolveData = ServiceLocator.Resolve<IStorageService>().ResolveData<Test>();
         //ServiceLocator.Resolve<IStorageService>().UpdateData(test);
         //ServiceLocator.Resolve<IStorageService>().ResolveData<Test>();
-
+        ServiceLocator.Resolve<IStorageService>().UpdateData(new Test());
     }
 
     // Update is called once per frame

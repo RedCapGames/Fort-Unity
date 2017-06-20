@@ -269,7 +269,6 @@ namespace Fort
         public class FullDataUserData
         {
             public int Score { get; set; }
-            [JsonConverter(typeof(BalanceJsonConverter))]
             public Balance Values { get; set; }
         }
         private class AddScoreData
@@ -278,8 +277,7 @@ namespace Fort
             public string Token { get; set; }
             [JsonProperty("score")]
             public int Score { get; set; }
-            [JsonProperty("values")]
-            [JsonConverter(typeof(BalanceJsonConverter))]
+            [JsonProperty("values")]            
             public Balance Values { get; set; }
         }
     }

@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Fort.Info.Achievement
 {
-    public class LevelBaseAchievementInfo: AchievementInfo
+    public abstract class LevelBaseAchievementInfo: AchievementInfo
     {
         public AchievementLevelInfo[] GetAchievementLevelInfos()
         {
@@ -15,6 +16,10 @@ namespace Fort.Info.Achievement
     }
     public abstract class LevelBaseAchievementInfo<T> : LevelBaseAchievementInfo where T : AchievementLevelInfo
     {
+        protected LevelBaseAchievementInfo()
+        {
+            LevelInfoes = new T[0];
+        }
         public T[] LevelInfoes { get; set; }
 /*        public virtual string ResolveDisplayNameTag(string tag, int levelIndex)
         {

@@ -24,7 +24,7 @@ namespace Fort.Inspector
         {
             if (IsPresentationChanged)
                 return true;
-            if (ChildrenChange != null && ChildrenChange.Any(change => change.IsAnyPresentationChanged()))
+            if (ChildrenChange != null && ChildrenChange != null && ChildrenChange.Where(change => change != null).Any(change => change.IsAnyPresentationChanged()))
                 return true;
             return false;
         }
@@ -32,7 +32,7 @@ namespace Fort.Inspector
         {
             if (IsDataChanged)
                 return true;
-            if (ChildrenChange != null && ChildrenChange.Any(change => change.IsAnyDataChanged()))
+            if (ChildrenChange != null && ChildrenChange != null && ChildrenChange.Where(change => change != null).Any(change => change.IsAnyDataChanged()))
                 return true;
             return false;
         }

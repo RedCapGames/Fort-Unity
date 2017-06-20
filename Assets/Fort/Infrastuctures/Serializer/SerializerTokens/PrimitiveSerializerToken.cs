@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Fort.Serializer
 {
-    public class PrimitiveSerializerToken : ISerializerToken
+    internal class PrimitiveSerializerToken : ISerializerToken
     {
         private readonly Dictionary<Type, Type> _numericTypes = new Dictionary<Type, Type>
         {

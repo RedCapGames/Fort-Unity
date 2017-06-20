@@ -9,8 +9,13 @@ namespace Fort.Info
 {
     [Serializable]
     [Inspector(Presentation = "Fort.CustomEditor.BalancePresentation")]
+    [JsonConverter(typeof(BalanceJsonConverter))]
     public class Balance
     {
+        public Balance()
+        {
+            Values = InfoResolver.FortInfo.ValueDefenitions.ToDictionary(s => s, s => 0);
+        }
         public void SyncValues()
         {
             if(Values == null)
@@ -144,7 +149,8 @@ namespace Fort.Info
             return result;
         }
     }
-    public class BalanceJsonConverter:JsonConverter
+
+    internal class BalanceJsonConverter:JsonConverter
     {
         #region Overrides of JsonConverter
 
@@ -160,6 +166,16 @@ namespace Fort.Info
             if(jToken.Type == JTokenType.Null || jToken.Type== JTokenType.None)
                 return new Balance();
             Balance result = new Balance();
+
+            Dictionary<string, int> balanceValues = jToken.ToObject<Dictionary<string, int>>();
+            if (balanceValues != null)
+            {
+                foreach (KeyValuePair<string, int> pair in result.Values.ToArray())
+                {
+                    if (balanceValues.ContainsKey(pair.Key))
+                        result[pair.Key] = balanceValues[pair.Key];
+                }
+            }
             result.Values = jToken.ToObject<Dictionary<string, int>>();
             return result;
         }

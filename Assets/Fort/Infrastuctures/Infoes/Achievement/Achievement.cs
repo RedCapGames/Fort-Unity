@@ -32,7 +32,6 @@ namespace Fort.Info.Achievement
                 }
                 return _achievementTokens;
             }
-            //set { _achievementTokens = value; }
         }
 
         [JsonIgnore]
@@ -45,12 +44,11 @@ namespace Fort.Info.Achievement
                     SyncAchievementTypes();
                 return _achievementTypes;
             }
-            //set { _achievementTypes = value; }
         }
 
-#if UNITY_EDITOR
+
         [Inspector(Presentation = "Fort.CustomEditor.AchievementsPresentation")]
-#endif
+
         public AchievementInfo[] AchievementInfos
         {
             get
@@ -73,7 +71,7 @@ namespace Fort.Info.Achievement
         private void SyncAchievements()
         {
             Type[] allAchievementTypes =
-               TypeExtensions.GetAllTypes()
+               TypeHelper.GetAllTypes(AllTypeCategory.Game)
                     .Where(type => typeof (AchievementInfo).IsAssignableFrom(type))
                     .ToArray();
             allAchievementTypes =

@@ -865,7 +865,6 @@ namespace Fort
         {
             #region Properties
 
-            [JsonConverter(typeof (BalanceJsonConverter))]
             public Balance AddedValue { get; set; }
 
             public bool MarketSuccess { get; set; }

@@ -41,7 +41,7 @@ namespace Fort
             if (_isInitialized)
                 return;
             _isInitialized = true;
-            Type[] unityAssemblyTypes = TypeExtensions.GetAllTypes();
+            Type[] unityAssemblyTypes = TypeHelper.GetAllTypes(AllTypeCategory.Game);
             foreach (Type type in unityAssemblyTypes)
             {
                 ServiceAttribute serviceAttribute = type.GetCustomAttribute<ServiceAttribute>();

@@ -15,6 +15,10 @@ namespace Fort.Info.PurchasableItem
     }
     public abstract class LevelBasePurchasableItemInfo<T> : LevelBasePurchasableItemInfo where T: PurchasableLevelInfo
     {
+        protected LevelBasePurchasableItemInfo()
+        {
+            LevelInfoes = new T[0];
+        }
         public T[] LevelInfoes { get; set; }
     }
 }

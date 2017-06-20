@@ -15,7 +15,7 @@ namespace Fort.CustomEditor
             string[] newValueDefenitions = (string[]) presentationResult.Result;
             if (!presentationResult.Change.IsDataChanged && presentationResult.Change.ChildrenChange.Any(change => change.IsDataChanged))
             {
-                Balance[] balances = TypeFinder.FindType(parameter.FortInspector.Targer,typeof(Balance)).Cast<Balance>().ToArray();
+                Balance[] balances = TypeHelper.FindType(parameter.FortInspector.Targer,typeof(Balance)).Cast<Balance>().ToArray();
                 for (int i = 0; i < presentationResult.Change.ChildrenChange.Length; i++)
                 {
                     if (presentationResult.Change.ChildrenChange[i].IsDataChanged)

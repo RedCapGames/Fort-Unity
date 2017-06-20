@@ -248,7 +248,7 @@ namespace Fort
         #endregion
     }
 
-    public class AdvertisementSavedData
+    internal class AdvertisementSavedData
     {
         public bool IsAdRemoved { get; set; }
     }

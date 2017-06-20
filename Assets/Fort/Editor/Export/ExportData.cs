@@ -6,12 +6,14 @@ using System.Reflection;
 using System.Text;
 using Fort.Info;
 using Newtonsoft.Json;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
 namespace Fort.Export
 {
-    public class ExportRow
+    internal class ExportRow
     {
         #region Fields
 
@@ -97,7 +99,7 @@ namespace Fort.Export
         #endregion
     }
 
-    public class ExportData
+    internal class ExportData
     {
         #region Fields
 
@@ -121,6 +123,45 @@ namespace Fort.Export
             _exports.Add(exportRow);
         }
 
+        public void SerializeToSheet(HSSFSheet sheet)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            foreach (ExportRow exportRow in _exports)
+            {
+                foreach (string parameterName in exportRow.ParameterNames)
+                {
+                    parameters[parameterName] = parameterName;
+                }
+            }
+            string[] param = parameters.Select(pair => pair.Key).ToArray();
+            HSSFRow header = (HSSFRow)sheet.CreateRow(0);
+            
+            for (int i = 0; i < param.Length; i++)
+            {
+                HSSFCell cell = (HSSFCell) header.CreateCell(i, CellType.String);
+                cell.CellStyle.ShrinkToFit = true;
+                cell.SetCellValue(param[i]);
+            }
+            int index = 1;
+            foreach (ExportRow exportRow in _exports)
+            {
+                HSSFRow row = (HSSFRow)sheet.CreateRow(index++);
+                for (int i = 0; i < param.Length; i++)
+                {
+                    string value = exportRow.ContainsParameter(param[i])
+                        ? SerializeObject(exportRow.GetValue(param[i]))
+                        : string.Empty;
+                    HSSFCell cell = (HSSFCell) row.CreateCell(i, CellType.String);
+                    
+                    cell.SetCellValue(value);
+                }
+            }
+            for (int i = 0; i < param.Length; i++)
+            {
+                sheet.AutoSizeColumn(i);                
+            }
+
+        }
         public string SerializeToCsv()
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
@@ -165,6 +206,47 @@ namespace Fort.Export
             return builder.ToString();
         }
 
+        public static ExportData DeserializeFromSheet(IDictionary<string, Type> parameters, ISheet sheet)
+        {
+            Dictionary<string, int> parameterIndecies = new Dictionary<string, int>();
+/*            if(sheet.LastRowNum==0)
+                return new ExportData();*/
+            IRow headerRow = sheet.GetRow(0);
+            if(headerRow == null)
+                return new ExportData();
+            List<string> headers = new List<string>();
+            for (int i = 0; i < headerRow.LastCellNum; i++)
+            {
+                headers.Add(headerRow.GetCell(i).ToString());
+                
+            }
+            
+            for (int i = 0; i < headers.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(headers[i]) && parameters.ContainsKey(headers[i]))
+                    parameterIndecies[headers[i]] = i;
+            }
+            ExportData exportData = new ExportData();
+            for (int i = 1;; i++)
+            {
+                IRow row = sheet.GetRow(i);
+                if (row == null)
+                    return exportData;
+                ExportRow exportRow = new ExportRow();
+                foreach (KeyValuePair<string, int> pair in parameterIndecies)
+                {
+                    if (pair.Value < row.LastCellNum)
+                    {
+                        exportRow.AddParameter(pair.Key, new Parameter
+                        {
+                            Type = parameters[pair.Key],
+                            Value = DeserializeObject(row.GetCell(pair.Value).ToString(), parameters[pair.Key])
+                        });
+                    }
+                }
+                exportData._exports.Add(exportRow);
+            }            
+        }
         public static ExportData DeserializeFromCsv(IDictionary<string, Type> parameters, TextReader reader)
         {
             //Read header

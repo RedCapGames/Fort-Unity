@@ -16,7 +16,7 @@ namespace Fort.Inspector
                 if (sceneAsset != null)
                 {
                     FortScene[] fortScenes =
-                        TypeFinder.FindType(InfoResolver.FortInfo, typeof (FortScene)).Cast<FortScene>().ToArray();
+                        TypeHelper.FindType(InfoResolver.FortInfo, typeof (FortScene)).Cast<FortScene>().ToArray();
                     foreach (FortScene fortScene in fortScenes.Where(scene => scene != null))
                     {
                         if (fortScene.SceneName == movedFromAssetPaths[i])

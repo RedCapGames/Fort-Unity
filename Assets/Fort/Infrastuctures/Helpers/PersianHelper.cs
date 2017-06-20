@@ -1,32 +1,16 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using UnityEngine;
 
 namespace Fort
 {
     public static class PersianHelper
     {
-        public class CharacterMapInfo
-        {
-            #region Properties
-
-            public char Base { get; set; }
-            public char First { get; set; }
-            public char Midle { get; set; }
-            public char End { get; set; }
-            public char Single { get; set; }
-            public bool IsCharacterBreaker { get; set; }
-            public bool IsSpace { get; set; }
-
-            #endregion
-        }
         #region Fields
 
-        private static readonly Dictionary<char, CharacterMapInfo> characterMapInfos;
         private static readonly Dictionary<char, char> _inverserCharacterMap;
+        private static readonly Dictionary<char, CharacterMapInfo> characterMapInfos;
 
         #endregion
 
@@ -47,10 +31,12 @@ namespace Fort
 
             characterMapInfos = new Dictionary<char, CharacterMapInfo>();
             string[] attachedSourceSeperated = attachedSource.SplitInParts(6).Select(s => s.TrimEnd()).ToArray();
-            string[] attachedDestinationSeperated = attachedDestination.SplitInParts(6).Select(s => s.TrimEnd()).ToArray();
+            string[] attachedDestinationSeperated =
+                attachedDestination.SplitInParts(6).Select(s => s.TrimEnd()).ToArray();
             for (int i = 0; i < attachedSourceSeperated.Length; i++)
             {
-                string attachedDestinationSingle = attachedDestinationSeperated[(attachedSourceSeperated.Length - 1) - i];
+                string attachedDestinationSingle =
+                    attachedDestinationSeperated[(attachedSourceSeperated.Length - 1) - i];
                 characterMapInfos.Add(attachedSourceSeperated[i][0], new CharacterMapInfo
                 {
                     Base = attachedSourceSeperated[i][0],
@@ -62,10 +48,12 @@ namespace Fort
                 });
             }
             string[] seperateSourceSeperated = seperateSource.SplitInParts(5).Select(s => s.TrimEnd()).ToArray();
-            string[] seperateDestinationSeperated = seperateDestination.SplitInParts(5).Select(s => s.TrimEnd()).ToArray();
+            string[] seperateDestinationSeperated =
+                seperateDestination.SplitInParts(5).Select(s => s.TrimEnd()).ToArray();
             for (int i = 0; i < seperateSourceSeperated.Length; i++)
             {
-                string seperateDestinationSingle = seperateDestinationSeperated[(seperateSourceSeperated.Length - 1) - i];
+                string seperateDestinationSingle =
+                    seperateDestinationSeperated[(seperateSourceSeperated.Length - 1) - i];
                 characterMapInfos.Add(seperateSourceSeperated[i][0], new CharacterMapInfo
                 {
                     Base = seperateSourceSeperated[i][0],
@@ -90,7 +78,6 @@ namespace Fort
                     IsCharacterBreaker = true,
                     IsSpace = true
                 });
-
             }
             foreach (char digitchar in digitSource)
             {
@@ -104,7 +91,6 @@ namespace Fort
                     IsCharacterBreaker = true,
                     IsSpace = true
                 });
-
             }
             characterMapInfos.Add('‌', new CharacterMapInfo
             {
@@ -133,24 +119,13 @@ namespace Fort
 
         #region  Public Methods
 
-        public static IEnumerable<string> SplitInParts(this string s, int partLength)
-        {
-            if (s == null)
-                throw new ArgumentNullException("s");
-            if (partLength <= 0)
-                throw new ArgumentException("Part length has to be positive.", "partLength");
-
-            for (int i = 0; i < s.Length; i += partLength)
-                yield return s.Substring(i, Math.Min(partLength, s.Length - i));
-        }
-
         public static bool ValidPersian(this string source)
         {
             return source.All(c => characterMapInfos.ContainsKey(c));
         }
+
         public static string Persian(this string source)
         {
-
             if (string.IsNullOrEmpty(source))
                 return string.Empty;
             source = new string(source.Where(c => characterMapInfos.ContainsKey(c)).ToArray());
@@ -210,7 +185,11 @@ namespace Fort
                     }
                 }
                 List<TextPart> textParts = GetTextParts(source.ToCharArray(), convertedData, false);
-                convertedData = textParts.Select(part => part).Reverse().SelectMany(part => part.Invert ? part.Text.Reverse() : part.Text).ToArray();
+                convertedData =
+                    textParts.Select(part => part)
+                        .Reverse()
+                        .SelectMany(part => part.Invert ? part.Text.Reverse() : part.Text)
+                        .ToArray();
                 return new string(convertedData);
             }
             catch (Exception e)
@@ -219,7 +198,48 @@ namespace Fort
                 Debug.LogError(e);
                 return string.Empty;
             }
+        }
 
+        public static string DePersian(this string source)
+        {
+            if (string.IsNullOrEmpty(source))
+                return string.Empty;
+            List<TextPart> textParts = GetTextParts(source.Select(c =>
+            {
+                if (_inverserCharacterMap.ContainsKey(c))
+                    return _inverserCharacterMap[c];
+                return c;
+            }).ToArray(), source.ToCharArray(), true);
+
+            return
+                new string(
+                    textParts.Select(part => part)
+                        .Reverse()
+                        .SelectMany(part => part.Invert ? part.Text.Reverse() : part.Text)
+                        .ToArray());
+            //return new string().Reverse().ToArray());
+        }
+
+        public static string SingleLine(this string source)
+        {
+            source = source.Replace("\n", string.Empty);
+            source = source.Replace("\r", string.Empty);
+            return source.Replace("\t", string.Empty);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static IEnumerable<string> SplitInParts(this string s, int partLength)
+        {
+            if (s == null)
+                throw new ArgumentNullException("s");
+            if (partLength <= 0)
+                throw new ArgumentException("Part length has to be positive.", "partLength");
+
+            for (int i = 0; i < s.Length; i += partLength)
+                yield return s.Substring(i, Math.Min(partLength, s.Length - i));
         }
 
         private static List<TextPart> GetTextParts(char[] source, char[] convertedData, bool revert)
@@ -258,35 +278,35 @@ namespace Fort
             return textParts;
         }
 
-        public static string DePersian(this string source)
-        {
-            if (string.IsNullOrEmpty(source))
-                return string.Empty;
-            List<TextPart> textParts = GetTextParts(source.Select(c =>
-            {
-                if (_inverserCharacterMap.ContainsKey(c))
-                    return _inverserCharacterMap[c];
-                return c;
-            }).ToArray(), source.ToCharArray(), true);
-
-            return new string(textParts.Select(part => part).Reverse().SelectMany(part => part.Invert ? part.Text.Reverse() : part.Text).ToArray());
-            //return new string().Reverse().ToArray());
-        }
-
-        public static string SingleLine(this string source)
-        {
-            source = source.Replace("\n", String.Empty);
-            source = source.Replace("\r", String.Empty);
-            return source.Replace("\t", String.Empty);
-
-        }
         #endregion
+
+        #region Nested types
+
+        public class CharacterMapInfo
+        {
+            #region Properties
+
+            public char Base { get; set; }
+            public char First { get; set; }
+            public char Midle { get; set; }
+            public char End { get; set; }
+            public char Single { get; set; }
+            public bool IsCharacterBreaker { get; set; }
+            public bool IsSpace { get; set; }
+
+            #endregion
+        }
 
         private class TextPart
         {
+            #region Properties
+
             public char[] Text { get; set; }
             public bool Invert { get; set; }
-        }
-    }
 
+            #endregion
+        }
+
+        #endregion
+    }
 }

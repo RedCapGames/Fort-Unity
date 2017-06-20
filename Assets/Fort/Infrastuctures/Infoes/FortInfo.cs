@@ -18,9 +18,22 @@ namespace Fort.Inspector
 {
     public class FortInfo
     {
-#if UNITY_EDITOR
+        public FortInfo()
+        {
+            ValueDefenitions = new string[0];
+            MarketInfos = new MarketInfo[0];
+            Package = new IapPackage();
+            InvitationInfo = new InvitationInfo();
+            Achievement = new Achievement();
+            Purchase = new Purchase();
+            GameLevel = new GameLevel();
+            Analytic = new Analytic();
+            Advertisement = new Info.Advertisement.Advertisement();
+            SkinnerBox = new SkinnerBox();
+        }
+
         [Inspector(Presentation = "Fort.CustomEditor.ValueDefenitionsPresenter")]
-#endif
+
         public string[] ValueDefenitions { get; set; }
         [PropertyInstanceResolve(typeof(MarketInfoesPropertyInstanceResolver))]
         public MarketInfo[] MarketInfos { get; set; }
@@ -64,7 +77,7 @@ namespace Fort.Inspector
             if(marketInfos == null)
                 marketInfos = new MarketInfo[0];
             Type[] possibleTypes =
-                TypeExtensions.GetAllTypes()
+                TypeHelper.GetAllTypes(AllTypeCategory.Game)
                     .Where(type => typeof (MarketInfo).IsAssignableFrom(type) && !type.IsAbstract)
                     .Where(type => marketInfos.Select(info => info.GetType()).All(type1 => type1 != type))
                     .ToArray();

@@ -108,18 +108,18 @@ namespace Fort
 
         private object LoadData(Stream dataStream)
         {
-            using (RedcapEncryptionStream redcapEncryptionStream = new RedcapEncryptionStream(dataStream))
+            using (FortEncryptionStream fortEncryptionStream = new FortEncryptionStream(dataStream))
             {
                 Serializer.Serializer serializer = new Serializer.Serializer();
-                return serializer.Deserialize(redcapEncryptionStream);
+                return serializer.Deserialize(fortEncryptionStream);
             }
         }
         private void SaveData(Stream dataStream, object data)
         {
-            using (RedcapEncryptionStream redcapEncryptionStream = new RedcapEncryptionStream(dataStream))
+            using (FortEncryptionStream fortEncryptionStream = new FortEncryptionStream(dataStream))
             {
                 Serializer.Serializer serializer = new Serializer.Serializer();
-                serializer.Serialize(redcapEncryptionStream, data);
+                serializer.Serialize(fortEncryptionStream, data);
             }
         }
         public void UpdateData(object data, Type dataType)
@@ -304,38 +304,16 @@ namespace Fort
             public Type Type { get; set; }
             public string Token { get; set; }
         }
-        private class RedcapEncryptionStream : Stream
+        private class FortEncryptionStream : Stream
         {
-#if UNITY_EDITOR
             private static byte Change(byte data)
             {
-                return (byte)(data ^ 0x9e);
+                return FortEncryptionKey.Change(data);
             }
-#else
-            private static byte Change(byte data)
-            {
-                return (byte)(data ^ 0x9e);
-            }
-
-#endif
-
-
-#if !UNITY_EDITOR && UNITY_STANDALONE_WIN
-            private static byte Change(byte data)
-            {
-                return (byte)(data ^ 0x9e);
-            }
-#endif
-#if !UNITY_EDITOR && UNITY_ANDROID
-        [DllImport("native")]
-        private static extern byte Change(byte data);
-
-#endif
-
 
             private readonly Stream _baseStream;
 
-            public RedcapEncryptionStream(Stream baseStream)
+            public FortEncryptionStream(Stream baseStream)
             {
                 _baseStream = baseStream;
             }

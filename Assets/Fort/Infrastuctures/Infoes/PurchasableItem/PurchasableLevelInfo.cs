@@ -5,9 +5,11 @@ namespace Fort.Info.PurchasableItem
 {
     public class PurchasableLevelInfo
     {
+        
         public PurchasableLevelInfo()
         {
             Id = Guid.NewGuid().ToString();
+            Costs = new ItemCosts();
         }
         [IgnoreProperty]
         public string Id { get; set; }
