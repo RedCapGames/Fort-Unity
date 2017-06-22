@@ -44,6 +44,19 @@ namespace Fort
             return _lastLoadDeferred.Promise();
         }
 
+        public AsyncOperation LoadAsync(SceneLoadParameters parameters)
+        {
+            ServiceLocator.Resolve<IAnalyticsService>().StatSceneLoaded(parameters.SceneName);
+            _lastContext = null;
+            _captureReturnKey = parameters.CaptureReturnKey;
+            if (parameters.FlushSceneStack)
+                _sceneStack.Clear();
+            if (parameters.AddToSceneStack)
+                _sceneStack.Push(SceneManager.GetActiveScene().name);
+            _lastContext = parameters.Context;
+            return SceneManager.LoadSceneAsync(parameters.SceneName);
+        }
+
         public object GetLastLoadContext()
         {
             return _lastContext;

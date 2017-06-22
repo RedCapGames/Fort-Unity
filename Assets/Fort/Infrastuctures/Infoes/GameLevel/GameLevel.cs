@@ -15,7 +15,10 @@ namespace Fort.Info.GameLevel
         {
             _gameLevelCategories = new GameLevelCategory[0];
             DefaultScene = new InfoLanguageItem<FortScene> { UseOverridedValue = true };
+            LoaderScene = new InfoLanguageItem<FortScene> { UseOverridedValue = true };
         }
+        [OverridableLanguage]
+        public LanguageItem<FortScene> LoaderScene { get; set; }
         [OverridableLanguage]
         public LanguageItem<FortScene> DefaultScene { get; set; }
 

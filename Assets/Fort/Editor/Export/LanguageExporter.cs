@@ -47,7 +47,8 @@ namespace Assets.Fort.Editor.Export
                         HSSFCell cell = (HSSFCell)row.CreateCell(j + 1);
                         if (languageEditorInfo.Languages[j].LanguageDatas.ContainsKey(allLanguageItems[i].Id))
                         {
-                            cell.SetCellValue(languageEditorInfo.Languages[j].LanguageDatas[allLanguageItems[i].Id].ToString());
+                            object languageData = languageEditorInfo.Languages[j].LanguageDatas[allLanguageItems[i].Id];
+                            cell.SetCellValue(languageData== null?string.Empty:languageData.ToString());
                         }
                         else
                         {

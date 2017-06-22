@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Fort.Info;
 using Fort.Info.GameLevel;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Fort
 {
@@ -68,6 +69,34 @@ namespace Fort
                 Context = level,
                 FlushSceneStack = true
             });
+        }
+
+        public void LoadGameLevelAsync(GameLevelInfo level)
+        {
+            if(FortScene.IsNullOrEmpty(InfoResolver.FortInfo.GameLevel.LoaderScene.Value))
+                throw new Exception("No Loader Scene is defined in Game Level config");
+            ServiceLocator.Resolve<ISceneLoaderService>().Load(new SceneLoadParameters(InfoResolver.FortInfo.GameLevel.LoaderScene.Value.SceneName)
+            {
+                AddToSceneStack = true,
+                CaptureReturnKey = false,
+                Context = level,
+                FlushSceneStack = true
+            });
+
+        }
+
+        public AsyncOperation ContinueLoadGameLevelAsync()
+        {
+
+            return
+                ServiceLocator.Resolve<ISceneLoaderService>()
+                    .LoadAsync(new SceneLoadParameters(InfoResolver.FortInfo.GameLevel.LoaderScene.Value.SceneName)
+                    {
+                        AddToSceneStack = true,
+                        CaptureReturnKey = false,
+                        Context = GetLastLoadedLevel(),
+                        FlushSceneStack = true
+                    });
         }
 
         public GameLevelInfo GetLastLoadedLevel()

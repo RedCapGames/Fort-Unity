@@ -1,6 +1,7 @@
 ﻿using System;
 using Fort.Info;
 using Fort.Info.GameLevel;
+using UnityEngine;
 
 namespace Fort
 {
@@ -9,6 +10,8 @@ namespace Fort
         void GameLevelFinished(LevelFinishParameters parameters);
         ILevelFinishStat GetGameFinishStat(GameLevelInfo level);
         void LoadGameLevel(GameLevelInfo level);
+        void LoadGameLevelAsync(GameLevelInfo level);
+        AsyncOperation ContinueLoadGameLevelAsync();
         GameLevelInfo GetLastLoadedLevel();
     }
 

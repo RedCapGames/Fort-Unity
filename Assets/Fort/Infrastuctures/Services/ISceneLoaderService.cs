@@ -8,6 +8,7 @@ namespace Fort
     {
         bool IsReturnCapable { get; }
         ComplitionPromise<object> Load(SceneLoadParameters parameters);
+        AsyncOperation LoadAsync(SceneLoadParameters parameters);
         object GetLastLoadContext();
         void Return(object context);
     }
