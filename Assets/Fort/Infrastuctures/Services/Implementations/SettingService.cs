@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Backtory.Core.Public;
 using Fort.Info;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -7,12 +6,13 @@ using UnityEngine;
 namespace Fort
 {
     [Service(ServiceType = typeof(ISettingService))]
-    public class SettingService : MonoBehaviour,ISettingService
+    public class SettingService : MonoBehaviour, ISettingService
     {
         List<ComplitionDeferred<ServerSettings>> _deferreds = new List<ComplitionDeferred<ServerSettings>>();
         void Start()
         {
-            ResolveServerSettings();
+            if (InfoResolver.FortInfo.ServerConnectionProvider != null)
+                ResolveServerSettings();
         }
         #region Implementation of ISettingService
 

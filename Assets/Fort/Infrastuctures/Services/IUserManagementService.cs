@@ -1,4 +1,5 @@
 ﻿using Fort.Info;
+using Fort.ServerConnection;
 
 namespace Fort
 {
@@ -9,15 +10,11 @@ namespace Fort
         int Score { get; }
         Balance Balance { get; }
         ErrorPromise<RegisterationErrorResultStatus> Register(string username,string password);
-        Promise Login(string userName, string password);
+        Promise Login(string username, string password);
         void AddScoreAndBalance(int score,Balance balance);
         Promise FullUpdate();
         string GetSystemId();
     }
 
-    public enum RegisterationErrorResultStatus
-    {
-        CannotConnectToServer,
-        UsernameIsInUse
-    }
+
 }

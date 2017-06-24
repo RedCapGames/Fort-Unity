@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Backtory.Core.Public;
+//using Backtory.Core.Public;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace Fort
         public ComplitionPromise<T> Call<T>(string functionName, object requestBody)
         {
             ComplitionDeferred<T> deferred = new ComplitionDeferred<T>();
-            BacktoryCloudcode.RunInBackground<T>(functionName, requestBody, response =>
+            /*BacktoryCloudcode.RunInBackground<T>(functionName, requestBody, response =>
             {
                 if (response.Successful)
                 {
@@ -48,7 +48,7 @@ namespace Fort
                 {
                     deferred.Reject();
                 }
-            });
+            });*/
             return deferred.Promise();
         }
 

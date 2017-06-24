@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Fort.Backtory;
 using Fort.Info;
 using Fort.Info.Achievement;
 using NPOI.HSSF.UserModel;
@@ -17,6 +18,8 @@ namespace Fort.Export
         [MenuItem("Fort/Import-Export/Achievement/Export Achievements")]
         public static void ExportAchievements()
         {
+            FortBacktoryEditorConnection fortBacktoryEditorConnection = new FortBacktoryEditorConnection();
+            fortBacktoryEditorConnection.Call<int>("Ghaz", null);
             string path = EditorUtility.SaveFilePanel("Export Achievements", "", "", "xls");
             if (string.IsNullOrEmpty(path))
                 return;

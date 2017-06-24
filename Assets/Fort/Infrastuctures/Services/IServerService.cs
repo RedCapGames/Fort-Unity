@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Backtory.Core.Public;
-
-namespace Fort
+﻿namespace Fort
 {
     public interface IServerService
     {

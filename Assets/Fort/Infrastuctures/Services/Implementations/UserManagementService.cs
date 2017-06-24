@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Backtory.Core.Public;
+//using Backtory.Core.Public;
 using Fort.Info;
 using Fort.Info.PurchasableItem;
+using Fort.ServerConnection;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Fort
 
         void Start()
         {
-            if (IsRegistered)
+            if (InfoResolver.FortInfo.ServerConnectionProvider != null && IsRegistered)
                 FullUpdate();
         }
         #region Implementation of IUserManagementService
@@ -71,7 +72,15 @@ namespace Fort
         public ErrorPromise<RegisterationErrorResultStatus> Register(string username, string password)
         {
             ErrorDeferred<RegisterationErrorResultStatus> deferred = new ErrorDeferred<RegisterationErrorResultStatus>();
-            BacktoryUser newUser = new BacktoryUser
+            if(InfoResolver.FortInfo.ServerConnectionProvider == null)
+                throw new Exception("No Server connection provider added");
+            InfoResolver.FortInfo.ServerConnectionProvider.UserConnection.Register(username,password).Then(() =>
+            {
+                ServiceLocator.Resolve<IAnalyticsService>().StatUserRegisterd();
+                ServiceLocator.Resolve<IStorageService>().UpdateData(new AuthenticationInfo { UserName = username, Password = password });
+                deferred.Resolve();
+            }, status => deferred.Reject(status));
+/*            BacktoryUser newUser = new BacktoryUser
             {
                 Username = username,
                 Password = password
@@ -88,25 +97,15 @@ namespace Fort
                     deferred.Reject(RegisterationErrorResultStatus.UsernameIsInUse);
                 else
                     deferred.Reject(RegisterationErrorResultStatus.CannotConnectToServer);
-            });
+            });*/
             return deferred.Promise();
         }
 
-        public Promise Login(string userName, string password)
+        public Promise Login(string username, string password)
         {
-            Deferred deferred = new Deferred();
-            BacktoryUser.LoginInBackground(userName, password, response =>
-            {
-                if (response.Successful)
-                {
-                    deferred.Resolve();
-                }
-                else
-                {
-                    deferred.Reject();
-                }
-            });
-            return deferred.Promise();
+            if (InfoResolver.FortInfo.ServerConnectionProvider == null)
+                throw new Exception("No Server connection provider added");
+            return InfoResolver.FortInfo.ServerConnectionProvider.UserConnection.Login(username, password);
         }
 
         public void AddScoreAndBalance(int score, Balance balance)

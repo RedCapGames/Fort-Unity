@@ -11,8 +11,7 @@ using Fort.Info.Market;
 using Fort.Info.Market.Iap;
 using Fort.Info.PurchasableItem;
 using Fort.Info.SkinnerBox;
-
-
+using Fort.ServerConnection;
 using UnityEngine;
 
 namespace Fort.Inspector
@@ -34,6 +33,7 @@ namespace Fort.Inspector
             Language = new FortLanguage();
         }
 
+        public IServerConnectionProvider ServerConnectionProvider { get; set; }
         public FortLanguage Language { get; set; }
 
         [Inspector(Presentation = "Fort.CustomEditor.ValueDefenitionsPresenter")]

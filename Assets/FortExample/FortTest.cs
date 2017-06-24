@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Reflection;
+using System.Text;
 using Fort;
+using Fort.Backtory;
 using Fort.Info;
 using Fort.Serializer;
+using Fort.ServerConnection;
 using UnityEngine;
+using UnityEngine.Experimental.Networking;
 
 public class FortTest : MonoBehaviour
 {
@@ -64,10 +71,36 @@ public class FortTest : MonoBehaviour
         //ServiceLocator.Resolve<IStorageService>().UpdateData(test);
         //ServiceLocator.Resolve<IStorageService>().ResolveData<Test>();
         //ServiceLocator.Resolve<IStorageService>().UpdateData(new Test());
-        Debug.Log(typeof(object).ContainsGenericParameters);
-        Debug.Log(typeof(List<>).ContainsGenericParameters);
-        Debug.Log(typeof(List<int>).ContainsGenericParameters);
+        /*        Debug.Log(typeof(object).ContainsGenericParameters);
+                Debug.Log(typeof(List<>).ContainsGenericParameters);
+                Debug.Log(typeof(List<int>).ContainsGenericParameters);*/
+        BacktoryUserConnection backtoryUserConnection = new BacktoryUserConnection();
+/*        backtoryUserConnection.Register("Morad1", "Pashmak").Then(() =>
+        {
+            Debug.Log("Success");
+        }, status =>
+        {
+            switch (status)
+            {
+                case RegisterationErrorResultStatus.CannotConnectToServer:
+                    Debug.Log("Error in registeration");
+                    break;
+                case RegisterationErrorResultStatus.UsernameIsInUse:
+                    Debug.Log("User in use");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("status", status, null);
+            }
+        });*/
+        backtoryUserConnection.Call<int>("GetUserData",null);
+/*        backtoryUserConnection.Relogin().Then(() =>
+        {
+            Debug.Log("Success");
+        },() => Debug.Log("Failed"));*/
+        //StartCoroutine(Call());
     }
+
+    
 
     // Update is called once per frame
     void Update()

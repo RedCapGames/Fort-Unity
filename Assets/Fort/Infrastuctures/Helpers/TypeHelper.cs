@@ -137,6 +137,23 @@ namespace Fort
         }
 
         #endregion
+
+        public static T GetCustomAttribute<T>(this PropertyInfo propertyInfo) where T : Attribute
+        {
+            return propertyInfo.GetCustomAttributes(typeof (T), true).FirstOrDefault() as T;
+        }
+
+        public static T GetCustomAttribute<T>(this Type type) where T : Attribute
+        {
+            return type.GetCustomAttributes(typeof(T), true).FirstOrDefault() as T;
+        }
+
+        public static Type EditorType(string fullName)
+        {
+            return
+                GetAllTypes(AllTypeCategory.Editor)
+                    .First(type => string.Format("{0}.{1}", type.Namespace, type.Name) == fullName);
+        }
     }
 
     public enum AllTypeCategory
