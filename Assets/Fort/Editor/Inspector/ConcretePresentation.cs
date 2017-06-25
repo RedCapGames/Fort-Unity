@@ -20,7 +20,7 @@ namespace Fort.Inspector
             PropertyInfo[] propertyInfos = baseType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             if (baseType.BaseType == null)
                 return propertyInfos;
-            return propertyInfos.Concat(GetAllProperties(baseType.BaseType)).ToArray();
+            return propertyInfos.Where(info => info.CanRead && info.CanWrite).Concat(GetAllProperties(baseType.BaseType)).ToArray();
         }
         private void Initialize()
         {
@@ -111,12 +111,15 @@ namespace Fort.Inspector
                             parameter.FortInspector.GetResolver().Resolve(resolverParameter);
                     }
                     //PresentationParamater 
-
+                    PresentationTitleAttribute presentationTitleAttribute = presentationField.PropertyInfo.GetCustomAttribute<PresentationTitleAttribute>();
+                    string title = presentationTitleAttribute == null
+                        ? CamelCaseSplit.SplitCamelCase(presentationField.PropertyInfo.Name) 
+                        : presentationTitleAttribute.Title;
                     PresentationResult presentationResult =
                         presentationField.Presentation.OnInspectorGui(
                             new PresentationParamater(presentationField.PropertyInfo.GetValue(data, new object[0]),
                                 concretePresentationData.InnerPresentationData[presentationField.PropertyInfo.Name],
-                                presentationField.PropertyInfo.Name, presentationField.PropertyInfo.PropertyType,
+                                title, presentationField.PropertyInfo.PropertyType,
                                 presentationSite, parameter.FortInspector));
                     presentationField.PropertyInfo.SetValue(data, presentationResult.Result, new object[0]);
                     change.ChildrenChange[i] = presentationResult.Change;

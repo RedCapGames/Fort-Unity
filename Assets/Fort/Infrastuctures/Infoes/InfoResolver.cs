@@ -77,7 +77,7 @@ namespace Fort.Info
                 return result;
             }
             LoadingSequences[infoType] = true;
-            IInfo info = (IInfo) fortScriptableObject.Load(infoType);
+            IInfo info = fortScriptableObject.Load(infoType);
             Infoes[infoType] = info;
             LoadingSequences[infoType] = false;
             return info;

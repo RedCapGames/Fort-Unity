@@ -41,11 +41,13 @@ namespace Fort.Info
         [Inspector(Presentation = "Fort.CustomEditor.ValueDefenitionsPresenter")]
 
         public string[] ValueDefenitions { get; set; }
+        [PresentationTitle("Markets")]
         [PropertyInstanceResolve(typeof(MarketInfoesPropertyInstanceResolver))]
         public MarketInfo[] MarketInfos { get; set; }
         public IapPackage Package { get; set; }
         [PropertyInstanceResolve(typeof(ActiveMarketPropertyInstanceResolver))]
         public string ActiveMarket { get; set; }
+        [PresentationTitle("Invitation")]
         public InvitationInfo InvitationInfo { get; set; }
         public Achievement.Achievement Achievement { get; set; }
         public Purchase Purchase { get; set; }

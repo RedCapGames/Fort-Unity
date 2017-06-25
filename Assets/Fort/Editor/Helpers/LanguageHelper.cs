@@ -21,7 +21,7 @@ namespace Fort
                         InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages[i] = languageInfo;
                     }
                 }
-                if (InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage.Id == languageInfo.Id)
+                if (InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage != null && InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage.Id == languageInfo.Id)
                     InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage = languageInfo;
             }
             if (saveFort)

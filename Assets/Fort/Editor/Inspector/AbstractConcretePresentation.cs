@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Newtonsoft.Json.Utilities;
 using UnityEditor;
 
 namespace Fort.Inspector
@@ -45,7 +44,11 @@ namespace Fort.Inspector
 
                 }
                 selectedIndex = EditorGUILayout.Popup("Class Type", selectedIndex,
-                    new[] { "None" }.Concat(possibleTypes.Select(type => type.Name)).ToArray());
+                    new[] { "None" }.Concat(possibleTypes.Select(type =>
+                    {
+                        PresentationTitleAttribute presentationTitleAttribute = type.GetCustomAttribute<PresentationTitleAttribute>();
+                        return presentationTitleAttribute == null ? CamelCaseSplit.SplitCamelCase(type.Name) : presentationTitleAttribute.Title;
+                    })).ToArray());
                 object oldData = data;
                 bool changed = false;
                 if (selectedIndex > 0)

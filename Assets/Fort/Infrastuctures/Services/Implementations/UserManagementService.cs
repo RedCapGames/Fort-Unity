@@ -77,27 +77,9 @@ namespace Fort
             InfoResolver.Resolve<FortInfo>().ServerConnectionProvider.UserConnection.Register(username,password).Then(() =>
             {
                 ServiceLocator.Resolve<IAnalyticsService>().StatUserRegisterd();
-                ServiceLocator.Resolve<IStorageService>().UpdateData(new AuthenticationInfo { UserName = username, Password = password });
+                ServiceLocator.Resolve<IStorageService>().UpdateData(new AuthenticationInfo { UserName = username});
                 deferred.Resolve();
             }, status => deferred.Reject(status));
-/*            BacktoryUser newUser = new BacktoryUser
-            {
-                Username = username,
-                Password = password
-            };
-            newUser.RegisterInBackground(response =>
-            {
-                if (response.Successful)
-                {
-                    ServiceLocator.Resolve<IAnalyticsService>().StatUserRegisterd();
-                    ServiceLocator.Resolve<IStorageService>().UpdateData(new AuthenticationInfo { UserName = username, Password = password });
-                    deferred.Resolve();
-                }
-                else if (response.Code == (int)BacktoryHttpStatusCode.Conflict)
-                    deferred.Reject(RegisterationErrorResultStatus.UsernameIsInUse);
-                else
-                    deferred.Reject(RegisterationErrorResultStatus.CannotConnectToServer);
-            });*/
             return deferred.Promise();
         }
 
@@ -155,13 +137,16 @@ namespace Fort
 
         public string GetSystemId()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        AndroidJavaObject tm = jo.Call<AndroidJavaObject>("getSystemService", new object[] { "phone" });
-        string imei = tm.Call<string>("getDeviceId");
-        return imei;
-#endif
+            if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.WindowsEditor)
+                return Guid.NewGuid().ToString();
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+                AndroidJavaObject tm = jo.Call<AndroidJavaObject>("getSystemService", new object[] { "phone" });
+                string imei = tm.Call<string>("getDeviceId");
+                return imei;
+            }
             return Guid.NewGuid().ToString();
         }
 
@@ -284,7 +269,6 @@ namespace Fort
     public class AuthenticationInfo
     {
         public string UserName { get; set; }
-        public string Password { get; set; }
     }
 
     public class UserInfo

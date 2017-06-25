@@ -10,6 +10,8 @@ namespace Fort.Backtory
             
             ResponceStatus = responceStatus;
             ErrorType = errorType;
+            if (responceStatus == HttpStatusCode.Unauthorized)
+                ErrorType = CallErrorType.UnAuthorize;
         }
 
         #region Implementation of ICallError

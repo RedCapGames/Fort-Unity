@@ -8,7 +8,7 @@ namespace FortBacktory.Info
     [CustomEditor(typeof(BacktoryInfoScriptableObject), true)]
     public class BacktoryInfoEditor:FortInspector
     {
-        [MenuItem("Fort/Bactory/Settings/Global Configuarion")]
+        [MenuItem("Fort/Settings/Bactory/Global Configuarion")]
         public static void ShowSetting()
         {
             EditorInfoResolver.ShowInfo<BacktoryInfo>();

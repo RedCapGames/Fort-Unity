@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fort-Unity", "Fort-Unity.csproj", "{DFEEAF06-86A5-183C-CAD5-3F3F9BA646A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fort-Unity.Editor", "Fort-Unity.Editor.csproj", "{437B1128-8A16-57BF-9B55-30A97618398B}"
@@ -10,12 +8,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fort-Game-Plugin", "Fort-Plugin\Fort-Game-Plugin\Fort-Game-Plugin.csproj", "{107F7095-20D6-4B1E-A9B3-42C8E49D1D0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fort-Editor-Plugin", "Fort-Plugin\Fort-Editor-Plugin\Fort-Editor-Plugin.csproj", "{D6BF9AA9-C03D-4010-9F62-94753C174FCE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{58992FCF-A48A-4918-B925-D57C6943B571}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A40B68F6-9495-45D7-99A6-7F14F26DF5BD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backtory", "Backtory", "{5817D318-F2A8-4E4B-862A-F8C5E07684D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FortBacktory-Game-Plugin", "Fort-Plugin\FortBacktory-Game-Plugin\FortBacktory-Game-Plugin.csproj", "{568A637A-873A-4D3F-B05F-AE3BE20E0B16}"
 EndProject
@@ -54,13 +46,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{107F7095-20D6-4B1E-A9B3-42C8E49D1D0E} = {A40B68F6-9495-45D7-99A6-7F14F26DF5BD}
-		{D6BF9AA9-C03D-4010-9F62-94753C174FCE} = {A40B68F6-9495-45D7-99A6-7F14F26DF5BD}
-		{A40B68F6-9495-45D7-99A6-7F14F26DF5BD} = {58992FCF-A48A-4918-B925-D57C6943B571}
-		{5817D318-F2A8-4E4B-862A-F8C5E07684D7} = {58992FCF-A48A-4918-B925-D57C6943B571}
-		{568A637A-873A-4D3F-B05F-AE3BE20E0B16} = {5817D318-F2A8-4E4B-862A-F8C5E07684D7}
-		{31BC8F0D-E7C5-4913-84D6-E5F3BE7ED679} = {5817D318-F2A8-4E4B-862A-F8C5E07684D7}
 	EndGlobalSection
 EndGlobal

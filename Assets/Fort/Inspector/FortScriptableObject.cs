@@ -30,7 +30,7 @@ namespace Fort.Inspector
         /*    [JsonIgnore]
             public FortScriptableObject ScriptableObject { get; set; }*/
 
-        public void Save(object fortObject)
+        public void Save(IInfo fortObject)
         {
             Tokens = new Dictionary<string, Object>();
             
@@ -60,13 +60,13 @@ namespace Fort.Inspector
             }).ToArray();
         }
 
-        public object Load(Type objectType)
+        public IInfo Load(Type objectType)
         {
             if(UnityObjectTokens == null)
                 UnityObjectTokens = new UnityObjectToken[0];
             Tokens = UnityObjectTokens.ToDictionary(token => token.Token, token => token.Item);
             if (string.IsNullOrEmpty(SerializedData) || SerializedData == "null")
-                return Activator.CreateInstance(objectType);
+                return (IInfo) Activator.CreateInstance(objectType);
             try
             {
                 
@@ -78,7 +78,7 @@ namespace Fort.Inspector
                         return null;
                     if(!objectType.IsInstanceOfType(deserialize))
                         throw new Exception("Invalid Item on loading in FortScriptableObject");
-                    return deserialize;
+                    return (IInfo) deserialize;
                 }
                               
 /*                return
@@ -89,7 +89,7 @@ namespace Fort.Inspector
             catch (Exception e)
             {
                 Debug.LogException(e);
-                return Activator.CreateInstance(objectType);
+                return (IInfo) Activator.CreateInstance(objectType);
             }
         }
 

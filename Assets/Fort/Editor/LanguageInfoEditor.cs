@@ -11,7 +11,7 @@ namespace Fort.Info
     {
         #region Overrides of FortInspector
 
-        protected override void OnTargetChanged(object targetObject)
+        protected override void OnTargetChanged(IInfo targetObject)
         {
             LanguageEditorInfo languageEditorInfo = (LanguageEditorInfo)targetObject;
             if (languageEditorInfo != null)

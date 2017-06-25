@@ -10,7 +10,6 @@ namespace Fort
     {
 
     }
-
     public class Deferred<TComplition, TError>
     {
         private Promise<TComplition, TError> _promise;

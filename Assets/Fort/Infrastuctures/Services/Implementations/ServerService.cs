@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Fort.Info;
+using Fort.ServerConnection;
 //using Backtory.Core.Public;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -14,41 +16,31 @@ namespace Fort
         public ComplitionPromise<T> Call<T>(string functionName, object requestBody)
         {
             ComplitionDeferred<T> deferred = new ComplitionDeferred<T>();
-            /*BacktoryCloudcode.RunInBackground<T>(functionName, requestBody, response =>
-            {
-                if (response.Successful)
+            InfoResolver.Resolve<FortInfo>().ServerConnectionProvider.UserConnection.Call<T>(functionName,requestBody).Then(obj => deferred.Resolve(obj),
+                error =>
                 {
-                    deferred.Resolve(response.Body);
-                }
-                else if (response.Code == (int)BacktoryHttpStatusCode.Unauthorized)
-                {
-                    if (!ServiceLocator.Resolve<IUserManagementService>().IsRegistered)
-                        deferred.Reject();
-                    else
+                    if (error.ErrorType == CallErrorType.UnAuthorize)
                     {
-                        AuthenticationInfo authenticationInfo =
-                            ServiceLocator.Resolve<IStorageService>().ResolveData<AuthenticationInfo>();
-                        ServiceLocator.Resolve<IUserManagementService>().Login(authenticationInfo.UserName, authenticationInfo.Password).Then(
-                            () =>
-                            {
-                                BacktoryCloudcode.RunInBackground<T>(functionName, requestBody, sResponse =>
-                                {
-                                    if (sResponse.Successful)
-                                        deferred.Resolve(sResponse.Body);
-                                    else
-                                        deferred.Reject();
-                                });
-                            }, () =>
-                            {
+                        if (!ServiceLocator.Resolve<IUserManagementService>().IsRegistered)
+                            deferred.Reject();
+                        else
+                        {
+                            if (
+                                !InfoResolver.Resolve<FortInfo>()
+                                    .ServerConnectionProvider.UserConnection.IsReloginCapable())
                                 deferred.Reject();
-                            });
+                            else
+                                InfoResolver.Resolve<FortInfo>().ServerConnectionProvider.UserConnection.Relogin().Then(
+                                    () =>
+                                    {
+                                        InfoResolver.Resolve<FortInfo>()
+                                            .ServerConnectionProvider.UserConnection.Call<T>(functionName, requestBody)
+                                            .Then(obj => deferred.Resolve(obj), callError => deferred.Reject());
+                                    }, () => deferred.Reject());
+                        }
                     }
-                }
-                else
-                {
-                    deferred.Reject();
-                }
-            });*/
+                });
+            
             return deferred.Promise();
         }
 

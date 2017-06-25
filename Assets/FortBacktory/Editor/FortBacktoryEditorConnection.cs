@@ -20,11 +20,10 @@ namespace Fort.Backtory
         {
             ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
         }
-        private ComplitionPromise<BactoryMasterLoginResponse> MasterLogin()
+        private ComplitionPromise<BactoryMasterLoginResponse> MasterLogin(string authenticationId, string authenticationMasterKey)
         {
             ComplitionDeferred<BactoryMasterLoginResponse> deferred = new ComplitionDeferred<BactoryMasterLoginResponse>();
-            string authenticationId = InfoResolver.Resolve<BacktoryInfo>().AuthenticationId;
-            string authenticationMasterKey = EditorInfoResolver.Resolve<BacktoryEditorInfo>().AuthenticationMasterKey;
+
             string url = "http://api.backtory.com/auth/login";
             try
             {
@@ -65,9 +64,11 @@ namespace Fort.Backtory
             string url = string.Format("https://api.backtory.com/cloud-code/{0}/{1}", InfoResolver.Resolve<BacktoryInfo>().CloudId, methodName);
             if (!string.IsNullOrEmpty(BacktoryCloudUrl.Url))
                 url = new Uri(new Uri(BacktoryCloudUrl.Url), new Uri(string.Format("/{0}", methodName))).ToString();
+            string authenticationId = InfoResolver.Resolve<BacktoryInfo>().AuthenticationId;
+            string authenticationMasterKey = EditorInfoResolver.Resolve<BacktoryEditorInfo>().AuthenticationMasterKey;
             ThreadPool.QueueUserWorkItem(state =>
             {
-                MasterLogin().Then(response =>
+                MasterLogin(authenticationId, authenticationMasterKey).Then(response =>
                 {
                     string authorization = string.Format("{0} {1}", response.TokenType, response.AccessToken);
                     try
@@ -108,16 +109,9 @@ namespace Fort.Backtory
                                         }
 
                                     });
-
-
-
                                 }
                             }
                         }
-                        dispatcher.Dispach(() =>
-                        {
-                            deferred.Resolve(default(T));
-                        });
                     }
                     catch (WebException we)
                     {
@@ -170,6 +164,8 @@ namespace Fort.Backtory
             ErrorType = errorType;
             MasterLoginFailed = masterLoginFailed;
             ResponceStatus = responceStatus;
+            if (responceStatus == HttpStatusCode.Unauthorized)
+                ErrorType = CallErrorType.UnAuthorize;
         }
 
         #region Implementation of ICallError

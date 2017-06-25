@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
 using Fort;
-using Fort.Backtory;
 using Fort.Info;
 using Fort.Serializer;
-using Fort.ServerConnection;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
-using UnityEngine.Experimental.Networking;
 
 public class FortTest : MonoBehaviour
 {
@@ -74,7 +66,7 @@ public class FortTest : MonoBehaviour
         /*        Debug.Log(typeof(object).ContainsGenericParameters);
                 Debug.Log(typeof(List<>).ContainsGenericParameters);
                 Debug.Log(typeof(List<int>).ContainsGenericParameters);*/
-        BacktoryUserConnection backtoryUserConnection = new BacktoryUserConnection();
+        //BacktoryUserConnection backtoryUserConnection = new BacktoryUserConnection();
 /*        backtoryUserConnection.Register("Morad1", "Pashmak").Then(() =>
         {
             Debug.Log("Success");
@@ -92,12 +84,17 @@ public class FortTest : MonoBehaviour
                     throw new ArgumentOutOfRangeException("status", status, null);
             }
         });*/
-        backtoryUserConnection.Call<int>("GetUserData",null);
+        //backtoryUserConnection.Call<int>("GetUserData",null);
 /*        backtoryUserConnection.Relogin().Then(() =>
         {
             Debug.Log("Success");
         },() => Debug.Log("Failed"));*/
         //StartCoroutine(Call());
+        InfoResolver.Resolve<FortInfo>().ServerConnectionProvider.EditorConnection.Call<ServerPurchasableItem[]>("GetItems",null).Then(
+            objects =>
+            {
+                Debug.Log(objects.Length);
+            },error => Debug.Log("Error"));
     }
 
     

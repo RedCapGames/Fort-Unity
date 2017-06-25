@@ -12,7 +12,7 @@ namespace Fort.Inspector
         private object _presentationData;
         private Presentation _presentation;
         private Type _targetType;
-        private object _target;
+        private IInfo _target;
         private bool _repaintOnFinish;
         public object Targer { get { return _target; } }
         public virtual IPresentationResolver GetResolver()
@@ -76,17 +76,17 @@ namespace Fort.Inspector
 
         #endregion
 
-        private void InternalTargetChanged(object targetObject)
+        private void InternalTargetChanged(IInfo targetObject)
         {
             InfoAttribute infoAttribute = targetObject.GetType().GetCustomAttribute<InfoAttribute>();
-            if(infoAttribute.Editor)
+            if(!infoAttribute.Editor)
                 InfoResolver.UpdateInfo(targetObject.GetType(),(IInfo) targetObject);
             else
                 EditorInfoResolver.UpdateInfo(targetObject.GetType(), (IInfo)targetObject);
             OnTargetChanged(targetObject);
         }
 
-        protected virtual void OnTargetChanged(object targetObject)
+        protected virtual void OnTargetChanged(IInfo targetObject)
         {
 
         }
