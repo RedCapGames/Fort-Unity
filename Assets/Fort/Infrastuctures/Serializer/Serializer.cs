@@ -15,14 +15,14 @@ namespace Fort.Serializer
 
         #region  Public Methods
 
-        public void Serialize(Stream serializationStream, object graph,params ISerializerToken[] serializerTokens)
+        public void Serialize(System.IO.Stream serializationStream, object graph,params ISerializerToken[] serializerTokens)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             GenericSerializerToken genericSerializer = new GenericSerializerToken(serializerTokens);
             formatter.Serialize(serializationStream, genericSerializer.Serialize(graph));
         }
 
-        public object Deserialize(Stream serializationStream, params ISerializerToken[] serializerTokens)
+        public object Deserialize(System.IO.Stream serializationStream, params ISerializerToken[] serializerTokens)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             GenericSerializerToken genericSerializer = new GenericSerializerToken(serializerTokens);

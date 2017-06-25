@@ -35,7 +35,7 @@ namespace Fort.Backtory
                 webRequest.ContentLength = 0;
                 using (WebResponse webResponse = webRequest.GetResponse())
                 {
-                    using (Stream responseStream = webResponse.GetResponseStream())
+                    using (System.IO.Stream responseStream = webResponse.GetResponseStream())
                     {
                         using (StreamReader reader = new StreamReader(responseStream))
                         {
@@ -83,13 +83,13 @@ namespace Fort.Backtory
                         string body = JsonConvert.SerializeObject(requestBody);
                         byte[] resoponse = Encoding.UTF8.GetBytes(body);
                         webRequest.ContentLength = resoponse.Length;
-                        using (Stream requestStream = webRequest.GetRequestStream())
+                        using (System.IO.Stream requestStream = webRequest.GetRequestStream())
                         {
                             requestStream.Write(resoponse, 0, resoponse.Length);
                         }
                         using (WebResponse webResponse = webRequest.GetResponse())
                         {
-                            using (Stream responseStream = webResponse.GetResponseStream())
+                            using (System.IO.Stream responseStream = webResponse.GetResponseStream())
                             {
                                 using (StreamReader reader = new StreamReader(responseStream))
                                 {

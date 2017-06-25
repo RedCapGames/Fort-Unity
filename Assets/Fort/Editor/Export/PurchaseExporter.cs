@@ -18,7 +18,7 @@ namespace Fort.Export
             string path = EditorUtility.SaveFilePanel("Export Purchase Items", "", "", "xls");
             if (string.IsNullOrEmpty(path))
                 return;
-            using (Stream writer = File.Create(path))
+            using (System.IO.Stream writer = File.Create(path))
             {
                 ExportData exportData = new ExportData();
                 foreach (PurchasableItemInfo purchasableItemInfo in InfoResolver.Resolve<FortInfo>().Purchase.GetAllPurchasableItemInfos())
@@ -160,7 +160,7 @@ namespace Fort.Export
             string path = EditorUtility.OpenFilePanel("Import Purchase Items", "", "xls");
             if (string.IsNullOrEmpty(path))
                 return;
-            using (Stream reader = File.OpenRead(path))
+            using (System.IO.Stream reader = File.OpenRead(path))
             {
                 IDictionary<string, PropertyInfo> customPossibleProperties =
                     ExportData.GetCustomPossibleProperties(

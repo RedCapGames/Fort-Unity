@@ -106,7 +106,7 @@ namespace Fort
             }
         }
 
-        private object LoadData(Stream dataStream)
+        private object LoadData(System.IO.Stream dataStream)
         {
             using (FortEncryptionStream fortEncryptionStream = new FortEncryptionStream(dataStream))
             {
@@ -114,7 +114,7 @@ namespace Fort
                 return serializer.Deserialize(fortEncryptionStream);
             }
         }
-        private void SaveData(Stream dataStream, object data)
+        private void SaveData(System.IO.Stream dataStream, object data)
         {
             using (FortEncryptionStream fortEncryptionStream = new FortEncryptionStream(dataStream))
             {
@@ -304,16 +304,16 @@ namespace Fort
             public Type Type { get; set; }
             public string Token { get; set; }
         }
-        private class FortEncryptionStream : Stream
+        private class FortEncryptionStream : System.IO.Stream
         {
             private static byte Change(byte data)
             {
                 return FortEncryptionKey.Change(data);
             }
 
-            private readonly Stream _baseStream;
+            private readonly System.IO.Stream _baseStream;
 
-            public FortEncryptionStream(Stream baseStream)
+            public FortEncryptionStream(System.IO.Stream baseStream)
             {
                 _baseStream = baseStream;
             }

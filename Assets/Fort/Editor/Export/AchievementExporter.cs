@@ -20,7 +20,7 @@ namespace Fort.Export
             string path = EditorUtility.SaveFilePanel("Export Achievements", "", "", "xls");
             if (string.IsNullOrEmpty(path))
                 return;
-            using (Stream writer = File.Create(path))
+            using (System.IO.Stream writer = File.Create(path))
             {
                 ExportData exportData = new ExportData();
                 foreach (AchievementInfo achievementInfo in InfoResolver.Resolve<FortInfo>().Achievement.AchievementInfos)
@@ -118,7 +118,7 @@ namespace Fort.Export
             string path = EditorUtility.OpenFilePanel("Import Achievements", "", "xls");
             if (string.IsNullOrEmpty(path))
                 return;
-            using (Stream reader = File.OpenRead(path))
+            using (System.IO.Stream reader = File.OpenRead(path))
             {
                 IDictionary<string, PropertyInfo> customPossibleProperties =
                     ExportData.GetCustomPossibleProperties(
