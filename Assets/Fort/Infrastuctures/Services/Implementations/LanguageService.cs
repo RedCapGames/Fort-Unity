@@ -23,14 +23,14 @@ namespace Fort
             LanguageSavedData languageSavedData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<LanguageSavedData>() ?? new LanguageSavedData();
             LanguageInfo result =
-                InfoResolver.FortInfo.Language.ActiveLanguages.Where(info => info != null).FirstOrDefault(
+                InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Where(info => info != null).FirstOrDefault(
                     info => info.Id == languageSavedData.LanguageId);
             if (result == null)
             {
-                result = InfoResolver.FortInfo.Language.DefaultLanguage;
+                result = InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage;
                 if (result == null)
                 {
-                    result = InfoResolver.FortInfo.Language.ActiveLanguages.FirstOrDefault(info => info != null);
+                    result = InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.FirstOrDefault(info => info != null);
                 }
             }
             return result;
@@ -38,7 +38,7 @@ namespace Fort
 
         public LanguageInfo[] GetLanguagesList()
         {
-            return InfoResolver.FortInfo.Language.ActiveLanguages.Where(info => info != null).ToArray();
+            return InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Where(info => info != null).ToArray();
         }
 
         #endregion

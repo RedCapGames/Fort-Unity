@@ -20,8 +20,8 @@ namespace Assets.Fort.Editor.Export
                 return;
             using (Stream writer = File.Create(path))
             {
-                LanguageItem[] allLanguageItems = TypeHelper.FindType(InfoResolver.FortInfo,typeof(LanguageItem<string>)).Cast<LanguageItem>().ToArray();
-                LanguageEditorInfo languageEditorInfo = LanguageInfoResolver.LanguageEditorInfo;
+                LanguageItem[] allLanguageItems = TypeHelper.FindType(InfoResolver.Resolve<FortInfo>(),typeof(LanguageItem<string>)).Cast<LanguageItem>().ToArray();
+                LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
                 string[] languageNames = languageEditorInfo.Languages.Select(info => info.Name).ToArray();
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
@@ -78,8 +78,8 @@ namespace Assets.Fort.Editor.Export
                 ISheet sheet = workbook.GetSheetAt(0);
                 int index = 0;
                 List<string> languageNames = new List<string>();
-                LanguageEditorInfo languageEditorInfo = LanguageInfoResolver.LanguageEditorInfo;
-                LanguageItem[] allLanguageItems = TypeHelper.FindType(InfoResolver.FortInfo, typeof(LanguageItem<string>)).Cast<LanguageItem>().ToArray();
+                LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
+                LanguageItem[] allLanguageItems = TypeHelper.FindType(InfoResolver.Resolve<FortInfo>(), typeof(LanguageItem<string>)).Cast<LanguageItem>().ToArray();
                 while (true)
                 {
                     IRow row = sheet.GetRow(index);

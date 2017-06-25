@@ -68,7 +68,7 @@ namespace Fort.CustomEditor
         {
             Change change = new Change();
             List<Change> changes = new List<Change>();
-            LanguageEditorInfo languageEditorInfo = LanguageInfoResolver.LanguageEditorInfo;
+            LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
             LanguageInfo[] languageInfos = languageEditorInfo.Languages.Where(info => info != null).ToArray();            
             if (languageInfos.Length == 1)
             {
@@ -77,20 +77,20 @@ namespace Fort.CustomEditor
                 Change last = changes.Last();
                 if (last.IsAnyDataChanged())
                 {
-                    for (int i = 0; i < InfoResolver.FortInfo.Language.ActiveLanguages.Length; i++)
+                    for (int i = 0; i < InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Length; i++)
                     {
-                        if (InfoResolver.FortInfo.Language.ActiveLanguages[i].Id == languageInfos[0].Id)
+                        if (InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages[i].Id == languageInfos[0].Id)
                         {
-                            InfoResolver.FortInfo.Language.ActiveLanguages[i] = languageInfos[0];
+                            InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages[i] = languageInfos[0];
                         }
                     }
-                    if (InfoResolver.FortInfo.Language.DefaultLanguage != null &&
-                        InfoResolver.FortInfo.Language.DefaultLanguage.Id == languageInfos[0].Id)
+                    if (InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage != null &&
+                        InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage.Id == languageInfos[0].Id)
                     {
-                        InfoResolver.FortInfo.Language.DefaultLanguage = languageInfos[0];
+                        InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage = languageInfos[0];
                     }
                     languageEditorInfo.Save();
-                    InfoResolver.FortInfo.Save();
+                    InfoResolver.Resolve<FortInfo>().Save();
                 }
             }
             else
@@ -110,24 +110,24 @@ namespace Fort.CustomEditor
                         Change last = changes.Last();
                         if (last.IsAnyDataChanged())
                         {
-                            for (int i = 0; i < InfoResolver.FortInfo.Language.ActiveLanguages.Length; i++)
+                            for (int i = 0; i < InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Length; i++)
                             {
-                                if (InfoResolver.FortInfo.Language.ActiveLanguages[i].Id == languageInfo.Id)
+                                if (InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages[i].Id == languageInfo.Id)
                                 {
-                                    InfoResolver.FortInfo.Language.ActiveLanguages[i] = languageInfo;
+                                    InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages[i] = languageInfo;
                                 }
                             }
-                            if (InfoResolver.FortInfo.Language.DefaultLanguage != null &&
-                                InfoResolver.FortInfo.Language.DefaultLanguage.Id == languageInfo.Id)
+                            if (InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage != null &&
+                                InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage.Id == languageInfo.Id)
                             {
-                                InfoResolver.FortInfo.Language.DefaultLanguage = languageInfo;
+                                InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage = languageInfo;
                             }
                         }
                     }
                     if (changes.Any(change1 => change1.IsAnyDataChanged()))
                     {
                         languageEditorInfo.Save();
-                        InfoResolver.FortInfo.Save();
+                        InfoResolver.Resolve<FortInfo>().Save();
                     }
                     EditorGUILayout.EndVertical();
                     EditorGUILayout.EndHorizontal();
@@ -142,7 +142,7 @@ namespace Fort.CustomEditor
         {
             Change change = new Change();
             List<Change> changes = new List<Change>();
-            LanguageEditorInfo languageEditorInfo = LanguageInfoResolver.LanguageEditorInfo;
+            LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
             LanguageInfo[] languageInfos = languageEditorInfo.Languages.Where(info => info != null).ToArray();
             IInfoLanguageItem infoLanguageItem = (IInfoLanguageItem)languageItem;
             if (languageInfos.Length == 1)
@@ -209,24 +209,24 @@ namespace Fort.CustomEditor
                             Change last = changes.Last();
                             if (last.IsAnyDataChanged())
                             {
-                                for (int i = 0; i < InfoResolver.FortInfo.Language.ActiveLanguages.Length; i++)
+                                for (int i = 0; i < InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Length; i++)
                                 {
-                                    if (InfoResolver.FortInfo.Language.ActiveLanguages[i].Id == languageInfo.Id)
+                                    if (InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages[i].Id == languageInfo.Id)
                                     {
-                                        InfoResolver.FortInfo.Language.ActiveLanguages[i] = languageInfo;
+                                        InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages[i] = languageInfo;
                                     }
                                 }
-                                if (InfoResolver.FortInfo.Language.DefaultLanguage != null &&
-                                    InfoResolver.FortInfo.Language.DefaultLanguage.Id == languageInfo.Id)
+                                if (InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage != null &&
+                                    InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage.Id == languageInfo.Id)
                                 {
-                                    InfoResolver.FortInfo.Language.DefaultLanguage = languageInfo;
+                                    InfoResolver.Resolve<FortInfo>().Language.DefaultLanguage = languageInfo;
                                 }
                             }
                         }
                         if (changes.Any(change1 => change1.IsAnyDataChanged()))
                         {
                             languageEditorInfo.Save();
-                            InfoResolver.FortInfo.Save();
+                            InfoResolver.Resolve<FortInfo>().Save();
                         }
                     }
                     EditorGUILayout.EndVertical();

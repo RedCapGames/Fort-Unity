@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Fort.Backtory;
 using Fort.Info;
 using Fort.Info.Achievement;
 using NPOI.HSSF.UserModel;
@@ -18,15 +17,13 @@ namespace Fort.Export
         [MenuItem("Fort/Import-Export/Achievement/Export Achievements")]
         public static void ExportAchievements()
         {
-            FortBacktoryEditorConnection fortBacktoryEditorConnection = new FortBacktoryEditorConnection();
-            fortBacktoryEditorConnection.Call<int>("Ghaz", null);
             string path = EditorUtility.SaveFilePanel("Export Achievements", "", "", "xls");
             if (string.IsNullOrEmpty(path))
                 return;
             using (Stream writer = File.Create(path))
             {
                 ExportData exportData = new ExportData();
-                foreach (AchievementInfo achievementInfo in InfoResolver.FortInfo.Achievement.AchievementInfos)
+                foreach (AchievementInfo achievementInfo in InfoResolver.Resolve<FortInfo>().Achievement.AchievementInfos)
                 {
 
                     NoneLevelBaseAchievementInfo noneLevelBaseAchievementInfo =
@@ -49,7 +46,7 @@ namespace Fort.Export
                             Value = noneLevelBaseAchievementInfo.Score,
                             Type = typeof(int)
                         });
-                        foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                        foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                         {
                             exportRow.AddParameter(valueDefenition, new Parameter
                             {
@@ -88,7 +85,7 @@ namespace Fort.Export
                                 Value = achievementLevelInfo.Score,
                                 Type = typeof(int)
                             });
-                            foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                            foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                             {
                                 exportRow.AddParameter(valueDefenition, new Parameter
                                 {
@@ -134,7 +131,7 @@ namespace Fort.Export
                 Dictionary<string,Type> parameters = new Dictionary<string, Type>();
                 parameters["Id"] = typeof (string);
                 parameters["Name"] = typeof (string);
-                foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                 {
                     parameters[valueDefenition] = typeof (int);
                 }
@@ -149,9 +146,9 @@ namespace Fort.Export
                     if(!exportRow.ContainsParameter("Id"))
                         continue;
                     string id = (string)exportRow.GetValue("Id").Value;
-                    if(!InfoResolver.FortInfo.Achievement.AchievementTokens.ContainsKey(id))
+                    if(!InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens.ContainsKey(id))
                         continue;
-                    AchievementToken achievementToken = InfoResolver.FortInfo.Achievement.AchievementTokens[id];
+                    AchievementToken achievementToken = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens[id];
                     if (achievementToken.NoneLevelBase)
                     {
                         NoneLevelBaseAchievementInfo noneLevelBaseAchievementInfo = (NoneLevelBaseAchievementInfo)achievementToken.AchievementInfo;
@@ -159,7 +156,7 @@ namespace Fort.Export
                         {
                             noneLevelBaseAchievementInfo.Score = (int) exportRow.GetValue("Score").Value;
                         }
-                        foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                        foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                         {
                             if (exportRow.ContainsParameter(valueDefenition))
                             {
@@ -176,7 +173,7 @@ namespace Fort.Export
                         {
                             achievementLevelInfo.Score = (int)exportRow.GetValue("Score").Value;
                         }
-                        foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                        foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                         {
                             if (exportRow.ContainsParameter(valueDefenition))
                             {
@@ -189,7 +186,7 @@ namespace Fort.Export
                     }
                 }
             }
-            InfoResolver.FortInfo.Save();
+            InfoResolver.Resolve<FortInfo>().Save();
         }
     }
 }

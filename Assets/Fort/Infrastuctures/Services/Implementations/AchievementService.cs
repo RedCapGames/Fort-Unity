@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fort.Info;
 using Fort.Info.Achievement;
+using Fort.Inspector;
 using UnityEngine;
 
 namespace Fort
@@ -29,8 +30,8 @@ namespace Fort
             if (achievementStoredData == null)
                 achievementStoredData = new AchievementStoredData();
             Dictionary<AchievementInfo, AchievementToken[]> achievementTokenses =
-                claimedAchievementIds.Where(s => InfoResolver.FortInfo.Achievement.AchievementTokens.ContainsKey(s))
-                    .Select(s => InfoResolver.FortInfo.Achievement.AchievementTokens[s])
+                claimedAchievementIds.Where(s => InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens.ContainsKey(s))
+                    .Select(s => InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens[s])
                     .GroupBy(token => token.AchievementInfo)
                     .ToDictionary(tokens => tokens.Key, tokens => tokens.Select(token => token).ToArray());
             foreach (KeyValuePair<AchievementInfo, AchievementToken[]> pair in achievementTokenses)
@@ -76,7 +77,7 @@ namespace Fort
         public void ClaimAchievement(Type noneLevelBaseType)
         {
             NoneLevelBaseAchievementInfo noneLevelBaseAchievementInfo =
-                (NoneLevelBaseAchievementInfo) InfoResolver.FortInfo.Achievement.AchievementTypes[noneLevelBaseType];
+                (NoneLevelBaseAchievementInfo) InfoResolver.Resolve<FortInfo>().Achievement.AchievementTypes[noneLevelBaseType];
             string achievementId = noneLevelBaseAchievementInfo.Id;
             AchievementStoredData achievementStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<AchievementStoredData>();
@@ -104,7 +105,7 @@ namespace Fort
 
         public void ClaimAchievement(Type levelBaseType, int achivementLevelIndex)
         {
-            AchievementInfo achievementinfo = InfoResolver.FortInfo.Achievement.AchievementTypes[levelBaseType];
+            AchievementInfo achievementinfo = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTypes[levelBaseType];
             Array achivementLevelInfos =
                 (Array) achievementinfo.GetType().GetProperty("LevelInfo").GetValue(achievementinfo, new object[0]);
             if (achivementLevelIndex >= achivementLevelInfos.Length)
@@ -148,7 +149,7 @@ namespace Fort
 
         public bool IsAchievementClaimed(Type noneLevelBaseType)
         {
-            string achievementId = InfoResolver.FortInfo.Achievement.AchievementTypes[noneLevelBaseType].Id;
+            string achievementId = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTypes[noneLevelBaseType].Id;
             AchievementStoredData achievementStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<AchievementStoredData>();
             if (achievementStoredData == null)
@@ -158,7 +159,7 @@ namespace Fort
 
         public int GetAchievementClaimedIndex(Type levelBaseType)
         {
-            AchievementInfo achievementinfo = InfoResolver.FortInfo.Achievement.AchievementTypes[levelBaseType];
+            AchievementInfo achievementinfo = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTypes[levelBaseType];
             AchievementStoredData achievementStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<AchievementStoredData>();
             if (achievementStoredData == null)
@@ -182,7 +183,7 @@ namespace Fort
                     Score = achievementStoredData.ServerAchievementInfos[id].Score
                 };
             }
-            AchievementToken achievementToken = InfoResolver.FortInfo.Achievement.AchievementTokens[id];
+            AchievementToken achievementToken = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens[id];
             if (achievementToken.NoneLevelBase)
             {
                 return new ScoreBalance

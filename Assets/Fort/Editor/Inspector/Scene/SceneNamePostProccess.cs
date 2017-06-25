@@ -16,7 +16,7 @@ namespace Fort.Inspector
                 if (sceneAsset != null)
                 {
                     FortScene[] fortScenes =
-                        TypeHelper.FindType(InfoResolver.FortInfo, typeof (FortScene)).Cast<FortScene>().ToArray();
+                        TypeHelper.FindType(InfoResolver.Resolve<FortInfo>(), typeof (FortScene)).Cast<FortScene>().ToArray();
                     foreach (FortScene fortScene in fortScenes.Where(scene => scene != null))
                     {
                         if (fortScene.SceneName == movedFromAssetPaths[i])
@@ -25,7 +25,7 @@ namespace Fort.Inspector
                         }
                     }
                     FortInfoScriptable fortInfoScriptable = Resources.Load<FortInfoScriptable>("FortInfo");
-                    fortInfoScriptable.Save(InfoResolver.FortInfo);
+                    fortInfoScriptable.Save(InfoResolver.Resolve<FortInfo>());
                     EditorUtility.SetDirty(fortInfoScriptable);
                 }
             }

@@ -11,7 +11,7 @@ namespace Fort
         List<ComplitionDeferred<ServerSettings>> _deferreds = new List<ComplitionDeferred<ServerSettings>>();
         void Start()
         {
-            if (InfoResolver.FortInfo.ServerConnectionProvider != null)
+            if (InfoResolver.Resolve<FortInfo>().ServerConnectionProvider != null)
                 ResolveServerSettings();
         }
         #region Implementation of ISettingService

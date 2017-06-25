@@ -17,7 +17,7 @@ namespace Fort
             get
             {
                 return
-                    InfoResolver.FortInfo.Advertisement.AdvertisementProviders.Any(
+                    InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.Any(
                         priority => priority.AdvertisementProvider.IsVideoSupported);
             }
         }
@@ -26,7 +26,7 @@ namespace Fort
             get
             {
                 return
-                    InfoResolver.FortInfo.Advertisement.AdvertisementProviders.Any(
+                    InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.Any(
                         priority => priority.AdvertisementProvider.IsStandardBannerSupported);
             }
         }
@@ -35,7 +35,7 @@ namespace Fort
             get
             {
                 return
-                    InfoResolver.FortInfo.Advertisement.AdvertisementProviders.Any(
+                    InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.Any(
                         priority => priority.AdvertisementProvider.IsInterstitialBannerSupported);
             }
         }
@@ -60,7 +60,7 @@ namespace Fort
                 videoProviderPriority = serverSettings.AdvertisementSettings.VideoPriority;
                 serverCount = videoProviderPriority.Select(
                     s =>
-                        InfoResolver.FortInfo.Advertisement.AdvertisementProviders.First(
+                        InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.First(
                             priority =>
                                 priority.AdvertisementProvider != null && priority.AdvertisementProvider.Name == s)
                             .AdvertisementProvider).Count();
@@ -69,7 +69,7 @@ namespace Fort
             if (serverCount == 0)
             {
                 videoProviderPriority =
-                    InfoResolver.FortInfo.Advertisement.AdvertisementProviders.Where(
+                    InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.Where(
                         priority =>
                             priority.AdvertisementProvider != null && priority.AdvertisementProvider.IsVideoSupported)
                         .Select((priority, i) => new { Priority = priority, Index = i })
@@ -80,7 +80,7 @@ namespace Fort
             IAdvertisementProvider[] providers =
                 videoProviderPriority.Select(
                     s =>
-                        InfoResolver.FortInfo.Advertisement.AdvertisementProviders.First(
+                        InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.First(
                             priority =>
                                 priority.AdvertisementProvider != null && priority.AdvertisementProvider.Name == s)
                             .AdvertisementProvider).ToArray();
@@ -127,7 +127,7 @@ namespace Fort
         public void ChangeStandardBannerPosition(StandardBannerVerticalAlignment verticalAlignment,
             StandardBannerHorizantalAlignment horizantalAlignment)
         {
-            foreach (AdvertisementPriority advertisementPriority in InfoResolver.FortInfo.Advertisement.AdvertisementProviders.Where(priority => priority.AdvertisementProvider != null && priority.AdvertisementProvider.IsStandardBannerSupported))
+            foreach (AdvertisementPriority advertisementPriority in InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.Where(priority => priority.AdvertisementProvider != null && priority.AdvertisementProvider.IsStandardBannerSupported))
             {
                 advertisementPriority.AdvertisementProvider.ChangeStandardBannerPosition(verticalAlignment, horizantalAlignment);
             }
@@ -146,10 +146,10 @@ namespace Fort
             if (serverSettings != null && serverSettings.AdvertisementSettings != null &&
                 string.IsNullOrEmpty(serverSettings.AdvertisementSettings.StandartBannerPriority))
             {
-                if (InfoResolver.FortInfo.Advertisement.AdvertisementProviders != null)
+                if (InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders != null)
                 {
                     AdvertisementPriority advertisementPriority =
-                        InfoResolver.FortInfo.Advertisement.AdvertisementProviders.FirstOrDefault(
+                        InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.FirstOrDefault(
                             priority => priority.AdvertisementProvider != null &&
                                         priority.AdvertisementProvider.IsStandardBannerSupported);
                     if (advertisementPriority != null)
@@ -160,10 +160,10 @@ namespace Fort
             }
             if (string.IsNullOrEmpty(advertisementProvider))
             {
-                if (InfoResolver.FortInfo.Advertisement.AdvertisementProviders != null)
+                if (InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders != null)
                 {
                     AdvertisementPriority advertisementPriority =
-                        InfoResolver.FortInfo.Advertisement.AdvertisementProviders.Where(
+                        InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.Where(
                             priority =>
                                 priority.AdvertisementProvider != null &&
                                 priority.AdvertisementProvider.IsStandardBannerSupported)
@@ -178,16 +178,16 @@ namespace Fort
             }
             if (string.IsNullOrEmpty(advertisementProvider))
                 throw new Exception("No Advertisement provider found for Standard Banner");
-            if (InfoResolver.FortInfo.Advertisement.AdvertisementProviders != null)
+            if (InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders != null)
             {
-                InfoResolver.FortInfo.Advertisement.AdvertisementProviders.First(priority => priority.AdvertisementProvider.Name == advertisementProvider).AdvertisementProvider.ShowStandardBanner();
+                InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.First(priority => priority.AdvertisementProvider.Name == advertisementProvider).AdvertisementProvider.ShowStandardBanner();
                 ServiceLocator.Resolve<IAnalyticsService>().StatStandardBanner(advertisementProvider);
             }
         }
 
         public void HideStandardBanner()
         {
-            foreach (AdvertisementPriority advertisementPriority in InfoResolver.FortInfo.Advertisement.AdvertisementProviders.Where(priority => priority.AdvertisementProvider != null && priority.AdvertisementProvider.IsStandardBannerSupported))
+            foreach (AdvertisementPriority advertisementPriority in InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.Where(priority => priority.AdvertisementProvider != null && priority.AdvertisementProvider.IsStandardBannerSupported))
             {
                 advertisementPriority.AdvertisementProvider.HideStandardBanner();
             }
@@ -206,10 +206,10 @@ namespace Fort
             if (serverSettings != null && serverSettings.AdvertisementSettings != null &&
                 string.IsNullOrEmpty(serverSettings.AdvertisementSettings.InterstiatialBannerPriority))
             {
-                if (InfoResolver.FortInfo.Advertisement.AdvertisementProviders != null)
+                if (InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders != null)
                 {
                     AdvertisementPriority advertisementPriority =
-                        InfoResolver.FortInfo.Advertisement.AdvertisementProviders.FirstOrDefault(
+                        InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.FirstOrDefault(
                             priority => priority.AdvertisementProvider != null &&
                                         priority.AdvertisementProvider.IsInterstitialBannerSupported);
                     if (advertisementPriority != null)
@@ -220,10 +220,10 @@ namespace Fort
             }
             if (string.IsNullOrEmpty(advertisementProvider))
             {
-                if (InfoResolver.FortInfo.Advertisement.AdvertisementProviders != null)
+                if (InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders != null)
                 {
                     AdvertisementPriority advertisementPriority =
-                        InfoResolver.FortInfo.Advertisement.AdvertisementProviders.Where(
+                        InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.Where(
                             priority =>
                                 priority.AdvertisementProvider != null &&
                                 priority.AdvertisementProvider.IsInterstitialBannerSupported)
@@ -238,9 +238,9 @@ namespace Fort
             }
             if (string.IsNullOrEmpty(advertisementProvider))
                 throw new Exception("No Advertisement provider found for Interstitial Banner");
-            if (InfoResolver.FortInfo.Advertisement.AdvertisementProviders != null)
+            if (InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders != null)
             {
-                InfoResolver.FortInfo.Advertisement.AdvertisementProviders.First(priority => priority.AdvertisementProvider.Name == advertisementProvider).AdvertisementProvider.ShowStandardBanner();
+                InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.First(priority => priority.AdvertisementProvider.Name == advertisementProvider).AdvertisementProvider.ShowStandardBanner();
                 ServiceLocator.Resolve<IAnalyticsService>().StatInterstitialBanner(advertisementProvider);
             }
         }

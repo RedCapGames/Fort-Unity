@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Backtory">
-      <HintPath>..\..\Assets\Backtory\Backtory.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Assets\UnityPackages\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,14 +57,17 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\AssetBundle\Utility.cs">
       <Link>Fort\Infrastuctures\AssetBundle\Utility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Dispatcher\GameDispatcher.cs">
+      <Link>Fort\Infrastuctures\Dispatcher\GameDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Dispatcher\IDispatcher.cs">
+      <Link>Fort\Infrastuctures\Dispatcher\IDispatcher.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\PersianHelper.cs">
       <Link>Fort\Infrastuctures\Helpers\PersianHelper.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\TypeExtensions.cs">
-      <Link>Fort\Infrastuctures\Helpers\TypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\TypeFinder.cs">
-      <Link>Fort\Infrastuctures\Helpers\TypeFinder.cs</Link>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\TypeHelper.cs">
+      <Link>Fort\Infrastuctures\Helpers\TypeHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Achievement\Achievement.cs">
       <Link>Fort\Infrastuctures\Infoes\Achievement\Achievement.cs</Link>
@@ -150,11 +153,32 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameLevel\SimpleGameLevelInfo.cs">
       <Link>Fort\Infrastuctures\Infoes\GameLevel\SimpleGameLevelInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\IInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\IInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\InfoResolver.cs">
       <Link>Fort\Infrastuctures\Infoes\InfoResolver.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Invitation\InvitationInfo.cs">
       <Link>Fort\Infrastuctures\Infoes\Invitation\InvitationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Language\FortLanguage.cs">
+      <Link>Fort\Infrastuctures\Infoes\Language\FortLanguage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Language\LanguageEditorInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Language\LanguageEditorInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Language\LanguageInfo.cs">
+      <Link>Fort\Infrastuctures\Infoes\Language\LanguageInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Language\LanguageItem.cs">
+      <Link>Fort\Infrastuctures\Infoes\Language\LanguageItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Language\LanguageScriptableObject.cs">
+      <Link>Fort\Infrastuctures\Infoes\Language\LanguageScriptableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Language\OverridableLanguageAttribute.cs">
+      <Link>Fort\Infrastuctures\Infoes\Language\OverridableLanguageAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\BazzarMarketInfo.cs">
       <Link>Fort\Infrastuctures\Infoes\Market\BazzarMarketInfo.cs</Link>
@@ -333,6 +357,15 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Serializer\SerializerTokens\TypeSerializerToken.cs">
       <Link>Fort\Infrastuctures\Serializer\SerializerTokens\TypeSerializerToken.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\ServerConnection\IEditorConnection.cs">
+      <Link>Fort\Infrastuctures\ServerConnection\IEditorConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\ServerConnection\IServerConnectionProvider.cs">
+      <Link>Fort\Infrastuctures\ServerConnection\IServerConnectionProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\ServerConnection\IUserConnection.cs">
+      <Link>Fort\Infrastuctures\ServerConnection\IUserConnection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\ServiceLocator.cs">
       <Link>Fort\Infrastuctures\ServiceLocator.cs</Link>
     </Compile>
@@ -369,6 +402,9 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IInvitationService.cs">
       <Link>Fort\Infrastuctures\Services\IInvitationService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\ILanguageService.cs">
+      <Link>Fort\Infrastuctures\Services\ILanguageService.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\ILeaderboardService.cs">
       <Link>Fort\Infrastuctures\Services\ILeaderboardService.cs</Link>
     </Compile>
@@ -392,6 +428,9 @@
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\InvitationService.cs">
       <Link>Fort\Infrastuctures\Services\Implementations\InvitationService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\LanguageService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\LanguageService.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\LeaderboardService.cs">
       <Link>Fort\Infrastuctures\Services\Implementations\LeaderboardService.cs</Link>

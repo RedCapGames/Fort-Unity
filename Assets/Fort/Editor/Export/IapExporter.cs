@@ -20,7 +20,7 @@ namespace Assets.Fort.Editor.Export
             using (Stream writer = File.Create(path))
             {
                 ExportData exportData = new ExportData();
-                foreach (IapPackageInfo iapPackageInfo in InfoResolver.FortInfo.Package.Packages)
+                foreach (IapPackageInfo iapPackageInfo in InfoResolver.Resolve<FortInfo>().Package.Packages)
                 {
                     ExportRow exportRow = new ExportRow();
                     exportRow.AddParameter("Sku", new Parameter
@@ -28,7 +28,7 @@ namespace Assets.Fort.Editor.Export
                         Value = iapPackageInfo.Sku,
                         Type = typeof(string)
                     });
-                    LanguageInfo[] languageInfos = LanguageInfoResolver.LanguageEditorInfo.Languages;
+                    LanguageInfo[] languageInfos = EditorInfoResolver.Resolve<LanguageEditorInfo>().Languages;
                     if (languageInfos.Length == 1)
                     {
                         if (iapPackageInfo.DisplayName != null)
@@ -48,7 +48,7 @@ namespace Assets.Fort.Editor.Export
                     }
                     else
                     {
-                        foreach (LanguageInfo languageInfo in LanguageInfoResolver.LanguageEditorInfo.Languages)
+                        foreach (LanguageInfo languageInfo in EditorInfoResolver.Resolve<LanguageEditorInfo>().Languages)
                         {
                             if (iapPackageInfo.DisplayName != null)
                             {

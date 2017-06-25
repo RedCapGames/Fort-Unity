@@ -21,7 +21,7 @@ namespace Fort.Export
             using (Stream writer = File.Create(path))
             {
                 ExportData exportData = new ExportData();
-                foreach (PurchasableItemInfo purchasableItemInfo in InfoResolver.FortInfo.Purchase.GetAllPurchasableItemInfos())
+                foreach (PurchasableItemInfo purchasableItemInfo in InfoResolver.Resolve<FortInfo>().Purchase.GetAllPurchasableItemInfos())
                 {
                     ExportRow exportRow = new ExportRow();
                     exportRow.AddParameter("Id", new Parameter
@@ -54,7 +54,7 @@ namespace Fort.Export
                     {
 
 
-                        foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                        foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                         {
                             exportRow.AddParameter(string.Format("PurchaseCost-{0}", valueDefenition), new Parameter
                             {
@@ -65,7 +65,7 @@ namespace Fort.Export
                                 Type = typeof(int)
                             });
                         }
-                        foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                        foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                         {
                             exportRow.AddParameter(string.Format("RentCost-{0}", valueDefenition), new Parameter
                             {
@@ -117,7 +117,7 @@ namespace Fort.Export
                                     Type = typeof(bool)
                                 });
 
-                                foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                                foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                                 {
                                     levelExportRow.AddParameter(string.Format("PurchaseCost-{0}", valueDefenition), new Parameter
                                     {
@@ -128,7 +128,7 @@ namespace Fort.Export
                                         Type = typeof(int)
                                     });
                                 }
-                                foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                                foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                                 {
                                     levelExportRow.AddParameter(string.Format("RentCost-{0}", valueDefenition), new Parameter
                                     {
@@ -179,7 +179,7 @@ namespace Fort.Export
                 //parameters["DisplayName"] = typeof(string);
                 parameters["Description"] = typeof(string);
                 parameters["DefaultBought"] = typeof(bool);
-                foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                 {
                     parameters[string.Format("PurchaseCost-{0}", valueDefenition)] = typeof(int);
                     parameters[string.Format("RentCost-{0}", valueDefenition)] = typeof(int);
@@ -195,9 +195,9 @@ namespace Fort.Export
                     if (!exportRow.ContainsParameter("Id"))
                         continue;
                     string id = (string)exportRow.GetValue("Id").Value;
-                    if (!InfoResolver.FortInfo.Purchase.PurchasableTokens.ContainsKey(id))
+                    if (!InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens.ContainsKey(id))
                         continue;
-                    PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[id];
+                    PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[id];
                     if (purchasableToken.NoneLevelBase)
                     {
                         NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo = (NoneLevelBasePurchasableItemInfo)purchasableToken.PurchasableItemInfo;
@@ -220,7 +220,7 @@ namespace Fort.Export
                         if(noneLevelBasePurchasableItemInfo.Costs == null)
                             noneLevelBasePurchasableItemInfo.Costs = new ItemCosts();
                         
-                        foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                        foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                         {
                             string purchaseValueDefenition = string.Format("PurchaseCost-{0}", valueDefenition);
                             if (exportRow.ContainsParameter(purchaseValueDefenition))
@@ -275,7 +275,7 @@ namespace Fort.Export
                             {
                                 purchasableLevelInfo.DefaultBought = (bool)exportRow.GetValue("DefaultBought").Value;
                             }
-                            foreach (string valueDefenition in InfoResolver.FortInfo.ValueDefenitions)
+                            foreach (string valueDefenition in InfoResolver.Resolve<FortInfo>().ValueDefenitions)
                             {
                                 string purchaseValueDefenition = string.Format("PurchaseCost-{0}", valueDefenition);
                                 if (exportRow.ContainsParameter(purchaseValueDefenition))
@@ -297,7 +297,7 @@ namespace Fort.Export
                     }
                 }
             }
-            InfoResolver.FortInfo.Save();
+            InfoResolver.Resolve<FortInfo>().Save();
         }
     }
 }

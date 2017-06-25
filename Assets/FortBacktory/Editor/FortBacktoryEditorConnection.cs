@@ -1,15 +1,15 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
 using Assets.Fort.Editor.Dispatcher;
+using Assets.FortBacktory;
 using Fort.Dispatcher;
+using Fort.Info;
 using Fort.ServerConnection;
+using FortBacktory.Info;
 using Newtonsoft.Json;
-using UnityEditor;
 
 namespace Fort.Backtory
 {
@@ -23,8 +23,8 @@ namespace Fort.Backtory
         private ComplitionPromise<BactoryMasterLoginResponse> MasterLogin()
         {
             ComplitionDeferred<BactoryMasterLoginResponse> deferred = new ComplitionDeferred<BactoryMasterLoginResponse>();
-            string authenticationId = "5911f0bee4b051bb1e6e2ecb";
-            string authenticationMasterKey = "a28ecd5fdc4f423ea9fd56f0";
+            string authenticationId = InfoResolver.Resolve<BacktoryInfo>().AuthenticationId;
+            string authenticationMasterKey = EditorInfoResolver.Resolve<BacktoryEditorInfo>().AuthenticationMasterKey;
             string url = "http://api.backtory.com/auth/login";
             try
             {
@@ -61,8 +61,10 @@ namespace Fort.Backtory
         {
             
             Deferred<T,ICallError> deferred = new Deferred<T, ICallError>();
-            IDispatcher dispatcher = EditorDispatcher.Dispatcher;            
-            string url = string.Format("https://api.backtory.com/cloud-code/{0}/{1}", "5911f0bfe4b051bb1e6e2ecf", methodName);
+            IDispatcher dispatcher = EditorDispatcher.Dispatcher;
+            string url = string.Format("https://api.backtory.com/cloud-code/{0}/{1}", InfoResolver.Resolve<BacktoryInfo>().CloudId, methodName);
+            if (!string.IsNullOrEmpty(BacktoryCloudUrl.Url))
+                url = new Uri(new Uri(BacktoryCloudUrl.Url), new Uri(string.Format("/{0}", methodName))).ToString();
             ThreadPool.QueueUserWorkItem(state =>
             {
                 MasterLogin().Then(response =>

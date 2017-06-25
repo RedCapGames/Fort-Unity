@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Fort.Info;
 using UnityEditor;
 
 namespace Fort.Inspector
@@ -37,7 +38,7 @@ namespace Fort.Inspector
                 return;
             _targetType = FindGenericFortScriptableObjectInParent(target.GetType()).GetGenericArguments().First();
             _target = ((FortScriptableObject) target).Load(_targetType);
-            OnTargetChanged(_target);
+            InternalTargetChanged(_target);
             _presentationData = ((FortScriptableObject) target).LoadPresentationData();
             _presentation = new ConcretePresentation();
            
@@ -61,7 +62,7 @@ namespace Fort.Inspector
             {
                 ((FortScriptableObject)target).Save(_target);
                 isChanged = true;
-                OnTargetChanged(_target);
+                InternalTargetChanged(_target);
             }
             if(isChanged)
                 EditorUtility.SetDirty(target);
@@ -75,9 +76,19 @@ namespace Fort.Inspector
 
         #endregion
 
+        private void InternalTargetChanged(object targetObject)
+        {
+            InfoAttribute infoAttribute = targetObject.GetType().GetCustomAttribute<InfoAttribute>();
+            if(infoAttribute.Editor)
+                InfoResolver.UpdateInfo(targetObject.GetType(),(IInfo) targetObject);
+            else
+                EditorInfoResolver.UpdateInfo(targetObject.GetType(), (IInfo)targetObject);
+            OnTargetChanged(targetObject);
+        }
+
         protected virtual void OnTargetChanged(object targetObject)
         {
-            
+
         }
     }
     

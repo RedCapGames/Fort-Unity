@@ -1,6 +1,8 @@
 ﻿namespace Fort.Info.Language
 {
-    public class LanguageEditorInfo
+
+    [Info(typeof(LanguageScriptableObject),"Fort",true)]
+    public class LanguageEditorInfo:IInfo
     {
         public LanguageEditorInfo()
         {

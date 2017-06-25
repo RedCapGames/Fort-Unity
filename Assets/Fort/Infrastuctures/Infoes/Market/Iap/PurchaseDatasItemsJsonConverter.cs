@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Fort.Info.PurchasableItem;
+using Fort.Inspector;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -50,9 +51,9 @@ namespace Fort.Info.Market.Iap
             return jToken.ToObject<string[]>().Select(s =>
             {
                 PurchaseData result;
-                if (!InfoResolver.FortInfo.Purchase.PurchasableTokens.ContainsKey(s))
+                if (!InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens.ContainsKey(s))
                     return null;
-                PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[s];
+                PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[s];
                 if (purchasableToken.NoneLevelBase)
                 {
                     result = new PurchaseNoneLevelBaseData

@@ -23,7 +23,7 @@ namespace Assets.Fort.Editor.Export
             using (Stream writer = File.Create(path))
             {
                 ExportData exportData = new ExportData();
-                foreach (GameLevelCategory gameLevelCategory in InfoResolver.FortInfo.GameLevel.LevelCategories.Select(pair => pair.Value))
+                foreach (GameLevelCategory gameLevelCategory in InfoResolver.Resolve<FortInfo>().GameLevel.LevelCategories.Select(pair => pair.Value))
                 {
                     ExportRow exportRow = new ExportRow();
                     exportRow.AddParameter("Id", new Parameter
@@ -65,7 +65,7 @@ namespace Assets.Fort.Editor.Export
             using (Stream writer = File.Create(path))
             {
                 ExportData exportData = new ExportData();
-                foreach (GameLevelInfo gameLevel in InfoResolver.FortInfo.GameLevel.GameLevelInfos.Select(pair => pair.Value))
+                foreach (GameLevelInfo gameLevel in InfoResolver.Resolve<FortInfo>().GameLevel.GameLevelInfos.Select(pair => pair.Value))
                 {
                     ExportRow exportRow = new ExportRow();
                     exportRow.AddParameter("Id", new Parameter
@@ -129,9 +129,9 @@ namespace Assets.Fort.Editor.Export
                     if (!exportRow.ContainsParameter("Id"))
                         continue;
                     string id = (string)exportRow.GetValue("Id").Value;
-                    if (!InfoResolver.FortInfo.GameLevel.LevelCategories.ContainsKey(id))
+                    if (!InfoResolver.Resolve<FortInfo>().GameLevel.LevelCategories.ContainsKey(id))
                         continue;
-                    GameLevelCategory gameLevelCategory = InfoResolver.FortInfo.GameLevel.LevelCategories[id];
+                    GameLevelCategory gameLevelCategory = InfoResolver.Resolve<FortInfo>().GameLevel.LevelCategories[id];
                     if (exportRow.ContainsParameter("DefaultScene"))
                     {
 /*                        gameLevelCategory.DefaultScene = new FortScene();
@@ -149,7 +149,7 @@ namespace Assets.Fort.Editor.Export
 
                 }
             }
-            InfoResolver.FortInfo.Save();
+            InfoResolver.Resolve<FortInfo>().Save();
         }
 
         [MenuItem("Fort/Import-Export/GameLevel/Import Game Levels")]
@@ -182,9 +182,9 @@ namespace Assets.Fort.Editor.Export
                     if (!exportRow.ContainsParameter("Id"))
                         continue;
                     string id = (string)exportRow.GetValue("Id").Value;
-                    if (!InfoResolver.FortInfo.GameLevel.GameLevelInfos.ContainsKey(id))
+                    if (!InfoResolver.Resolve<FortInfo>().GameLevel.GameLevelInfos.ContainsKey(id))
                         continue;
-                    GameLevelInfo gameLevelInfo = InfoResolver.FortInfo.GameLevel.GameLevelInfos[id];
+                    GameLevelInfo gameLevelInfo = InfoResolver.Resolve<FortInfo>().GameLevel.GameLevelInfos[id];
                     if (exportRow.ContainsParameter("Scene"))
                     {
 /*                        gameLevelInfo.Scene = new FortScene();
@@ -201,7 +201,7 @@ namespace Assets.Fort.Editor.Export
                     exportRow.FillCustomExportParameter(gameLevelInfo);
                 }
             }
-            InfoResolver.FortInfo.Save();
+            InfoResolver.Resolve<FortInfo>().Save();
         }
     }
 }

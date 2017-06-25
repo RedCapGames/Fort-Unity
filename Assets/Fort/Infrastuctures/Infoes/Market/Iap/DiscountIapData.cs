@@ -21,7 +21,7 @@ namespace Fort.Info.Market.Iap
         {
             InstanceResolverResult result = new InstanceResolverResult
             {
-                PossibleInstanceTokens = InfoResolver.FortInfo.Package.Packages.Where(info => !(info is DiscountIapPackage)).Select(info => new InstanceToken(info.Sku, info)).ToArray()
+                PossibleInstanceTokens = InfoResolver.Resolve<FortInfo>().Package.Packages.Where(info => !(info is DiscountIapPackage)).Select(info => new InstanceToken(info.Sku, info)).ToArray()
 
             };
             InstanceToken instanceToken =

@@ -17,7 +17,7 @@ namespace Fort
 
         void Start()
         {
-            if (InfoResolver.FortInfo.ServerConnectionProvider != null && IsRegistered)
+            if (InfoResolver.Resolve<FortInfo>().ServerConnectionProvider != null && IsRegistered)
                 FullUpdate();
         }
         #region Implementation of IUserManagementService
@@ -72,9 +72,9 @@ namespace Fort
         public ErrorPromise<RegisterationErrorResultStatus> Register(string username, string password)
         {
             ErrorDeferred<RegisterationErrorResultStatus> deferred = new ErrorDeferred<RegisterationErrorResultStatus>();
-            if(InfoResolver.FortInfo.ServerConnectionProvider == null)
+            if(InfoResolver.Resolve<FortInfo>().ServerConnectionProvider == null)
                 throw new Exception("No Server connection provider added");
-            InfoResolver.FortInfo.ServerConnectionProvider.UserConnection.Register(username,password).Then(() =>
+            InfoResolver.Resolve<FortInfo>().ServerConnectionProvider.UserConnection.Register(username,password).Then(() =>
             {
                 ServiceLocator.Resolve<IAnalyticsService>().StatUserRegisterd();
                 ServiceLocator.Resolve<IStorageService>().UpdateData(new AuthenticationInfo { UserName = username, Password = password });
@@ -103,9 +103,9 @@ namespace Fort
 
         public Promise Login(string username, string password)
         {
-            if (InfoResolver.FortInfo.ServerConnectionProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().ServerConnectionProvider == null)
                 throw new Exception("No Server connection provider added");
-            return InfoResolver.FortInfo.ServerConnectionProvider.UserConnection.Login(username, password);
+            return InfoResolver.Resolve<FortInfo>().ServerConnectionProvider.UserConnection.Login(username, password);
         }
 
         public void AddScoreAndBalance(int score, Balance balance)

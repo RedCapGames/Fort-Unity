@@ -27,7 +27,7 @@ namespace Fort
                     AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
                     AndroidJavaClass intentClass = new AndroidJavaClass("com.redcap.textshare.ShareHelper");
                     StringBuilder builder = new StringBuilder();
-                    foreach (MarketInfo marketInfo in InfoResolver.FortInfo.MarketInfos)
+                    foreach (MarketInfo marketInfo in InfoResolver.Resolve<FortInfo>().MarketInfos)
                     {
                         builder.AppendLine(string.Format("لینک بازی در {0}", marketInfo.MarketDisplayName));
                         builder.AppendLine(marketInfo.ApplicationUrl);
@@ -35,7 +35,7 @@ namespace Fort
                     builder.AppendLine("لینک اضافه شدن سکه به " +
                                        ServiceLocator.Resolve<IUserManagementService>().Username + "(بعد از نصب)");
 
-                    builder.AppendLine(InfoResolver.FortInfo.InvitationInfo.ShareUrl + token);
+                    builder.AppendLine(InfoResolver.Resolve<FortInfo>().InvitationInfo.ShareUrl + token);
                     intentClass.CallStatic("ShareText", jo, builder.ToString(), "دعوت و دریافت سکه");
                 });
             }

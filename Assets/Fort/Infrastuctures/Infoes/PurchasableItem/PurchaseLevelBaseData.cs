@@ -18,7 +18,7 @@ namespace Fort.Info.PurchasableItem
         {
             InstanceResolverResult result = new InstanceResolverResult
             {
-                PossibleInstanceTokens = InfoResolver.FortInfo.Purchase.GetAllPurchasableItemInfos().OfType<LevelBasePurchasableItemInfo>().Select(info => new InstanceToken(info.Name, info)).ToArray()
+                PossibleInstanceTokens = InfoResolver.Resolve<FortInfo>().Purchase.GetAllPurchasableItemInfos().OfType<LevelBasePurchasableItemInfo>().Select(info => new InstanceToken(info.Name, info)).ToArray()
             };
             InstanceToken instanceToken =
                 result.PossibleInstanceTokens.FirstOrDefault(token => ReferenceEquals(token.Value, data));

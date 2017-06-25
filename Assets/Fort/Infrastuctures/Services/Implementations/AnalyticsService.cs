@@ -16,20 +16,20 @@ namespace Fort
         public void StatItemPurchased(string itemId, Balance cost, int discount)
         {
 
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
-            if (!InfoResolver.FortInfo.Analytic.StatItemPurchased)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatItemPurchased)
                 return;
-            PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[itemId];
+            PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[itemId];
             if (purchasableToken.NoneLevelBase)
             {
-                InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(purchasableToken.PurchasableItemInfo.Name,
+                InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(purchasableToken.PurchasableItemInfo.Name,
                     purchasableToken.PurchasableItemInfo.DisplayName, "ItemPurchased",
                     new { ItemId = itemId, ItemName = purchasableToken.PurchasableItemInfo.Name, Cost = cost, Discount = discount });
             }
             else
             {
-                InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(purchasableToken.PurchasableItemInfo.Name,
+                InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(purchasableToken.PurchasableItemInfo.Name,
                     purchasableToken.PurchasableItemInfo.DisplayName, "ItemPurchased",
                     new
                     {
@@ -45,14 +45,14 @@ namespace Fort
 
         public void StatItemRent(string itemId, TimeSpan duration)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
-            if (!InfoResolver.FortInfo.Analytic.StatItemRented)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatItemRented)
                 return;
-            PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[itemId];
+            PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[itemId];
             if (purchasableToken.NoneLevelBase)
             {
-                InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(purchasableToken.PurchasableItemInfo.Name,
+                InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(purchasableToken.PurchasableItemInfo.Name,
                     purchasableToken.PurchasableItemInfo.DisplayName, "ItemRented",
                     new
                     {
@@ -64,7 +64,7 @@ namespace Fort
             }
             else
             {
-                InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(purchasableToken.PurchasableItemInfo.Name,
+                InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(purchasableToken.PurchasableItemInfo.Name,
                     purchasableToken.PurchasableItemInfo.DisplayName, "ItemRented",
                     new
                     {
@@ -78,15 +78,15 @@ namespace Fort
         }
         public void StatAchievementClaimed(string achievementId, ScoreBalance award)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatAchievementClaimed)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatAchievementClaimed)
                 return;
-            AchievementToken achievementToken = InfoResolver.FortInfo.Achievement.AchievementTokens[achievementId];
+            AchievementToken achievementToken = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens[achievementId];
             if (achievementToken.NoneLevelBase)
             {
-                InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(achievementToken.AchievementInfo.Name,
+                InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(achievementToken.AchievementInfo.Name,
                     achievementToken.AchievementInfo.DisplayName, "AchievementClaimed",
                     new
                     {
@@ -97,7 +97,7 @@ namespace Fort
             }
             else
             {
-                InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(achievementToken.AchievementInfo.Name,
+                InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(achievementToken.AchievementInfo.Name,
                     achievementToken.AchievementInfo.DisplayName, "AchievementClaimed",
                     new
                     {
@@ -111,22 +111,22 @@ namespace Fort
 
         public void StatIapPurchased(IapPackageInfo iapPackage, string market)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatIapPackePurchases)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatIapPackePurchases)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StatIapPackagePurchased(iapPackage.Sku, iapPackage.DisplayName, iapPackage.Price, market);
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StatIapPackagePurchased(iapPackage.Sku, iapPackage.DisplayName, iapPackage.Price, market);
         }
 
         public void StatIapFailed(IapPackageInfo iapPackage, string purchaseToken, string market, IapPurchaseFail iapPurchaseFail)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatIapPackePurchases)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatIapPackePurchases)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(iapPackage.Sku,
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(iapPackage.Sku,
                 "Iap Failed", "IapFailed",
                 new
                 {
@@ -139,12 +139,12 @@ namespace Fort
 
         public void StatIapRetry(IapPackageInfo iapPackage, string purchaseToken, string market)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatIapPackePurchases)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatIapPackePurchases)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(iapPackage.Sku,
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(iapPackage.Sku,
                 "Iap Retry", "IapRetry",
                 new
                 {
@@ -156,12 +156,12 @@ namespace Fort
 
         public void StatIapRetryFail(IapPackageInfo iapPackage, string purchaseToken, string market, IapRetryFail iapRetryFail)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatIapPackePurchases)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatIapPackePurchases)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(iapPackage.Sku,
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(iapPackage.Sku,
                 "Iap Retry Fail", "IapRetryFail",
                 new
                 {
@@ -174,104 +174,104 @@ namespace Fort
 
         public void StatVideoRequest(string advertismentProvider, int zone, bool skipable)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatVideo)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatVideo)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent("VideoRequest", "Video Request", "VideoRequest",
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent("VideoRequest", "Video Request", "VideoRequest",
                 new { AdvertismentProvider = advertismentProvider, Zone = zone, Skipable = skipable });
         }
 
         public void StatVideoResult(string advertismentProvider, int zone, bool skipable, ShowVideoResult videoResult)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatVideo)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatVideo)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent("VideoResult", "Video Result", "VideoResult",
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent("VideoResult", "Video Result", "VideoResult",
                 new { AdvertismentProvider = advertismentProvider, Zone = zone, Skipable = skipable, VideoResult = videoResult });
         }
 
         public void StatStandardBanner(string advertismentProvider)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatStandardBanner)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatStandardBanner)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent("StandardBanner", "Standard Banner", "StandardBanner",
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent("StandardBanner", "Standard Banner", "StandardBanner",
                 new { AdvertismentProvider = advertismentProvider });
         }
 
         public void StatInterstitialBanner(string advertismentProvider)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
-            if (!InfoResolver.FortInfo.Analytic.StatInterstitialBanner)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatInterstitialBanner)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent("InterstitialBanner", "Interstitial Banner", "InterstitialBanner",
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent("InterstitialBanner", "Interstitial Banner", "InterstitialBanner",
                 new { AdvertismentProvider = advertismentProvider });
         }
 
         public void StatInvitationShare()
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatInvitationShare)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatInvitationShare)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent("InvitationShare", "Invitation Share", "InvitationShare", new { });
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent("InvitationShare", "Invitation Share", "InvitationShare", new { });
         }
 
         public void StatInvitationApplied()
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatInvitationApplied)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatInvitationApplied)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent("InvitationApplied", "Invitation Applied", "InvitationApplied", new { });
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent("InvitationApplied", "Invitation Applied", "InvitationApplied", new { });
         }
 
         public void StatUserRegisterd()
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatUserRegistered)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatUserRegistered)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent("UserRegistered", "User Registered", "UserRegistered", new { });
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent("UserRegistered", "User Registered", "UserRegistered", new { });
         }
 
         public void StatGameLevelFinished(GameLevelInfo gameLevelInfo, ILevelFinishStat levelFinishStat)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatGameLevelFinished)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatGameLevelFinished)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(gameLevelInfo.Name, gameLevelInfo.DisplayName, "GameLevelFinished", new { LevelFinishStat = levelFinishStat, GameLevelId = gameLevelInfo.Id });
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(gameLevelInfo.Name, gameLevelInfo.DisplayName, "GameLevelFinished", new { LevelFinishStat = levelFinishStat, GameLevelId = gameLevelInfo.Id });
         }
 
         public void StatSceneLoaded(string sceneName)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
 
-            if (!InfoResolver.FortInfo.Analytic.StatSceneLoad)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatSceneLoad)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent("SceneLoaded", "Scene Loaded", "SceneLoaded", new { SceneName = sceneName });
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent("SceneLoaded", "Scene Loaded", "SceneLoaded", new { SceneName = sceneName });
         }
 
         public void StateCustomEvent(string eventName, string label, string category, object value)
         {
-            if (InfoResolver.FortInfo.Analytic.AnalyticsProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
-            if (!InfoResolver.FortInfo.Analytic.StatCustomEvent)
+            if (!InfoResolver.Resolve<FortInfo>().Analytic.StatCustomEvent)
                 return;
-            InfoResolver.FortInfo.Analytic.AnalyticsProvider.StateEvent(eventName, label, category, value);
+            InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider.StateEvent(eventName, label, category, value);
         }
 
         #endregion

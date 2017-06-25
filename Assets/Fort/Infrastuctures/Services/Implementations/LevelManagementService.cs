@@ -73,9 +73,9 @@ namespace Fort
 
         public void LoadGameLevelAsync(GameLevelInfo level)
         {
-            if(FortScene.IsNullOrEmpty(InfoResolver.FortInfo.GameLevel.LoaderScene.Value))
+            if(FortScene.IsNullOrEmpty(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value))
                 throw new Exception("No Loader Scene is defined in Game Level config");
-            ServiceLocator.Resolve<ISceneLoaderService>().Load(new SceneLoadParameters(InfoResolver.FortInfo.GameLevel.LoaderScene.Value.SceneName)
+            ServiceLocator.Resolve<ISceneLoaderService>().Load(new SceneLoadParameters(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value.SceneName)
             {
                 AddToSceneStack = true,
                 CaptureReturnKey = false,
@@ -90,7 +90,7 @@ namespace Fort
 
             return
                 ServiceLocator.Resolve<ISceneLoaderService>()
-                    .LoadAsync(new SceneLoadParameters(InfoResolver.FortInfo.GameLevel.LoaderScene.Value.SceneName)
+                    .LoadAsync(new SceneLoadParameters(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value.SceneName)
                     {
                         AddToSceneStack = true,
                         CaptureReturnKey = false,
@@ -110,19 +110,19 @@ namespace Fort
         {
             if (!FortScene.IsNullOrEmpty(level.Scene))
                 return level.Scene.Value.SceneName;
-            string categorySceneName = GetCategorySceneName(InfoResolver.FortInfo.GameLevel.LevelCategoriesParentMap[level.Id]);
+            string categorySceneName = GetCategorySceneName(InfoResolver.Resolve<FortInfo>().GameLevel.LevelCategoriesParentMap[level.Id]);
             if (!string.IsNullOrEmpty(categorySceneName))
                 return categorySceneName;
-            return FortScene.IsNullOrEmpty(InfoResolver.FortInfo.GameLevel.DefaultScene)?null: InfoResolver.FortInfo.GameLevel.DefaultScene.Value.SceneName;
+            return FortScene.IsNullOrEmpty(InfoResolver.Resolve<FortInfo>().GameLevel.DefaultScene)?null: InfoResolver.Resolve<FortInfo>().GameLevel.DefaultScene.Value.SceneName;
         }
 
         private string GetCategorySceneName(GameLevelCategory category)
         {
             if (!FortScene.IsNullOrEmpty(category.DefaultScene))
                 return category.DefaultScene.Value.SceneName;
-            if (InfoResolver.FortInfo.GameLevel.LevelCategoriesParentMap.ContainsKey(category.Id))
+            if (InfoResolver.Resolve<FortInfo>().GameLevel.LevelCategoriesParentMap.ContainsKey(category.Id))
             {
-                return GetCategorySceneName(InfoResolver.FortInfo.GameLevel.LevelCategoriesParentMap[category.Id]);
+                return GetCategorySceneName(InfoResolver.Resolve<FortInfo>().GameLevel.LevelCategoriesParentMap[category.Id]);
             }
             return string.Empty;
         }

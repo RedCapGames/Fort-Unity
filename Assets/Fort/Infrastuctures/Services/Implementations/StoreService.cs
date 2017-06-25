@@ -46,8 +46,8 @@ namespace Fort
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemStoredData>() ??
                 new PurchasableItemStoredData();
             Dictionary<PurchasableItemInfo, PurchasableToken[]> purchasableTokenses =
-                purchasedItemIds.Where(s => InfoResolver.FortInfo.Purchase.PurchasableTokens.ContainsKey(s))
-                    .Select(s => InfoResolver.FortInfo.Purchase.PurchasableTokens[s])
+                purchasedItemIds.Where(s => InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens.ContainsKey(s))
+                    .Select(s => InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[s])
                     .GroupBy(token => token.PurchasableItemInfo)
                     .ToDictionary(tokens => tokens.Key, tokens => tokens.Select(token => token).ToArray());
             foreach (KeyValuePair<PurchasableItemInfo, PurchasableToken[]> pair in purchasableTokenses)
@@ -151,7 +151,7 @@ namespace Fort
             {
                 return purchasableItemStoredData.ServerPurchasableItemInfos[id];
             }
-            PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[id];
+            PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[id];
             if (purchasableToken.NoneLevelBase)
                 return ((NoneLevelBasePurchasableItemInfo) purchasableToken.PurchasableItemInfo).Costs;
             return purchasableToken.PurchasableLevelInfo.Costs;
@@ -159,7 +159,7 @@ namespace Fort
 
         private void GetParentList(string id, List<NoneLevelBasePurchasableItemInfo> parents)
         {
-            PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[id];
+            PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[id];
             if (purchasableToken.Parent != null)
             {
                 parents.Add(purchasableToken.Parent);
@@ -176,7 +176,7 @@ namespace Fort
             string[] involvedItemIds =
                 parents.Select(info => info.Id)
                     .Concat(new[] {id})
-                    .SelectMany(s => InfoResolver.FortInfo.Purchase.PurchasableTokens[s].Bundles.Select(info => info.Id))
+                    .SelectMany(s => InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[s].Bundles.Select(info => info.Id))
                     .Concat(parents.Select(info => info.Id).Concat(new[] {id}))
                     .ToArray();
             PurchasableItemStoredData purchasableItemStoredData =
@@ -184,7 +184,7 @@ namespace Fort
                 new PurchasableItemStoredData();
             foreach (string itemId in involvedItemIds)
             {
-                PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[itemId];
+                PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[itemId];
                 if (purchasableToken.NoneLevelBase)
                 {
                     if (purchasableToken.PurchasableItemInfo.DefaultBought)
@@ -223,7 +223,7 @@ namespace Fort
             string[] involvedItemIds =
                 parents.Select(info => info.Id)
                     .Concat(new[] { id })
-                    .SelectMany(s => InfoResolver.FortInfo.Purchase.PurchasableTokens[s].Bundles.Select(info => info.Id))
+                    .SelectMany(s => InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[s].Bundles.Select(info => info.Id))
                     .Concat(parents.Select(info => info.Id).Concat(new[] { id }))
                     .ToArray();
             PurchasableItemStoredData purchasableItemStoredData =
@@ -350,7 +350,7 @@ namespace Fort
                 ServiceLocator.Resolve<IServerService>()
                     .Call<PurchaseIapPackageResult>("PurchaseIapPackage", new PurchaseIapPackageData
                     {
-                        Market = InfoResolver.FortInfo.ActiveMarket,
+                        Market = InfoResolver.Resolve<FortInfo>().ActiveMarket,
                         Payload = payload,
                         PurchaseToken = purchaseToken,
                         Sku = iapPackage.Sku
@@ -368,7 +368,7 @@ namespace Fort
                             ServiceLocator.Resolve<IStorageService>().UpdateData(userInfo);
                             _isPurchasingPackage = false;
                             ServiceLocator.Resolve<IAnalyticsService>()
-                                .StatIapPurchased(iapPackage, InfoResolver.FortInfo.ActiveMarket);
+                                .StatIapPurchased(iapPackage, InfoResolver.Resolve<FortInfo>().ActiveMarket);
                             ApplyIapPackageInfo(iapPackage)
                                 .Then(() => { deferred.Resolve(); }, () => { deferred.Resolve(); });
                         }
@@ -379,7 +379,7 @@ namespace Fort
                             ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
                             _isPurchasingPackage = false;
                             ServiceLocator.Resolve<IAnalyticsService>()
-                                .StatIapFailed(iapPackage, purchaseToken, InfoResolver.FortInfo.ActiveMarket,
+                                .StatIapFailed(iapPackage, purchaseToken, InfoResolver.Resolve<FortInfo>().ActiveMarket,
                                     IapPurchaseFail.FraudDetected);
                             deferred.Reject(PurchasePackageErrorResult.MarketFailed);
                         }
@@ -390,7 +390,7 @@ namespace Fort
                         ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
                         _isPurchasingPackage = false;
                         ServiceLocator.Resolve<IAnalyticsService>()
-                            .StatIapFailed(iapPackage, purchaseToken, InfoResolver.FortInfo.ActiveMarket,
+                            .StatIapFailed(iapPackage, purchaseToken, InfoResolver.Resolve<FortInfo>().ActiveMarket,
                                 IapPurchaseFail.FortServerFail);
                         deferred.Reject(PurchasePackageErrorResult.Failed);
                     });
@@ -401,13 +401,13 @@ namespace Fort
                 {
                     case MarketPurchaseError.Cancel:
                         ServiceLocator.Resolve<IAnalyticsService>()
-                            .StatIapFailed(iapPackage, string.Empty, InfoResolver.FortInfo.ActiveMarket,
+                            .StatIapFailed(iapPackage, string.Empty, InfoResolver.Resolve<FortInfo>().ActiveMarket,
                                 IapPurchaseFail.Cancel);
                         deferred.Reject(PurchasePackageErrorResult.Canceled);
                         break;
                     case MarketPurchaseError.Failed:
                         ServiceLocator.Resolve<IAnalyticsService>()
-                            .StatIapFailed(iapPackage, string.Empty, InfoResolver.FortInfo.ActiveMarket,
+                            .StatIapFailed(iapPackage, string.Empty, InfoResolver.Resolve<FortInfo>().ActiveMarket,
                                 IapPurchaseFail.MarketFailed);
                         deferred.Reject(PurchasePackageErrorResult.Failed);
                         break;
@@ -428,7 +428,7 @@ namespace Fort
             ServiceLocator.Resolve<IServerService>()
                 .Call<PurchaseIapPackageResult>("PurchaseIapPackage", new PurchaseIapPackageData
                 {
-                    Market = InfoResolver.FortInfo.ActiveMarket,
+                    Market = InfoResolver.Resolve<FortInfo>().ActiveMarket,
                     Payload = "Report:" + Guid.NewGuid(),
                     PurchaseToken = purchaseToken,
                     Sku = iapPackage.Sku
@@ -449,7 +449,7 @@ namespace Fort
                         ServiceLocator.Resolve<IStorageService>().UpdateData(userInfo);
                         _isPurchasingPackage = false;
                         ServiceLocator.Resolve<IAnalyticsService>()
-                            .StatIapRetry(iapPackage, purchaseToken, InfoResolver.FortInfo.ActiveMarket);
+                            .StatIapRetry(iapPackage, purchaseToken, InfoResolver.Resolve<FortInfo>().ActiveMarket);
                         ApplyIapPackageInfo(iapPackage)
                             .Then(() => { deferred.Resolve(); }, () => { deferred.Resolve(); });
                     }
@@ -463,7 +463,7 @@ namespace Fort
                         }
                         _isPurchasingPackage = false;
                         ServiceLocator.Resolve<IAnalyticsService>()
-                            .StatIapRetryFail(iapPackage, purchaseToken, InfoResolver.FortInfo.ActiveMarket,
+                            .StatIapRetryFail(iapPackage, purchaseToken, InfoResolver.Resolve<FortInfo>().ActiveMarket,
                                 IapRetryFail.FraudDetected);
                         deferred.Reject(PurchasePackageErrorResult.MarketFailed);
                     }
@@ -474,7 +474,7 @@ namespace Fort
                     ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
                     _isPurchasingPackage = false;
                     ServiceLocator.Resolve<IAnalyticsService>()
-                        .StatIapRetryFail(iapPackage, purchaseToken, InfoResolver.FortInfo.ActiveMarket,
+                        .StatIapRetryFail(iapPackage, purchaseToken, InfoResolver.Resolve<FortInfo>().ActiveMarket,
                             IapRetryFail.FortServerFail);
                     deferred.Reject(PurchasePackageErrorResult.Failed);
                 });
@@ -491,7 +491,7 @@ namespace Fort
                     packages.Where(
                         package =>
                             package.Markets == null || package.Markets.Length == 0 ||
-                            package.Markets.Contains(InfoResolver.FortInfo.ActiveMarket)).ToArray())
+                            package.Markets.Contains(InfoResolver.Resolve<FortInfo>().ActiveMarket)).ToArray())
                     .Where(info => info != null)
                     .ToArray();
                 DiscountIapPackage[] discountIapPackages = iapPackageInfos.OfType<DiscountIapPackage>().ToArray();
@@ -529,7 +529,7 @@ namespace Fort
             {
                 GameObject marketGameObject = new GameObject("Market");
                 DontDestroyOnLoad(marketGameObject);
-                _market = (IMarket) marketGameObject.AddComponent(_markets[InfoResolver.FortInfo.ActiveMarket]);
+                _market = (IMarket) marketGameObject.AddComponent(_markets[InfoResolver.Resolve<FortInfo>().ActiveMarket]);
             }
             return _market;
         }
@@ -620,7 +620,7 @@ namespace Fort
             PurchasableItemStoredData purchasableItemStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemStoredData>() ??
                 new PurchasableItemStoredData();
-            PurchasableToken purchasableToken = InfoResolver.FortInfo.Purchase.PurchasableTokens[id];
+            PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[id];
             if (purchasableToken.NoneLevelBase)
             {
                 NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo =
@@ -716,10 +716,10 @@ namespace Fort
                     return null;
                 IapPackageInfo iapPackage = (IapPackageInfo) Activator.CreateInstance(type);
                 iapPackage.Sku = package.Sku;
-                iapPackage.DisplayName = new CustomLanguageItem<string>(InfoResolver.FortInfo.Language.ActiveLanguages.Select(info => info.Id).ToDictionary(s => s,s => package.DisplayName));
+                iapPackage.DisplayName = new CustomLanguageItem<string>(InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Select(info => info.Id).ToDictionary(s => s,s => package.DisplayName));
                 iapPackage.Markets =
                     package.Markets.Select(
-                        s => InfoResolver.FortInfo.MarketInfos.FirstOrDefault(info => info.MarketName == s))
+                        s => InfoResolver.Resolve<FortInfo>().MarketInfos.FirstOrDefault(info => info.MarketName == s))
                         .Where(info => info != null)
                         .ToArray();
                 iapPackage.Price = package.Price;

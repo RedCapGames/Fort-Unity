@@ -38,7 +38,7 @@ namespace Fort.Info.Market.Iap
             MarketInfo[] marketInfos = (MarketInfo[])data;
             if (marketInfos == null)
                 marketInfos = new MarketInfo[0];
-            MarketInfo[] possibleMarkets = InfoResolver.FortInfo.MarketInfos.Where(info => marketInfos.All(marketInfo => marketInfo.GetType() != info.GetType()) ).ToArray();
+            MarketInfo[] possibleMarkets = InfoResolver.Resolve<FortInfo>().MarketInfos.Where(info => marketInfos.All(marketInfo => marketInfo.GetType() != info.GetType()) ).ToArray();
             InstanceResolverResult result = new InstanceResolverResult
             {
                 PossibleInstanceTokens = possibleMarkets.Select(market => new InstanceToken(market.GetType().Name, market)).ToArray(),

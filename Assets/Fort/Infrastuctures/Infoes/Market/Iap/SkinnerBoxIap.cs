@@ -22,7 +22,7 @@ namespace Fort.Info.Market.Iap
         {
             InstanceResolverResult result = new InstanceResolverResult
             {
-                PossibleInstanceTokens = InfoResolver.FortInfo.SkinnerBox.BoxInfos.OfType<PurchableSkinnerBoxInfo>().Select(info => new InstanceToken(info.Name, info)).ToArray()
+                PossibleInstanceTokens = InfoResolver.Resolve<FortInfo>().SkinnerBox.BoxInfos.OfType<PurchableSkinnerBoxInfo>().Select(info => new InstanceToken(info.Name, info)).ToArray()
 
             };
             InstanceToken instanceToken =

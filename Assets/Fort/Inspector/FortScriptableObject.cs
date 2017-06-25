@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Fort;
+using Fort.Info;
 using Fort.Serializer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -114,7 +115,7 @@ namespace Fort.Inspector
 
     }
     [IgnorePresentation]
-    public class FortScriptableObject<T> : FortScriptableObject
+    public class FortScriptableObject<T> : FortScriptableObject where T:IInfo
     {
         
     }

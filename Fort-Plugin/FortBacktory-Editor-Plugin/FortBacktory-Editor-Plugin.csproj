@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{31BC8F0D-E7C5-4913-84D6-E5F3BE7ED679}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FortBacktory_Editor_Plugin</RootNamespace>
+    <AssemblyName>FortBacktory-Editor-Plugin</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Assets\UnityPackages\JsonNet\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\FortBacktory\Editor\FortBacktoryEditorConnection.cs">
+      <Link>FortBacktory\Editor\FortBacktoryEditorConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\FortBacktory\Editor\Infoes\BacktoryEditorInfoEditor.cs">
+      <Link>FortBacktory\Editor\Infoes\BacktoryEditorInfoEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\FortBacktory\Editor\Infoes\BacktoryInfoEditor.cs">
+      <Link>FortBacktory\Editor\Infoes\BacktoryInfoEditor.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fort-Editor-Plugin\Fort-Editor-Plugin.csproj">
+      <Project>{d6bf9aa9-c03d-4010-9f62-94753c174fce}</Project>
+      <Name>Fort-Editor-Plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fort-Game-Plugin\Fort-Game-Plugin.csproj">
+      <Project>{107f7095-20d6-4b1e-a9b3-42c8e49d1d0e}</Project>
+      <Name>Fort-Game-Plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FortBacktory-Game-Plugin\FortBacktory-Game-Plugin.csproj">
+      <Project>{568a637a-873a-4d3f-b05f-ae3be20e0b16}</Project>
+      <Name>FortBacktory-Game-Plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

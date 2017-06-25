@@ -31,11 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Backtory">
-      <HintPath>..\..\Assets\Backtory\Backtory.dll</HintPath>
-    </Reference>
     <Reference Include="Excel">
       <HintPath>..\..\Assets\Fort\ExternalPlugins\Uni-Excel\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Assets\UnityPackages\JsonNet\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NPOI">
       <HintPath>..\..\Assets\Fort\ExternalPlugins\Uni-Excel\NPOI.dll</HintPath>
@@ -64,8 +64,17 @@
     <Compile Include="..\..\Assets\Fort\Editor\AssetBundle\AssetBundleMenuItem.cs">
       <Link>Fort\Editor\AssetBundle\AssetBundleMenuItem.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Build\LanguageFixPreprocessBuild.cs">
+      <Link>Fort\Editor\Build\LanguageFixPreprocessBuild.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Dispatcher\EditorDispatcher.cs">
+      <Link>Fort\Editor\Dispatcher\EditorDispatcher.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\EditorFortEncryptionKey.cs">
       <Link>Fort\Editor\EditorFortEncryptionKey.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\EditorInfoResolver.cs">
+      <Link>Fort\Editor\EditorInfoResolver.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Export\AchievementExporter.cs">
       <Link>Fort\Editor\Export\AchievementExporter.cs</Link>
@@ -79,20 +88,29 @@
     <Compile Include="..\..\Assets\Fort\Editor\Export\IapExporter.cs">
       <Link>Fort\Editor\Export\IapExporter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Export\LanguageExporter.cs">
+      <Link>Fort\Editor\Export\LanguageExporter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Export\PurchaseExporter.cs">
       <Link>Fort\Editor\Export\PurchaseExporter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Fort\Editor\FortInfoAsest.cs">
-      <Link>Fort\Editor\FortInfoAsest.cs</Link>
-    </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\FortInfoEditor.cs">
       <Link>Fort\Editor\FortInfoEditor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Helpers\AssetDatabaseHelper.cs">
+      <Link>Fort\Editor\Helpers\AssetDatabaseHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Helpers\CustomAssetUtility.cs">
       <Link>Fort\Editor\Helpers\CustomAssetUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Helpers\FortInfoEditorExtentions.cs">
       <Link>Fort\Editor\Helpers\FortInfoEditorExtentions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Helpers\InfoResolverMenuItemAdder.cs">
+      <Link>Fort\Editor\Helpers\InfoResolverMenuItemAdder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Helpers\LanguageHelper.cs">
+      <Link>Fort\Editor\Helpers\LanguageHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Inspector\AbstractConcretePresentation.cs">
       <Link>Fort\Editor\Inspector\AbstractConcretePresentation.cs</Link>
@@ -118,8 +136,8 @@
     <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\FortScenePresentation.cs">
       <Link>Fort\Editor\Inspector\Custom\FortScenePresentation.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\PurchasableItemPresentation.cs">
-      <Link>Fort\Editor\Inspector\Custom\PurchasableItemPresentation.cs</Link>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\LanguageItemPresentation.cs">
+      <Link>Fort\Editor\Inspector\Custom\LanguageItemPresentation.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\ValueDefenitionsPresenter.cs">
       <Link>Fort\Editor\Inspector\Custom\ValueDefenitionsPresenter.cs</Link>
@@ -150,6 +168,9 @@
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Inspector\UnityObjectPresentation.cs">
       <Link>Fort\Editor\Inspector\UnityObjectPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\LanguageInfoEditor.cs">
+      <Link>Fort\Editor\LanguageInfoEditor.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Sync\ServerAchievement.cs">
       <Link>Fort\Editor\Sync\ServerAchievement.cs</Link>

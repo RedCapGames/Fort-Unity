@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Fort
 {
@@ -31,8 +32,30 @@ namespace Fort
             return null;
         }
 
+        private static bool IsTypeMachPlugin(string assemblyName, AllTypeCategory category)
+        {
+            
+            if (!assemblyName.StartsWith("Fort"))
+                return false;
+            Regex regex = new Regex(@"^Fort([a-z,A-Z]*)\-(Editor|Game)\-Plugin$", RegexOptions.IgnoreCase);
+            Match match = regex.Match(assemblyName);
+            if (!match.Success)
+                return false;
+            switch (category)
+            {
+                case AllTypeCategory.Game:
+                    return match.Groups[1].Value == "Game";
+                case AllTypeCategory.Editor:
+                    return match.Groups[1].Value == "Editor";
+                case AllTypeCategory.All:
+                    return true;
+                default:
+                    throw new ArgumentOutOfRangeException("category", category, null);
+            }
+        }
         public static Type[] GetAllTypes(AllTypeCategory category)
         {
+            
             switch (category)
             {
                 case AllTypeCategory.Game:
@@ -41,7 +64,7 @@ namespace Fort
                             .Where(
                                 assembly =>
                                     assembly.GetName().Name == "Assembly-CSharp" ||
-                                    assembly.GetName().Name == "Fort-Game-Plugin")
+                                    IsTypeMachPlugin(assembly.GetName().Name,AllTypeCategory.Game))
                             .SelectMany(assembly => assembly.GetTypes())
                             .ToArray();
                 case AllTypeCategory.Editor:
@@ -50,7 +73,7 @@ namespace Fort
                             .Where(
                                 assembly =>
                                     assembly.GetName().Name == "Assembly-CSharp-Editor" ||
-                                    assembly.GetName().Name == "Fort-Editor-Plugin")
+                                    IsTypeMachPlugin(assembly.GetName().Name, AllTypeCategory.Editor))
                             .SelectMany(assembly => assembly.GetTypes())
                             .ToArray();
                 case AllTypeCategory.All:
@@ -60,8 +83,7 @@ namespace Fort
                                 assembly =>
                                     assembly.GetName().Name == "Assembly-CSharp" ||
                                     assembly.GetName().Name == "Assembly-CSharp-Editor" ||
-                                    assembly.GetName().Name == "Fort-Game-Plugin" ||
-                                    assembly.GetName().Name == "Fort-Editor-Plugin")
+                                    IsTypeMachPlugin(assembly.GetName().Name, AllTypeCategory.All))
                             .SelectMany(assembly => assembly.GetTypes())
                             .ToArray();
                 default:

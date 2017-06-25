@@ -4,8 +4,11 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading;
+using Assets.FortBacktory;
 using Fort.Dispatcher;
+using Fort.Info;
 using Fort.ServerConnection;
+using FortBacktory.Info;
 using Newtonsoft.Json;
 
 namespace Fort.Backtory
@@ -23,13 +26,13 @@ namespace Fort.Backtory
         {
             IDispatcher dispatcher = GameDispatcher.Dispatcher;
             ErrorDeferred< RegisterationErrorResultStatus > deferred = new ErrorDeferred<RegisterationErrorResultStatus>();
-            string authenticationId = "5911f0bee4b051bb1e6e2ecb";
+            string authenticationId = InfoResolver.Resolve<BacktoryInfo>().AuthenticationId;
             string url = "https://api.backtory.com/auth/users";
             ThreadPool.QueueUserWorkItem(state =>
             {
                 try
                 {
-                    HttpWebRequest webRequest = new HttpWebRequest(new Uri(url));
+                    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(url));
                     webRequest.KeepAlive = true;
                     webRequest.Method = "POST";
                     webRequest.ContentType = "application/json; charset=utf-8";
@@ -81,7 +84,7 @@ namespace Fort.Backtory
 
         public static string MultiPartCall(string url, Dictionary<string, string> parameters, Dictionary<string, string> headers)
         {
-            HttpWebRequest webRequest = new HttpWebRequest(new Uri(url));
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(url));
             webRequest.KeepAlive = true;
             webRequest.Method = "POST";
             webRequest.Credentials = CredentialCache.DefaultCredentials;
@@ -119,8 +122,8 @@ namespace Fort.Backtory
             IDispatcher dispatcher = GameDispatcher.Dispatcher;
             Deferred deferred = new Deferred();
 
-            string authenticationId = "5911f0bee4b051bb1e6e2ecb";
-            string authenticationClientKey = "5911f0bee4b0048145f0278b";
+            string authenticationId = InfoResolver.Resolve<BacktoryInfo>().AuthenticationId;
+            string authenticationClientKey = InfoResolver.Resolve<BacktoryInfo>().AuthenticationClientKey;
             string url = "https://api.backtory.com/auth/login";
             ThreadPool.QueueUserWorkItem(state =>
             {
@@ -169,8 +172,8 @@ namespace Fort.Backtory
             Deferred deferred = new Deferred();
             if (!IsReloginCapable())
                 throw new Exception("Relogin is not capable.No saved refresh token found");
-            string authenticationId = "5911f0bee4b051bb1e6e2ecb";
-            string authenticationClientKey = "5911f0bee4b0048145f0278b";
+            string authenticationId = InfoResolver.Resolve<BacktoryInfo>().AuthenticationId;
+            string authenticationClientKey = InfoResolver.Resolve<BacktoryInfo>().AuthenticationClientKey;
             string url = "https://api.backtory.com/auth/login";
             ThreadPool.QueueUserWorkItem(state =>
             {
@@ -224,7 +227,9 @@ namespace Fort.Backtory
         {
             IDispatcher dispatcher = GameDispatcher.Dispatcher;
             Deferred<T, ICallError> deferred = new Deferred<T, ICallError>();            
-            string url = string.Format("https://api.backtory.com/cloud-code/{0}/{1}", "5911f0bfe4b051bb1e6e2ecf",methodName);
+            string url = string.Format("https://api.backtory.com/cloud-code/{0}/{1}", InfoResolver.Resolve<BacktoryInfo>().CloudId,methodName);
+            if(!string.IsNullOrEmpty(BacktoryCloudUrl.Url))
+                url = new Uri(new Uri(BacktoryCloudUrl.Url),new Uri(string.Format("/{0}",methodName))).ToString();
             string authorization = string.Empty;
             if (ServiceLocator.Resolve<IStorageService>().ContainsData<BacktoryAccessData>())
             {
@@ -236,7 +241,7 @@ namespace Fort.Backtory
             {
                 try
                 {
-                    HttpWebRequest webRequest = new HttpWebRequest(new Uri(url));
+                    HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(new Uri(url));
                     webRequest.KeepAlive = true;
                     webRequest.Method = "POST";
                     webRequest.ContentType = "application/json; charset=utf-8";

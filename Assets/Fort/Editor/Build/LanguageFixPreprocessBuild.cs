@@ -13,9 +13,9 @@ namespace Fort.Build
     {
         public void OnPreprocessBuild(BuildTarget target, string path)
         {
-            LanguageItem[] languageItems = TypeHelper.FindType(InfoResolver.FortInfo,typeof(LanguageItem)).Cast<LanguageItem>().ToArray();
+            LanguageItem[] languageItems = TypeHelper.FindType(InfoResolver.Resolve<FortInfo>(),typeof(LanguageItem)).Cast<LanguageItem>().ToArray();
             List<string> removedItems = new List<string>();
-            LanguageEditorInfo languageEditorInfo = LanguageInfoResolver.LanguageEditorInfo;
+            LanguageEditorInfo languageEditorInfo =EditorInfoResolver.Resolve<LanguageEditorInfo>();
             foreach (LanguageInfo languageInfo in languageEditorInfo.Languages)
             {
                 foreach (KeyValuePair<string, object> pair in languageInfo.LanguageDatas)
@@ -24,7 +24,7 @@ namespace Fort.Build
                         removedItems.Add(pair.Key);
                 }
             }
-            FortInfo fortInfo = InfoResolver.FortInfo;
+            FortInfo fortInfo = InfoResolver.Resolve<FortInfo>();
             foreach (string removedItem in removedItems)
             {
                 foreach (LanguageInfo activeLanguage in fortInfo.Language.ActiveLanguages)

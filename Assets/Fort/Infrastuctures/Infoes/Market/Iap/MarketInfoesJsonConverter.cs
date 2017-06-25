@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Fort.Inspector;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,7 +21,7 @@ namespace Fort.Info.Market.Iap
             JToken jToken = JToken.ReadFrom(reader);
             if (jToken.Type == JTokenType.Null || jToken.Type == JTokenType.None)
                 return new MarketInfo[0];
-            return jToken.ToObject<string[]>().Select(s => InfoResolver.FortInfo.MarketInfos.FirstOrDefault(info => info.MarketName ==s)).Where(info => info != null).ToArray();
+            return jToken.ToObject<string[]>().Select(s => InfoResolver.Resolve<FortInfo>().MarketInfos.FirstOrDefault(info => info.MarketName ==s)).Where(info => info != null).ToArray();
         }
 
         public override bool CanConvert(Type objectType)

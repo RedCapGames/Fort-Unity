@@ -8,13 +8,5 @@ namespace Fort.Info
 
     public class FortInfoEditor : FortInspector
     {
-        #region Overrides of FortInspector
-
-        protected override void OnTargetChanged(object targetObject)
-        {
-            InfoResolver.UpdateFortInfo((FortInfo) targetObject);
-        }
-
-        #endregion
     }
 }

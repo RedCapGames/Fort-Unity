@@ -1,0 +1,6 @@
+E:\projects\Fort\Fort-Unity\FortBacktory-Editor-Plugin\obj\Debug\FortBacktory-Editor-Plugin.csprojResolveAssemblyReference.cache
+E:\projects\Fort\Fort-Unity\Fort-Plugin\FortBacktory-Editor-Plugin\obj\Debug\FortBacktory-Editor-Plugin.csprojResolveAssemblyReference.cache
+E:\projects\Fort\Fort-Unity\Fort-Plugin\bin\Debug\FortBacktory-Editor-Plugin.dll
+E:\projects\Fort\Fort-Unity\Fort-Plugin\bin\Debug\FortBacktory-Editor-Plugin.pdb
+E:\projects\Fort\Fort-Unity\Fort-Plugin\FortBacktory-Editor-Plugin\obj\Debug\FortBacktory-Editor-Plugin.dll
+E:\projects\Fort\Fort-Unity\Fort-Plugin\FortBacktory-Editor-Plugin\obj\Debug\FortBacktory-Editor-Plugin.pdb

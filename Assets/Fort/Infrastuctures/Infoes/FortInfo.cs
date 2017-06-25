@@ -11,12 +11,14 @@ using Fort.Info.Market;
 using Fort.Info.Market.Iap;
 using Fort.Info.PurchasableItem;
 using Fort.Info.SkinnerBox;
+using Fort.Inspector;
 using Fort.ServerConnection;
 using UnityEngine;
 
-namespace Fort.Inspector
+namespace Fort.Info
 {
-    public class FortInfo
+    [Info(typeof(FortInfoScriptable),"Fort",false)]
+    public class FortInfo: IInfo
     {
         public FortInfo()
         {
@@ -24,12 +26,12 @@ namespace Fort.Inspector
             MarketInfos = new MarketInfo[0];
             Package = new IapPackage();
             InvitationInfo = new InvitationInfo();
-            Achievement = new Achievement();
+            Achievement = new Achievement.Achievement();
             Purchase = new Purchase();
-            GameLevel = new GameLevel();
+            GameLevel = new GameLevel.GameLevel();
             Analytic = new Analytic();
             Advertisement = new Info.Advertisement.Advertisement();
-            SkinnerBox = new SkinnerBox();
+            SkinnerBox = new SkinnerBox.SkinnerBox();
             Language = new FortLanguage();
         }
 
@@ -45,12 +47,12 @@ namespace Fort.Inspector
         [PropertyInstanceResolve(typeof(ActiveMarketPropertyInstanceResolver))]
         public string ActiveMarket { get; set; }
         public InvitationInfo InvitationInfo { get; set; }
-        public Achievement Achievement { get; set; }
+        public Achievement.Achievement Achievement { get; set; }
         public Purchase Purchase { get; set; }
-        public GameLevel GameLevel { get; set; }
+        public GameLevel.GameLevel GameLevel { get; set; }
         public Analytic Analytic { get; set; }
         public Info.Advertisement.Advertisement Advertisement { get; set; }
-        public SkinnerBox SkinnerBox { get; set; }        
+        public SkinnerBox.SkinnerBox SkinnerBox { get; set; }        
     }
     public class ActiveMarketPropertyInstanceResolver : IPropertyInstanceResolver
     {
@@ -60,7 +62,7 @@ namespace Fort.Inspector
         {
             InstanceResolverResult result = new InstanceResolverResult
             {
-                PossibleInstanceTokens = InfoResolver.FortInfo.MarketInfos.Select(info => new InstanceToken(info.MarketName, info.MarketName)).ToArray()
+                PossibleInstanceTokens = InfoResolver.Resolve<FortInfo>().MarketInfos.Select(info => new InstanceToken(info.MarketName, info.MarketName)).ToArray()
 
             };
             InstanceToken instanceToken =

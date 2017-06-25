@@ -14,15 +14,15 @@ namespace Fort.Info
     {
         public Balance()
         {
-            if(InfoResolver.LoadingSequence)
+            if(InfoResolver.GetLoadingSequence<FortInfo>())
                 return;
-            Values = InfoResolver.FortInfo.ValueDefenitions.ToDictionary(s => s, s => 0);
+            Values = InfoResolver.Resolve<FortInfo>().ValueDefenitions.ToDictionary(s => s, s => 0);
         }
         public void SyncValues()
         {
             if(Values == null)
                 Values = new Dictionary<string, int>();
-            string[] valueDefenitions = InfoResolver.FortInfo.ValueDefenitions??new string[0];
+            string[] valueDefenitions = InfoResolver.Resolve<FortInfo>().ValueDefenitions??new string[0];
             foreach (string valueDefenition in valueDefenitions)
             {
                 if (!Values.ContainsKey(valueDefenition))

@@ -24,10 +24,10 @@ namespace Fort.Info.Language
         {
             Type languageInfoResolverType =
                 TypeHelper.GetAllTypes(AllTypeCategory.Editor)
-                    .Single(type => string.Format("{0}.{1}", type.Namespace, type.Name) == "Fort.LanguageInfoResolver");
+                    .Single(type => string.Format("{0}.{1}", type.Namespace, type.Name) == "Fort.Info.EditorInfoResolver");
             return
                 (LanguageEditorInfo)
-                    languageInfoResolverType.GetProperty("LanguageEditorInfo").GetValue(null, new object[0]);
+                    languageInfoResolverType.GetMethods().First(info => info.Name == "Resolve" && !info.IsGenericMethod).Invoke(null,new []{typeof(LanguageEditorInfo) });
         }
         [PropertyInstanceResolve(typeof(ActiveLanguagesPropertyInstanceResolver))]
         public LanguageInfo[] ActiveLanguages { get; set; }
@@ -74,7 +74,7 @@ namespace Fort.Info.Language
             InstanceResolverResult result = new InstanceResolverResult
             {
                 PossibleInstanceTokens =
-                    InfoResolver.FortInfo.Language.ActiveLanguages.Where(
+                    InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Where(
                         info => editorLanguages.Any(languageInfo => languageInfo.Id == info.Id))
                         .Select(info => new InstanceToken(info.Name, info))
                         .ToArray()

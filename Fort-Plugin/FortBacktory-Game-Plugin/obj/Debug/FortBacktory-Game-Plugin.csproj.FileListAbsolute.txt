@@ -1,0 +1,5 @@
+E:\projects\Fort\Fort-Unity\Fort-Plugin\FortBacktory-Game-Plugin\obj\Debug\FortBacktory-Game-Plugin.csprojResolveAssemblyReference.cache
+E:\projects\Fort\Fort-Unity\Fort-Plugin\bin\Debug\FortBacktory-Game-Plugin.dll
+E:\projects\Fort\Fort-Unity\Fort-Plugin\bin\Debug\FortBacktory-Game-Plugin.pdb
+E:\projects\Fort\Fort-Unity\Fort-Plugin\FortBacktory-Game-Plugin\obj\Debug\FortBacktory-Game-Plugin.dll
+E:\projects\Fort\Fort-Unity\Fort-Plugin\FortBacktory-Game-Plugin\obj\Debug\FortBacktory-Game-Plugin.pdb

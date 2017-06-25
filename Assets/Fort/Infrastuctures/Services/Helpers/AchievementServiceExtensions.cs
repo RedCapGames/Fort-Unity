@@ -1,6 +1,7 @@
 using System;
 using Fort.Info;
 using Fort.Info.Achievement;
+using Fort.Inspector;
 
 namespace Fort
 {
@@ -27,7 +28,7 @@ namespace Fort
         }
         public static void ClaimAchievement(this AchievementLevelInfo achievementLevelInfo)
         {
-            ServiceLocator.Resolve<IAchievementService>().ClaimAchievement(InfoResolver.FortInfo.Achievement.AchievementTokens[achievementLevelInfo.Id].AchievementInfo.GetType(), InfoResolver.FortInfo.Achievement.AchievementTokens[achievementLevelInfo.Id].Index);
+            ServiceLocator.Resolve<IAchievementService>().ClaimAchievement(InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens[achievementLevelInfo.Id].AchievementInfo.GetType(), InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens[achievementLevelInfo.Id].Index);
         }
         public static bool IsAchievementClaimed<T>(this IAchievementService achievementService)
             where T : NoneLevelBaseAchievementInfo
@@ -42,7 +43,7 @@ namespace Fort
         public static AchievementLevelInfo GetNextClaimableAchievementLevelInfo(this IAchievementService achievementService, Type levelBaseType)
         {
             int index = achievementService.GetAchievementClaimedIndex(levelBaseType)+1;
-            AchievementInfo achievementInfo = InfoResolver.FortInfo.Achievement.AchievementTypes[levelBaseType];
+            AchievementInfo achievementInfo = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTypes[levelBaseType];
             Array value = (Array)levelBaseType.GetProperty("LevelInfo").GetValue(achievementInfo,new object[0]);
             if(index>= value.Length)
                 return null;
@@ -60,7 +61,7 @@ namespace Fort
         }
         public static bool IsAchievementClaimed(this AchievementLevelInfo achievementLevelInfo)
         {
-            AchievementToken achievementToken = InfoResolver.FortInfo.Achievement.AchievementTokens[achievementLevelInfo.Id];
+            AchievementToken achievementToken = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTokens[achievementLevelInfo.Id];
             int achievementClaimedIndex = ServiceLocator.Resolve<IAchievementService>().GetAchievementClaimedIndex(achievementToken.AchievementInfo.GetType());
             return achievementToken.Index <= achievementClaimedIndex;            
         }
