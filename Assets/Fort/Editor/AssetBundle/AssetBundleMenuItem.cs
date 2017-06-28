@@ -13,5 +13,11 @@ namespace Fort.AssetBundle
         {
             AssetBundleBuilder.Build();
         }
+        [MenuItem("Fort/AssetBundles/Sync AssetBundles")]
+        static public void SyncAssetBundles()
+        {
+            AssetBundleBuilder.SyncAssetBundles();
+        }
+
     }
 }

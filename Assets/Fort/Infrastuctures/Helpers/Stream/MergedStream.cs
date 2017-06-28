@@ -25,8 +25,15 @@ namespace Fort.Stream
             _streams = streams;
             
             _isSeakable = streams.All(o => o.CanSeek);
-            if (_isSeakable)
+
+            try
+            {
                 _length = streams.Sum(stream => stream.Length);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
             _position = 0;
         } 
         #endregion

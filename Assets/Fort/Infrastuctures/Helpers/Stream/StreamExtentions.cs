@@ -106,6 +106,15 @@ namespace Fort.Stream
         {
             return new StreamInspecter(stream,inspectionActions);
         }
+        public static void CopyTo(this System.IO.Stream stream, System.IO.Stream destination)
+        {
+            int bytesRead;
+            byte[] buffer = new byte[2048];
+            while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
+            {
+                destination.Write(buffer, 0, bytesRead);
+            }
+        }
 
     }
 }

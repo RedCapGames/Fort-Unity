@@ -6,24 +6,13 @@ using UnityEditor;
 
 namespace Fort.AssetBundle
 {
-/*    public static class AssetBundleUtility
-    {
-
-    }*/
-    /*public class Utility
+    public static class EditorAssetBundleUtility
     {
         public const string AssetBundlesOutputPath = "AssetBundles";
-
         public static string GetPlatformName()
         {
-#if UNITY_EDITOR
             return GetPlatformForAssetBundles(EditorUserBuildSettings.activeBuildTarget);
-#else
-			return GetPlatformForAssetBundles(Application.platform);
-#endif
         }
-
-#if UNITY_EDITOR
         private static string GetPlatformForAssetBundles(BuildTarget target)
         {
             switch (target)
@@ -49,30 +38,6 @@ namespace Fort.AssetBundle
                     return null;
             }
         }
-#endif
 
-        private static string GetPlatformForAssetBundles(RuntimePlatform platform)
-        {
-            switch (platform)
-            {
-                case RuntimePlatform.Android:
-                    return "Android";
-                case RuntimePlatform.IPhonePlayer:
-                    return "iOS";
-                case RuntimePlatform.WebGLPlayer:
-                    return "WebGL";
-                case RuntimePlatform.OSXWebPlayer:
-                case RuntimePlatform.WindowsWebPlayer:
-                    return "WebPlayer";
-                case RuntimePlatform.WindowsPlayer:
-                    return "Windows";
-                case RuntimePlatform.OSXPlayer:
-                    return "OSX";
-                // Add more build targets for your own.
-                // If you add more targets, don't forget to add the same platforms to GetPlatformForAssetBundles(RuntimePlatform) function.
-                default:
-                    return null;
-            }
-        }
-    }*/
+    }
 }

@@ -237,6 +237,9 @@ namespace Fort.Backtory
                     ServiceLocator.Resolve<IStorageService>().ResolveData<BacktoryAccessData>();
                 authorization = string.Format("{0} {1}", backtoryAccessData.TokenType, backtoryAccessData.AccessToken);
             }
+            string body = JsonConvert.SerializeObject(requestBody);
+            if (body == "null")
+                body = "{}";
             ThreadPool.QueueUserWorkItem(state =>
             {
                 try
@@ -248,7 +251,7 @@ namespace Fort.Backtory
                     if (!string.IsNullOrEmpty(authorization))
                         webRequest.Headers.Add("Authorization", authorization);
 
-                    string body = JsonConvert.SerializeObject(requestBody);
+                    
                     byte[] resoponse = Encoding.UTF8.GetBytes(body);
                     webRequest.ContentLength = resoponse.Length;
                     using (System.IO.Stream requestStream = webRequest.GetRequestStream())

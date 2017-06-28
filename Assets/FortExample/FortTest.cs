@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Fort;
 using Fort.Info;
 using Fort.Serializer;
+using Fort.ServerConnection;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -90,11 +92,17 @@ public class FortTest : MonoBehaviour
             Debug.Log("Success");
         },() => Debug.Log("Failed"));*/
         //StartCoroutine(Call());
-        InfoResolver.Resolve<FortInfo>().ServerConnectionProvider.EditorConnection.Call<ServerPurchasableItem[]>("GetItems",null).Then(
-            objects =>
+/*        InfoResolver.Resolve<FortInfo>()
+            .ServerConnectionProvider.EditorConnection.SendFilesToStorage(new[] {new StorageFile
             {
-                Debug.Log(objects.Length);
-            },error => Debug.Log("Error"));
+                FileName = "1.data",
+                Path = "/Test/",
+                Stream = File.OpenRead(@"E:\projects\Fort\Fort-Unity\AssetBundles\Windows\testassetbundle")
+            }},
+                f =>
+                {
+                    Debug.Log(f);
+                }).Then(strings => Debug.Log(strings[0]),() => Debug.Log("Error"));*/
     }
 
     

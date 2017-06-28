@@ -12,5 +12,7 @@ namespace FortBacktory.Info
         public string AuthenticationClientKey { get; set; }
         [PresentationTitle("Cloud-Code-Id")]
         public string CloudId { get; set; }
+
+        public string StorageName { get; set; }
     }
 }

@@ -8,5 +8,7 @@ namespace FortBacktory.Info
     {
         [PresentationTitle("X-Backtory-Authentication-Key (Master)")]
         public string AuthenticationMasterKey { get; set; }
+        [PresentationTitle("X-Backtory-Storage-Id")]
+        public string StorageId { get; set; }
     }
 }
