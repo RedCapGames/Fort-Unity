@@ -31,6 +31,7 @@
         Cancel,
         NoVideoAvilable,
         ProviderError,
-        AdvertisementRemoved
+        AdvertisementRemoved,
+        AlreadyShowingVideo
     }
 }

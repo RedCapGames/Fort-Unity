@@ -137,7 +137,7 @@ namespace Fort.Backtory
                                 HttpStatusCode.Continue));
                         });
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         deferred.Reject(new BacktoryEditorCallError(CallErrorType.Other, false, HttpStatusCode.Continue));
                     }

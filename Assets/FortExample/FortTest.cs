@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class FortTest : MonoBehaviour
 {
+    private WeakReference _reference;
 
     // Use this for initialization
     void Start()
@@ -69,40 +70,50 @@ public class FortTest : MonoBehaviour
                 Debug.Log(typeof(List<>).ContainsGenericParameters);
                 Debug.Log(typeof(List<int>).ContainsGenericParameters);*/
         //BacktoryUserConnection backtoryUserConnection = new BacktoryUserConnection();
-/*        backtoryUserConnection.Register("Morad1", "Pashmak").Then(() =>
-        {
-            Debug.Log("Success");
-        }, status =>
-        {
-            switch (status)
-            {
-                case RegisterationErrorResultStatus.CannotConnectToServer:
-                    Debug.Log("Error in registeration");
-                    break;
-                case RegisterationErrorResultStatus.UsernameIsInUse:
-                    Debug.Log("User in use");
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("status", status, null);
-            }
-        });*/
-        //backtoryUserConnection.Call<int>("GetUserData",null);
-/*        backtoryUserConnection.Relogin().Then(() =>
-        {
-            Debug.Log("Success");
-        },() => Debug.Log("Failed"));*/
-        //StartCoroutine(Call());
-/*        InfoResolver.Resolve<FortInfo>()
-            .ServerConnectionProvider.EditorConnection.SendFilesToStorage(new[] {new StorageFile
-            {
-                FileName = "1.data",
-                Path = "/Test/",
-                Stream = File.OpenRead(@"E:\projects\Fort\Fort-Unity\AssetBundles\Windows\testassetbundle")
-            }},
-                f =>
+        /*        backtoryUserConnection.Register("Morad1", "Pashmak").Then(() =>
                 {
-                    Debug.Log(f);
-                }).Then(strings => Debug.Log(strings[0]),() => Debug.Log("Error"));*/
+                    Debug.Log("Success");
+                }, status =>
+                {
+                    switch (status)
+                    {
+                        case RegisterationErrorResultStatus.CannotConnectToServer:
+                            Debug.Log("Error in registeration");
+                            break;
+                        case RegisterationErrorResultStatus.UsernameIsInUse:
+                            Debug.Log("User in use");
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException("status", status, null);
+                    }
+                });*/
+        //backtoryUserConnection.Call<int>("GetUserData",null);
+        /*        backtoryUserConnection.Relogin().Then(() =>
+                {
+                    Debug.Log("Success");
+                },() => Debug.Log("Failed"));*/
+        //StartCoroutine(Call());
+        /*        InfoResolver.Resolve<FortInfo>()
+                    .ServerConnectionProvider.EditorConnection.SendFilesToStorage(new[] {new StorageFile
+                    {
+                        FileName = "1.data",
+                        Path = "/Test/",
+                        Stream = File.OpenRead(@"E:\projects\Fort\Fort-Unity\AssetBundles\Windows\testassetbundle")
+                    }},
+                        f =>
+                        {
+                            Debug.Log(f);
+                        }).Then(strings => Debug.Log(strings[0]),() => Debug.Log("Error"));*/
+        /*        InfoResolver.Resolve<FortInfo>().ServerConnectionProvider.UserConnection.LoadFromStorage(new Uri("http://storage.backtory.com/FortAssetBundle/Ghaz2.txt"),
+                    f =>
+                    {
+                        Debug.Log(f);
+                    } ).Then(s => Debug.Log(s),() => Debug.LogError("Error"));*/
+/*        Balance balance = new Balance();
+        balance["Coin"] = 12;
+        ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0, balance);*/
+        _reference = new WeakReference(new WeakAction().Action);
+        
     }
 
     
@@ -110,7 +121,8 @@ public class FortTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GC.Collect();
+        Debug.Log(_reference.IsAlive);
     }
 
     /*    class TestGameServerSetting : GameServerSetting
@@ -144,4 +156,22 @@ public class FortTest : MonoBehaviour
         [GameItemFilter(typeof(Text))]
         public GameItemInfo Image { get; set; }
     }*/
+    public class WeakAction
+    {
+        public Action Action { get; set; }
+
+        public WeakAction()
+        {
+            Action = () =>
+            {
+                
+            };
+            object target = Action.Target;
+        }
+
+        private static void Paskmak()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

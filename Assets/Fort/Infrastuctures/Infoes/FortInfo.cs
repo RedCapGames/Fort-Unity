@@ -1,19 +1,14 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Fort.Info;
-using Fort.Info.Achievement;
 using Fort.Info.Analytics;
-using Fort.Info.GameLevel;
 using Fort.Info.Invitation;
 using Fort.Info.Language;
 using Fort.Info.Market;
 using Fort.Info.Market.Iap;
 using Fort.Info.PurchasableItem;
-using Fort.Info.SkinnerBox;
 using Fort.Inspector;
 using Fort.ServerConnection;
-using UnityEngine;
 
 namespace Fort.Info
 {
@@ -30,7 +25,7 @@ namespace Fort.Info
             Purchase = new Purchase();
             GameLevel = new GameLevel.GameLevel();
             Analytic = new Analytic();
-            Advertisement = new Info.Advertisement.Advertisement();
+            Advertisement = new Advertisement.Advertisement();
             SkinnerBox = new SkinnerBox.SkinnerBox();
             Language = new FortLanguage();
         }
@@ -53,8 +48,9 @@ namespace Fort.Info
         public Purchase Purchase { get; set; }
         public GameLevel.GameLevel GameLevel { get; set; }
         public Analytic Analytic { get; set; }
-        public Info.Advertisement.Advertisement Advertisement { get; set; }
-        public SkinnerBox.SkinnerBox SkinnerBox { get; set; }        
+        public Advertisement.Advertisement Advertisement { get; set; }
+        public SkinnerBox.SkinnerBox SkinnerBox { get; set; }
+        //public StoragePolicy StoragePolicy { get; set; }
     }
     public class ActiveMarketPropertyInstanceResolver : IPropertyInstanceResolver
     {
@@ -101,4 +97,10 @@ namespace Fort.Info
 
         #endregion
     }
+
+    /*public enum StoragePolicy
+    {
+        File,
+        PlayerPrefs
+    }*/
 }

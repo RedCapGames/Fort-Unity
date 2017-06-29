@@ -54,8 +54,8 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Analytics\IAnalyticsProvider.cs">
       <Link>Fort\Infrastuctures\Analytics\IAnalyticsProvider.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Fort\Infrastuctures\AssetBundle\Utility.cs">
-      <Link>Fort\Infrastuctures\AssetBundle\Utility.cs</Link>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\AssetBundle\AssetBundleUtility.cs">
+      <Link>Fort\Infrastuctures\AssetBundle\AssetBundleUtility.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Dispatcher\GameDispatcher.cs">
       <Link>Fort\Infrastuctures\Dispatcher\GameDispatcher.cs</Link>
@@ -65,6 +65,30 @@
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\PersianHelper.cs">
       <Link>Fort\Infrastuctures\Helpers\PersianHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\Stream\ActionStream.cs">
+      <Link>Fort\Infrastuctures\Helpers\Stream\ActionStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\Stream\InvalidOffsetForSeekingException.cs">
+      <Link>Fort\Infrastuctures\Helpers\Stream\InvalidOffsetForSeekingException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\Stream\MergedStream.cs">
+      <Link>Fort\Infrastuctures\Helpers\Stream\MergedStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\Stream\MultiPartFormDataStream.cs">
+      <Link>Fort\Infrastuctures\Helpers\Stream\MultiPartFormDataStream.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\Stream\StreamExtentions.cs">
+      <Link>Fort\Infrastuctures\Helpers\Stream\StreamExtentions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\Stream\StreamInspecter.cs">
+      <Link>Fort\Infrastuctures\Helpers\Stream\StreamInspecter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\Stream\StreamIsNotSeekableException.cs">
+      <Link>Fort\Infrastuctures\Helpers\Stream\StreamIsNotSeekableException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\Stream\SubStream.cs">
+      <Link>Fort\Infrastuctures\Helpers\Stream\SubStream.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\TypeHelper.cs">
       <Link>Fort\Infrastuctures\Helpers\TypeHelper.cs</Link>
@@ -506,6 +530,9 @@
     </Compile>
     <Compile Include="..\..\Assets\Fort\Inspector\InspectorAttribute.cs">
       <Link>Fort\Inspector\InspectorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Inspector\PresentationTitleAttribute.cs">
+      <Link>Fort\Inspector\PresentationTitleAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Inspector\PropertyInstanceResolveAttribute.cs">
       <Link>Fort\Inspector\PropertyInstanceResolveAttribute.cs</Link>

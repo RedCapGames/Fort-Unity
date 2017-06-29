@@ -10,6 +10,7 @@ using Fort.Info;
 using Fort.ServerConnection;
 using FortBacktory.Info;
 using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Fort.Backtory
 {
@@ -298,13 +299,125 @@ namespace Fort.Backtory
                         deferred.Reject(new BactkoryCallError(HttpStatusCode.Continue,CallErrorType.Other ));
                     });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     deferred.Reject(new BactkoryCallError(HttpStatusCode.Continue, CallErrorType.Other));
                 }
             });
 
             return deferred.Promise();
+        }
+
+        public Uri GetStorageAddress()
+        {
+            return new Uri(new Uri("http://storage.backtory.com"),new Uri(string.Format("/{0}",InfoResolver.Resolve<BacktoryInfo>().StorageName),UriKind.Relative));
+        }
+
+        private static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(plainTextBytes);
+        }
+
+/*        private static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            return Encoding.UTF8.GetString(base64EncodedBytes);
+        }*/
+        private string GetLocalStoragePath(string uri)
+        {
+            return Path.Combine(Path.Combine(Application.persistentDataPath, "Storage"), Base64Encode(uri));
+        }
+
+/*        private string GetServerStoragePath(string localPath)
+        {
+            return Base64Decode(Path.GetFileName(localPath));
+        }*/
+        public ComplitionPromise<string> LoadFromStorage(Uri uri, Action<DownloadProgress> progress)
+        {
+            ComplitionDeferred<string> deferred = new ComplitionDeferred<string>();
+            IDispatcher dispatcher = GameDispatcher.Dispatcher;
+            string localFileName = GetLocalStoragePath(uri.ToString());
+            string localPath = Path.GetDirectoryName(localFileName);
+            StorageSavedData savedData = ServiceLocator.Resolve<IStorageService>().ResolveData<StorageSavedData>() ?? new StorageSavedData();
+            if (savedData.Cache.ContainsKey(uri.ToString()))
+                savedData.Cache.Remove(uri.ToString());
+            ServiceLocator.Resolve<IStorageService>().UpdateData(savedData);
+            ThreadPool.QueueUserWorkItem(state =>
+            {
+                try
+                {
+                    if (!Directory.Exists(localPath))
+                        Directory.CreateDirectory(localPath);
+                    using (FileStream file = File.Create(localFileName))
+                    {
+                        WebRequest request = WebRequest.Create(uri);
+                        request.Method = "GET";
+                        using (WebResponse webResponse = request.GetResponse())
+                        {
+                            
+
+                            using (System.IO.Stream responseStream = webResponse.GetResponseStream())
+                            {
+                                int bytesRead;
+                                byte[] buffer = new byte[2048];
+                                long wroteSize = 0;
+                                while ((bytesRead = responseStream.Read(buffer, 0, buffer.Length)) != 0)
+                                {
+                                    file.Write(buffer, 0, bytesRead);
+                                    wroteSize += bytesRead;
+                                    long dispatchWroteSize = wroteSize;
+                                    long dispatchContentLength = webResponse.ContentLength;
+                                    dispatcher.Dispach(() =>
+                                    {
+                                        progress(new DownloadProgress(dispatchContentLength, dispatchWroteSize));
+                                    });
+                                }
+                            }
+                        }
+                    }
+
+                    dispatcher.Dispach(() =>
+                    {
+                        StorageSavedData storageSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<StorageSavedData>() ?? new StorageSavedData();
+                        storageSavedData.Cache[uri.ToString()] = localFileName;
+                        ServiceLocator.Resolve<IStorageService>().UpdateData(storageSavedData);
+                        deferred.Resolve(localFileName);
+                    });
+                }
+                catch (Exception e)
+                {
+                    try
+                    {
+                        File.Delete(localFileName);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                    dispatcher.Dispach(() =>
+                    {
+                        Debug.LogException(e);
+                        deferred.Reject();
+                    });
+                }
+            });
+            
+            return deferred.Promise();
+        }
+
+        public bool IsCached(Uri uri)
+        {
+            StorageSavedData storageSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<StorageSavedData>() ?? new StorageSavedData();
+            return storageSavedData.Cache.ContainsKey(uri.ToString());
+        }
+
+        public string LoadFromCache(Uri uri)
+        {
+            StorageSavedData storageSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<StorageSavedData>() ?? new StorageSavedData();
+            if (!storageSavedData.Cache.ContainsKey(uri.ToString()))
+                throw new Exception("Item not cached");
+            return storageSavedData.Cache[uri.ToString()];
         }
 
         #endregion
@@ -399,6 +512,15 @@ namespace Fort.Backtory
             public string FileName;
             public string Value;
             public PostDataParamType Type;
+        }
+
+        class StorageSavedData
+        {
+            public StorageSavedData()
+            {
+                Cache = new Dictionary<string, string>();
+            }
+            public Dictionary<string,string> Cache { get; set; }
         }
     }
 }

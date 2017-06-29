@@ -9,7 +9,8 @@ namespace Fort.Info.GameLevel
         public GameLevelInfo()
         {
             Id = Guid.NewGuid().ToString();
-            Scene = new InfoLanguageItem<FortScene> { UseOverridedValue = true };
+            Scene = new InfoLanguageItem<FortScene> { UseOverridedValue = true,OverridedValue = new FortScene()};
+            
             DisplayName = new InfoLanguageItem<string>();
         }
         [IgnorePresentation]

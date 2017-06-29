@@ -243,9 +243,9 @@ namespace Fort
             PurchasableItemStoredData purchasableItemStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemStoredData>() ??
                 new PurchasableItemStoredData();
-            PurchasableItemCache purchasableItemCache =
+/*            PurchasableItemCache purchasableItemCache =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemCache>() ??
-                new PurchasableItemCache();
+                new PurchasableItemCache();*/
             NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo =
                 purchasableItem as NoneLevelBasePurchasableItemInfo;
             if (noneLevelBasePurchasableItemInfo != null)
@@ -337,63 +337,72 @@ namespace Fort
             string payload = Guid.NewGuid().ToString();
             market.PurchasePackage(iapPackage.Sku, payload).Then(purchaseToken =>
             {
-                PackagePurchaseCache packagePurchaseCache =
-                    ServiceLocator.Resolve<IStorageService>().ResolveData<PackagePurchaseCache>() ??
-                    new PackagePurchaseCache();
-                packagePurchaseCache.PurchaseTokens[purchaseToken] = new PackageCache
+                if (InfoResolver.Resolve<FortInfo>().ServerConnectionProvider != null)
                 {
-                    Applied = false,
-                    Payload = payload,
-                    PurchaseTime = DateTime.Now
-                };
-                ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
-                ServiceLocator.Resolve<IServerService>()
-                    .Call<PurchaseIapPackageResult>("PurchaseIapPackage", new PurchaseIapPackageData
+                    PackagePurchaseCache packagePurchaseCache =
+                        ServiceLocator.Resolve<IStorageService>().ResolveData<PackagePurchaseCache>() ??
+                        new PackagePurchaseCache();
+                    packagePurchaseCache.PurchaseTokens[purchaseToken] = new PackageCache
                     {
-                        Market = InfoResolver.Resolve<FortInfo>().ActiveMarket,
+                        Applied = false,
                         Payload = payload,
-                        PurchaseToken = purchaseToken,
-                        Sku = iapPackage.Sku
-                    }).Then(result =>
-                    {
-                        if (result.MarketSuccess)
+                        PurchaseTime = DateTime.Now
+                    };
+                    ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
+                    ServiceLocator.Resolve<IServerService>()
+                        .Call<PurchaseIapPackageResult>("PurchaseIapPackage", new PurchaseIapPackageData
                         {
-                            packagePurchaseCache.PurchaseTokens[purchaseToken].Applied = true;
+                            Market = InfoResolver.Resolve<FortInfo>().ActiveMarket,
+                            Payload = payload,
+                            PurchaseToken = purchaseToken,
+                            Sku = iapPackage.Sku
+                        }).Then(result =>
+                        {
+                            if (result.MarketSuccess)
+                            {
+                                packagePurchaseCache.PurchaseTokens[purchaseToken].Applied = true;
+                                packagePurchaseCache.PurchaseTokens[purchaseToken].MarketFailed = false;
+                                ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
+                                /*                            UserInfo userInfo = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>() ??
+                                                                            new UserInfo();
+                                                        userInfo.Balance.SyncValues();
+                                                        userInfo.Balance += result.AddedValue;
+                                                        ServiceLocator.Resolve<IStorageService>().UpdateData(userInfo);*/
+                                _isPurchasingPackage = false;
+                                ServiceLocator.Resolve<IAnalyticsService>()
+                                    .StatIapPurchased(iapPackage, InfoResolver.Resolve<FortInfo>().ActiveMarket);
+                                ApplyIapPackageInfo(iapPackage)
+                                    .Then(() => { deferred.Resolve(); }, () => { deferred.Resolve(); });
+                            }
+                            else
+                            {
+                                packagePurchaseCache.PurchaseTokens[purchaseToken].Applied = true;
+                                packagePurchaseCache.PurchaseTokens[purchaseToken].MarketFailed = true;
+                                ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
+                                _isPurchasingPackage = false;
+                                ServiceLocator.Resolve<IAnalyticsService>()
+                                    .StatIapFailed(iapPackage, purchaseToken,
+                                        InfoResolver.Resolve<FortInfo>().ActiveMarket,
+                                        IapPurchaseFail.FraudDetected);
+                                deferred.Reject(PurchasePackageErrorResult.MarketFailed);
+                            }
+                        }, () =>
+                        {
+                            packagePurchaseCache.PurchaseTokens[purchaseToken].Applied = false;
                             packagePurchaseCache.PurchaseTokens[purchaseToken].MarketFailed = false;
-                            ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
-                            UserInfo userInfo = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>() ??
-                                                new UserInfo();
-                            userInfo.Balance.SyncValues();
-                            userInfo.Balance += result.AddedValue;
-                            ServiceLocator.Resolve<IStorageService>().UpdateData(userInfo);
-                            _isPurchasingPackage = false;
-                            ServiceLocator.Resolve<IAnalyticsService>()
-                                .StatIapPurchased(iapPackage, InfoResolver.Resolve<FortInfo>().ActiveMarket);
-                            ApplyIapPackageInfo(iapPackage)
-                                .Then(() => { deferred.Resolve(); }, () => { deferred.Resolve(); });
-                        }
-                        else
-                        {
-                            packagePurchaseCache.PurchaseTokens[purchaseToken].Applied = true;
-                            packagePurchaseCache.PurchaseTokens[purchaseToken].MarketFailed = true;
                             ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
                             _isPurchasingPackage = false;
                             ServiceLocator.Resolve<IAnalyticsService>()
                                 .StatIapFailed(iapPackage, purchaseToken, InfoResolver.Resolve<FortInfo>().ActiveMarket,
-                                    IapPurchaseFail.FraudDetected);
-                            deferred.Reject(PurchasePackageErrorResult.MarketFailed);
-                        }
-                    }, () =>
-                    {
-                        packagePurchaseCache.PurchaseTokens[purchaseToken].Applied = false;
-                        packagePurchaseCache.PurchaseTokens[purchaseToken].MarketFailed = false;
-                        ServiceLocator.Resolve<IStorageService>().UpdateData(packagePurchaseCache);
-                        _isPurchasingPackage = false;
-                        ServiceLocator.Resolve<IAnalyticsService>()
-                            .StatIapFailed(iapPackage, purchaseToken, InfoResolver.Resolve<FortInfo>().ActiveMarket,
-                                IapPurchaseFail.FortServerFail);
-                        deferred.Reject(PurchasePackageErrorResult.Failed);
-                    });
+                                    IapPurchaseFail.FortServerFail);
+                            deferred.Reject(PurchasePackageErrorResult.Failed);
+                        });
+                }
+                else
+                {
+                    ApplyIapPackageInfo(iapPackage).Then(() => deferred.Resolve(),() => deferred.Resolve());
+                }
+
             }, error =>
             {
                 _isPurchasingPackage = false;
@@ -421,6 +430,8 @@ namespace Fort
         public ErrorPromise<PurchasePackageErrorResult> ReportPurchasePackage(IapPackageInfo iapPackage,
             string purchaseToken)
         {
+            if(InfoResolver.Resolve<FortInfo>().ServerConnectionProvider == null)
+                throw new Exception("Report purchase package only supported on server mode of fort");
             ErrorDeferred<PurchasePackageErrorResult> deferred = new ErrorDeferred<PurchasePackageErrorResult>();
             PackagePurchaseCache packagePurchaseCache =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PackagePurchaseCache>() ??
@@ -484,16 +495,10 @@ namespace Fort
         public ComplitionPromise<IapPackageInfo[]> ResolvePackages()
         {
             ComplitionDeferred<IapPackageInfo[]> deferred = new ComplitionDeferred<IapPackageInfo[]>();
-
-            ServiceLocator.Resolve<IServerService>().Call<ServerPackage[]>("GetIapPackages").Then(packages =>
+            if (InfoResolver.Resolve<FortInfo>().ServerConnectionProvider == null)
             {
-                IapPackageInfo[] iapPackageInfos = ResolveIapPackageInfo(
-                    packages.Where(
-                        package =>
-                            package.Markets == null || package.Markets.Length == 0 ||
-                            package.Markets.Contains(InfoResolver.Resolve<FortInfo>().ActiveMarket)).ToArray())
-                    .Where(info => info != null)
-                    .ToArray();
+                IapPackageInfo[] iapPackageInfos =
+                    InfoResolver.Resolve<FortInfo>().Package.Packages.Where(info => info != null).ToArray();
                 DiscountIapPackage[] discountIapPackages = iapPackageInfos.OfType<DiscountIapPackage>().ToArray();
                 iapPackageInfos = iapPackageInfos.Except(discountIapPackages).Select(info =>
                 {
@@ -515,7 +520,41 @@ namespace Fort
                     return result;
                 }).ToArray();
                 deferred.Resolve(iapPackageInfos);
-            }, () => deferred.Reject());
+            }
+            else
+            {
+                ServiceLocator.Resolve<IServerService>().Call<ServerPackage[]>("GetIapPackages").Then(packages =>
+                {
+                    IapPackageInfo[] iapPackageInfos = ResolveIapPackageInfo(
+                        packages.Where(
+                            package =>
+                                package.Markets == null || package.Markets.Length == 0 ||
+                                package.Markets.Contains(InfoResolver.Resolve<FortInfo>().ActiveMarket)).ToArray())
+                        .Where(info => info != null)
+                        .ToArray();
+                    DiscountIapPackage[] discountIapPackages = iapPackageInfos.OfType<DiscountIapPackage>().ToArray();
+                    iapPackageInfos = iapPackageInfos.Except(discountIapPackages).Select(info =>
+                    {
+                        IapPackageInfo result;
+                        int discount = GetDiscount(info.GetType());
+                        DiscountIapPackage discountIapPackage =
+                            discountIapPackages.FirstOrDefault(
+                                package =>
+                                    package.PackageData.Discount == discount &&
+                                    package.PackageData.IapPackageInfo.Sku == info.Sku);
+                        if (discount > 0 && discountIapPackage != null)
+                        {
+                            result = discountIapPackage;
+                        }
+                        else
+                        {
+                            result = info;
+                        }
+                        return result;
+                    }).ToArray();
+                    deferred.Resolve(iapPackageInfos);
+                }, () => deferred.Reject());
+            }
             return deferred.Promise();
         }
 
@@ -700,6 +739,12 @@ namespace Fort
                 ServiceLocator.Resolve<IStorageService>().UpdateData(new AdvertisementSavedData {IsAdRemoved = true});
                 if (ServiceLocator.Resolve<IAdvertisementService>().IsStandardBannerSupported)
                     ServiceLocator.Resolve<IAdvertisementService>().HideStandardBanner();
+            }
+            if (InfoResolver.Resolve<FortInfo>().ServerConnectionProvider == null)
+            {
+                Deferred deferred = new Deferred();
+                deferred.Resolve();
+                return deferred.Promise();
             }
             return ServiceLocator.Resolve<IUserManagementService>().FullUpdate();
         }

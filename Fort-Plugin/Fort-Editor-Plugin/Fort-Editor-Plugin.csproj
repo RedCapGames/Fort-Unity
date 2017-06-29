@@ -64,6 +64,9 @@
     <Compile Include="..\..\Assets\Fort\Editor\AssetBundle\AssetBundleMenuItem.cs">
       <Link>Fort\Editor\AssetBundle\AssetBundleMenuItem.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\AssetBundle\EditorAssetBundleUtility.cs">
+      <Link>Fort\Editor\AssetBundle\EditorAssetBundleUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Build\LanguageFixPreprocessBuild.cs">
       <Link>Fort\Editor\Build\LanguageFixPreprocessBuild.cs</Link>
     </Compile>
@@ -99,6 +102,9 @@
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Helpers\AssetDatabaseHelper.cs">
       <Link>Fort\Editor\Helpers\AssetDatabaseHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Helpers\CamelCaseSplit.cs">
+      <Link>Fort\Editor\Helpers\CamelCaseSplit.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Helpers\CustomAssetUtility.cs">
       <Link>Fort\Editor\Helpers\CustomAssetUtility.cs</Link>

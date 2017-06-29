@@ -44,9 +44,9 @@ namespace Fort
             switch (category)
             {
                 case AllTypeCategory.Game:
-                    return match.Groups[1].Value == "Game";
+                    return match.Groups[2].Value == "Game";
                 case AllTypeCategory.Editor:
-                    return match.Groups[1].Value == "Editor";
+                    return match.Groups[2].Value == "Editor";
                 case AllTypeCategory.All:
                     return true;
                 default:

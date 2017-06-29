@@ -8,6 +8,8 @@ namespace Fort
     public class EditorFortEncryptionKey: IFortEncryptionKey
     {
         private EncryptionData _encryptionData;
+        private TextAsset _encryptionTextAsset;
+
         #region Implementation of IFortEncryptionKey
 
         public byte ChangeData(byte data)
@@ -24,10 +26,12 @@ namespace Fort
 
         private void Initialize()
         {
-            TextAsset encryptionTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Fort/Editor/EditorEncryption.json");
-            if (encryptionTextAsset != null)
+            if(_encryptionTextAsset != null)
+                return;
+            _encryptionTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Fort/Editor/EditorEncryption.json");
+            if (_encryptionTextAsset != null)
             {
-                _encryptionData = JsonConvert.DeserializeObject<EncryptionData>(encryptionTextAsset.text);
+                _encryptionData = JsonConvert.DeserializeObject<EncryptionData>(_encryptionTextAsset.text);
             }
             else
             {

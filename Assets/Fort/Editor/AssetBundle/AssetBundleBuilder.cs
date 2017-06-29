@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Assets.FortBacktory;
 using Fort.Info;
 using Fort.ServerConnection;
 using Newtonsoft.Json;
-using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Fort.AssetBundle
 {
     public static class AssetBundleBuilder
     {
+        private static long GetBundleFileSize(string bundleName)
+        {
+            string outputPath = Path.Combine(EditorAssetBundleUtility.AssetBundlesOutputPath, EditorAssetBundleUtility.GetPlatformName());
+            FileInfo fileInfo = new FileInfo(Path.Combine(outputPath,bundleName));
+            return fileInfo.Length;
+        }
         private static string ResolveAssetBundlePath(string bundleName, string hash)
         {
             return string.Format("/AssetBundles/{0}/{1}/{2}.bundle", EditorAssetBundleUtility.GetPlatformName(), bundleName,hash);
@@ -23,7 +25,6 @@ namespace Fort.AssetBundle
         public static void SyncAssetBundles()
         {
             string outputPath = Path.Combine(EditorAssetBundleUtility.AssetBundlesOutputPath, EditorAssetBundleUtility.GetPlatformName());
-            //BacktoryCloudUrl.Url = "http://localhost:8086";
             AssetBundleManifest assetBundleManifest = Build();
             EditorUtility.DisplayProgressBar("Get server asset bundles", "Get server asset bundles", 0);
             InfoResolver.Resolve<FortInfo>()
@@ -52,7 +53,8 @@ namespace Fort.AssetBundle
                                 Version = new ServerAssetBundleVersion
                                 {
                                     Hash = source.Hash.ToString(),
-                                    Path = ResolveAssetBundlePath(source.Name, source.Hash.ToString())
+                                    Path = ResolveAssetBundlePath(source.Name, source.Hash.ToString()),
+                                    Size = GetBundleFileSize(source.Name)
                                 }
                             };
                             ServerAssetBundle serverAssetBundle = finalAssetBundles.FirstOrDefault(bundle => bundle.Name == source.Name);
@@ -162,11 +164,7 @@ namespace Fort.AssetBundle
 
         }
 
-        class ServerAssetBundleVersion
-        {
-            public string Path { get; set; }
-            public string Hash { get; set; }
-        }
+
 
         class AssetNameVersion
         {
