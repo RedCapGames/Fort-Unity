@@ -63,6 +63,18 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Dispatcher\IDispatcher.cs">
       <Link>Fort\Infrastuctures\Dispatcher\IDispatcher.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Events\AchievementClaimedEvent.cs">
+      <Link>Fort\Infrastuctures\Events\AchievementClaimedEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Events\IapPackagePurchasedEvent.cs">
+      <Link>Fort\Infrastuctures\Events\IapPackagePurchasedEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Events\ItemPurchasedEvent.cs">
+      <Link>Fort\Infrastuctures\Events\ItemPurchasedEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Events\LanguageActivatedEvent.cs">
+      <Link>Fort\Infrastuctures\Events\LanguageActivatedEvent.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\PersianHelper.cs">
       <Link>Fort\Infrastuctures\Helpers\PersianHelper.cs</Link>
     </Compile>
@@ -393,6 +405,39 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\ServiceLocator.cs">
       <Link>Fort\Infrastuctures\ServiceLocator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\DataEventArgs.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\DataEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\DelegateReference.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\DelegateReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\DispatcherEventSubscription.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\DispatcherEventSubscription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\EventAggregator.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\EventAggregator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\EventBase.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\EventBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\EventSubscription.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\EventSubscription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\IDelegateReference.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\IDelegateReference.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\IEventAggregator.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\IEventAggregator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\IEventSubscription.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\IEventSubscription.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\PubSubEvent.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\PubSubEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Aggregator\SubscriptionToken.cs">
+      <Link>Fort\Infrastuctures\Services\Aggregator\SubscriptionToken.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Helpers\AchievementServiceExtensions.cs">
       <Link>Fort\Infrastuctures\Services\Helpers\AchievementServiceExtensions.cs</Link>
     </Compile>
@@ -423,6 +468,9 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IAudioService.cs">
       <Link>Fort\Infrastuctures\Services\IAudioService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IEventAggregatorService.cs">
+      <Link>Fort\Infrastuctures\Services\IEventAggregatorService.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\IInvitationService.cs">
       <Link>Fort\Infrastuctures\Services\IInvitationService.cs</Link>
     </Compile>
@@ -449,6 +497,9 @@
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\AudioService.cs">
       <Link>Fort\Infrastuctures\Services\Implementations\AudioService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\EventAggregatorService.cs">
+      <Link>Fort\Infrastuctures\Services\Implementations\EventAggregatorService.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Services\Implementations\InvitationService.cs">
       <Link>Fort\Infrastuctures\Services\Implementations\InvitationService.cs</Link>
@@ -538,6 +589,11 @@
       <Link>Fort\Inspector\PropertyInstanceResolveAttribute.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Assets\Fort\Resources\Version.txt">
+      <Link>Fort\Resources\Version.txt</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

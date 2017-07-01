@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+//using Assets.FortBacktory;
 using Fort.Info;
 using Fort.ServerConnection;
 using Newtonsoft.Json;
@@ -22,8 +23,10 @@ namespace Fort.AssetBundle
         {
             return string.Format("/AssetBundles/{0}/{1}/{2}.bundle", EditorAssetBundleUtility.GetPlatformName(), bundleName,hash);
         }
-        public static void SyncAssetBundles()
+        public static Promise SyncAssetBundles()
         {
+            //BacktoryCloudUrl.Url = "http://localhost:8086";
+            Deferred deferred = new Deferred();
             string outputPath = Path.Combine(EditorAssetBundleUtility.AssetBundlesOutputPath, EditorAssetBundleUtility.GetPlatformName());
             AssetBundleManifest assetBundleManifest = Build();
             EditorUtility.DisplayProgressBar("Get server asset bundles", "Get server asset bundles", 0);
@@ -127,24 +130,31 @@ namespace Fort.AssetBundle
                                             {
                                                 writer.Write(JsonConvert.SerializeObject(finalMap));
                                             }
-                                            AssetDatabase.ImportAsset(fullDirectory+"/AssetBundleBundleInfo.json");
+                                            //AssetDatabase.ImportAsset(fullDirectory+"/AssetBundleBundleInfo.json");
                                             AssetDatabase.Refresh();
+                                            deferred.Resolve();
                                         }, error =>
                                         {
+                                            
                                             EditorUtility.ClearProgressBar();
+                                            deferred.Reject();
                                             throw new Exception("Cannot update server asset bundle list");
 
                                         });
                                 }, () =>
                                 {
                                     EditorUtility.ClearProgressBar();
+                                    deferred.Reject();
                                     throw new Exception("Cannot Upload asset bundles to storage");
                                 });
                     }, error =>
                     {
+                        
                         EditorUtility.ClearProgressBar();
+                        deferred.Reject();
                         throw new Exception("Cannot resolve asset bundles from server");
                     });
+            return deferred.Promise();
         }
 
         public static AssetBundleManifest Build()

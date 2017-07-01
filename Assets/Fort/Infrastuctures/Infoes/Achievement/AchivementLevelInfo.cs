@@ -16,5 +16,7 @@ namespace Fort.Info.Achievement
         public string Id { get; set; }
         public int Score { get; set; }
         public Balance Balance { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
     }
 }

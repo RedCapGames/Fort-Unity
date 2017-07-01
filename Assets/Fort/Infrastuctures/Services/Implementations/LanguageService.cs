@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Assets.Fort.Infrastuctures.Events;
 using Fort.Info;
 using Fort.Info.Language;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Fort
                 ServiceLocator.Resolve<IStorageService>().ResolveData<LanguageSavedData>() ?? new LanguageSavedData();
             languageSavedData.LanguageId = language.Id;
             ServiceLocator.Resolve<IStorageService>().UpdateData(languageSavedData);
+            ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<LanguageActivatedEvent>().Publish(new LanguageActivatedEventArgs(language));
         }
 
         public LanguageInfo GetActiveLanguage()

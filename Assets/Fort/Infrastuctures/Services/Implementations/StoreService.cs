@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Fort.Events;
 using Fort.Info;
 using Fort.Info.Language;
 using Fort.Info.Market.Iap;
@@ -373,6 +374,7 @@ namespace Fort
                                     .StatIapPurchased(iapPackage, InfoResolver.Resolve<FortInfo>().ActiveMarket);
                                 ApplyIapPackageInfo(iapPackage)
                                     .Then(() => { deferred.Resolve(); }, () => { deferred.Resolve(); });
+                                ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<IapPackagePurchasedEvent>().Publish(new IapPackagePurchasedEventArgs(iapPackage));
                             }
                             else
                             {
@@ -401,6 +403,7 @@ namespace Fort
                 else
                 {
                     ApplyIapPackageInfo(iapPackage).Then(() => deferred.Resolve(),() => deferred.Resolve());
+                    ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<IapPackagePurchasedEvent>().Publish(new IapPackagePurchasedEventArgs(iapPackage));
                 }
 
             }, error =>
@@ -463,6 +466,7 @@ namespace Fort
                             .StatIapRetry(iapPackage, purchaseToken, InfoResolver.Resolve<FortInfo>().ActiveMarket);
                         ApplyIapPackageInfo(iapPackage)
                             .Then(() => { deferred.Resolve(); }, () => { deferred.Resolve(); });
+                        ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<IapPackagePurchasedEvent>().Publish(new IapPackagePurchasedEventArgs(iapPackage));
                     }
                     else
                     {
@@ -600,6 +604,7 @@ namespace Fort
                 purchasableItemStoredData.PurchasableItems[noneLevelBasePurchasableItemInfo.Id] = 0;
                 purchasableItemCache.ServerPurchasableitemIds[noneLevelBasePurchasableItemInfo.Id] = false;
                 ServiceLocator.Resolve<IAnalyticsService>().StatItemPurchased(purchasableItem.Id, cost, discount);
+                ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<ItemPurchasedEvent>().Publish(new NoneLevelBaseItemPurchasedEventArgs((NoneLevelBasePurchasableItemInfo) purchasableItem,cost));
             }
             else
             {
@@ -631,6 +636,7 @@ namespace Fort
                 purchasableItemStoredData.PurchasableItems[levelBasePurchasableItemInfo.Id] = purchaseLevelIndex;
                 purchasableItemCache.ServerPurchasableitemIds[purchasableLevelInfo.Id] = false;
                 ServiceLocator.Resolve<IAnalyticsService>().StatItemPurchased(purchasableLevelInfo.Id, cost, discount);
+                ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<ItemPurchasedEvent>().Publish(new LevelBaseItemPurchasedEventArgs((LevelBasePurchasableItemInfo) purchasableItem, purchaseLevelIndex,cost));
             }
             ServiceLocator.Resolve<IStorageService>().UpdateData(purchasableItemStoredData);
             ServiceLocator.Resolve<IStorageService>().UpdateData(purchasableItemCache);

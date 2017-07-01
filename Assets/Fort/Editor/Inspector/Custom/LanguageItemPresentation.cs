@@ -232,8 +232,9 @@ namespace Fort.CustomEditor
                     EditorGUILayout.EndVertical();
                     EditorGUILayout.EndHorizontal();
                 }
+                change.ChildrenChange = changes.ToArray();
             }
-            change.ChildrenChange = changes.ToArray();
+            
             return change;
         }
         private static void ApplyLanguagePrenetation(PresentationParamater parameter, LanguageInfo languageInfo, LanguageItem languageItem, Type itemType, PresentationSite presentationSite, PresentationData presentationData, List<Change> changes, string title)

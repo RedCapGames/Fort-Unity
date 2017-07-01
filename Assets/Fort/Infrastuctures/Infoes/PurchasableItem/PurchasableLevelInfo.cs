@@ -13,6 +13,8 @@ namespace Fort.Info.PurchasableItem
         }
         [IgnorePresentation]
         public string Id { get; set; }
+
+        public string Name { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public bool DefaultBought { get; set; }

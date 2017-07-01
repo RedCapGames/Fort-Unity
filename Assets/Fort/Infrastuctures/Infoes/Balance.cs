@@ -14,15 +14,15 @@ namespace Fort.Info
     {
         public Balance()
         {
-            if(InfoResolver.GetLoadingSequence<FortInfo>())
+            if (InfoResolver.GetLoadingSequence<FortInfo>())
                 return;
             Values = InfoResolver.Resolve<FortInfo>().ValueDefenitions.ToDictionary(s => s, s => 0);
         }
         public void SyncValues()
         {
-            if(Values == null)
+            if (Values == null)
                 Values = new Dictionary<string, int>();
-            string[] valueDefenitions = InfoResolver.Resolve<FortInfo>().ValueDefenitions??new string[0];
+            string[] valueDefenitions = InfoResolver.Resolve<FortInfo>().ValueDefenitions ?? new string[0];
             foreach (string valueDefenition in valueDefenitions)
             {
                 if (!Values.ContainsKey(valueDefenition))
@@ -60,13 +60,13 @@ namespace Fort.Info
                 Values[newKey] = 0;
             }
             {
-                
+
             }
         }
 
         public static bool operator <(Balance c1, Balance c2)
         {
-            return c1.Values.All(pair => c2.Values.ContainsKey(pair.Key) && pair.Value<c2.Values[pair.Key]);
+            return c1.Values.All(pair => c2.Values.ContainsKey(pair.Key) && pair.Value < c2.Values[pair.Key]);
         }
         public static bool operator >(Balance c1, Balance c2)
         {
@@ -90,13 +90,13 @@ namespace Fort.Info
             }
             return result;
         }
-        public static Balance operator *(Balance value,float ratio)
+        public static Balance operator *(Balance value, float ratio)
         {
             Balance result = new Balance();
             result.Values = new Dictionary<string, int>();
             foreach (KeyValuePair<string, int> pair in value.Values)
             {
-                result.Values.Add(pair.Key, (int) (pair.Value*ratio));
+                result.Values.Add(pair.Key, (int)(pair.Value * ratio));
             }
             return result;
         }
@@ -136,7 +136,8 @@ namespace Fort.Info
             result.Values = new Dictionary<string, int>();
             foreach (KeyValuePair<string, int> pair in value.Values)
             {
-                result.Values.Add(pair.Key, pair.Value + secondory.Values[pair.Key]);
+                if (secondory.Values.ContainsKey(pair.Key))
+                    result.Values.Add(pair.Key, pair.Value + secondory.Values[pair.Key]);
             }
             return result;
         }
@@ -146,26 +147,52 @@ namespace Fort.Info
             result.Values = new Dictionary<string, int>();
             foreach (KeyValuePair<string, int> pair in value.Values)
             {
-                result.Values.Add(pair.Key, pair.Value - secondory.Values[pair.Key]);
+                if (secondory.Values.ContainsKey(pair.Key))
+                    result.Values.Add(pair.Key, pair.Value - secondory.Values[pair.Key]);
             }
             return result;
         }
+        public static implicit operator int(Balance balance)
+        {
+            balance.SyncValues();
+            return balance.Values.First().Value;
+        }
+        public static implicit operator Balance(int value)
+        {
+            Balance result = new Balance();
+            result.Values[result.Values.First().Key] = value;
+            return result;
+        }
+
+        #region Overrides of Object
+
+        public override string ToString()
+        {
+            SyncValues();
+            if (Values.Count == 0)
+                return string.Empty;
+            if (Values.Count == 1)
+                return Values.First().Value.ToString();
+            return JsonConvert.SerializeObject(Values);
+        }
+
+        #endregion
     }
 
-    internal class BalanceJsonConverter:JsonConverter
+    internal class BalanceJsonConverter : JsonConverter
     {
         #region Overrides of JsonConverter
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            JToken jToken = JToken.FromObject(value==null?null:((Balance)value).Values);
-            jToken.WriteTo(writer);            
+            JToken jToken = JToken.FromObject(value == null ? null : ((Balance)value).Values);
+            jToken.WriteTo(writer);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JToken jToken = JToken.ReadFrom(reader);
-            if(jToken.Type == JTokenType.Null || jToken.Type== JTokenType.None)
+            if (jToken.Type == JTokenType.Null || jToken.Type == JTokenType.None)
                 return new Balance();
             Balance result = new Balance();
 
@@ -184,7 +211,7 @@ namespace Fort.Info
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof (Balance);
+            return objectType == typeof(Balance);
         }
 
         #endregion

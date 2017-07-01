@@ -10,5 +10,6 @@ namespace FortTapsell.Info
     public class TapsellInfo:IInfo
     {
         public string Key { get; set; }
+        public static TapsellInfo Instance { get { return InfoResolver.Resolve<TapsellInfo>(); } }
     }
 }

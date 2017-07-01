@@ -178,14 +178,11 @@
     <Compile Include="..\..\Assets\Fort\Editor\LanguageInfoEditor.cs">
       <Link>Fort\Editor\LanguageInfoEditor.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Fort\Editor\Sync\ServerAchievement.cs">
-      <Link>Fort\Editor\Sync\ServerAchievement.cs</Link>
+    <Compile Include="..\..\Assets\Fort\Editor\Publish\PublishMenuItems.cs">
+      <Link>Fort\Editor\Publish\PublishMenuItems.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Sync\ServerInfo.cs">
       <Link>Fort\Editor\Sync\ServerInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Fort\Editor\Sync\ServerPurchasableItem.cs">
-      <Link>Fort\Editor\Sync\ServerPurchasableItem.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -194,6 +191,11 @@
       <Project>{107f7095-20d6-4b1e-a9b3-42c8e49d1d0e}</Project>
       <Name>Fort-Game-Plugin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Assets\Fort\Resources\Version.txt">
+      <Link>Fort\Resources\Version.txt</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

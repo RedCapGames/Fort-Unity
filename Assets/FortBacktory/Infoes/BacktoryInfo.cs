@@ -14,5 +14,6 @@ namespace FortBacktory.Info
         public string CloudId { get; set; }
 
         public string StorageName { get; set; }
+        public static BacktoryInfo Instance { get { return InfoResolver.Resolve<BacktoryInfo>(); } }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Fort.Info;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -53,15 +54,32 @@ namespace Fort
             return ServiceLocator.Resolve<IStorageService>().ResolveData<ServerSettings>();
         }
 
+        public Version GetVersion()
+        {
+            TextAsset textAsset = Resources.Load<TextAsset>("Version");
+            if(textAsset == null)
+                return new Version(1,0);
+            try
+            {
+                return new Version(textAsset.text);
+            }
+            catch (Exception)
+            {
+                return new Version(1, 0);
+            }
+            
+        }
+
         #endregion
     }
 
     public class ServerSettings
     {
+        public string[] ValuesDefenition { get; set; }
         [JsonProperty("StartupValues")]
         public Balance StartupBalance { get; set; }
         public Balance InvitationPrize { get; set; }
-        public bool IsPublished { get; set; }
+        //public bool IsPublished { get; set; }
         public AdvertisementSettings AdvertisementSettings { get; set; }
 
     }
@@ -69,7 +87,7 @@ namespace Fort
     public class AdvertisementSettings
     {
         public string[] VideoPriority { get; set; }
-        public string StandartBannerPriority { get; set; }
+        public string StandardBannerPriority { get; set; }
         public string InterstiatialBannerPriority { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +21,15 @@ namespace Fort
 
         #region Implementation of ISceneLoaderService
 
-        
+        private string FixSceneName(string sceneName)
+        {
+            if (sceneName.EndsWith(".unity"))
+            {
+                return Path.GetFileNameWithoutExtension(Path.GetFileName(sceneName));
+            }
+            return Path.GetFileName(sceneName);
+        }
+
         public bool IsReturnCapable { get { return _sceneStack.Count > 0; } }
 
         public ComplitionPromise<object> Load(SceneLoadParameters parameters)
@@ -40,7 +49,7 @@ namespace Fort
             if(parameters.AddToSceneStack)
                 _sceneStack.Push(SceneManager.GetActiveScene().name);
             _lastContext = parameters.Context;
-            SceneManager.LoadScene(parameters.SceneName);
+            SceneManager.LoadScene(FixSceneName(parameters.SceneName));
             return _lastLoadDeferred.Promise();
         }
 
@@ -54,7 +63,7 @@ namespace Fort
             if (parameters.AddToSceneStack)
                 _sceneStack.Push(SceneManager.GetActiveScene().name);
             _lastContext = parameters.Context;
-            return SceneManager.LoadSceneAsync(parameters.SceneName);
+            return SceneManager.LoadSceneAsync(FixSceneName(parameters.SceneName));
         }
 
         public object GetLastLoadContext()

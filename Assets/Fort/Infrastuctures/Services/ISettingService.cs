@@ -8,9 +8,9 @@ namespace Fort
     public interface ISettingService
     {
         ComplitionPromise<ServerSettings> ResolveServerSettings();
-        
         ServerSettings ResolveCachedServerSetting();
-        
+        Version GetVersion();
+
     }
     public enum AudioCategory
     {

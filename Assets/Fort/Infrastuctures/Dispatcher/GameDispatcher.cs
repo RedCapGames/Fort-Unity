@@ -34,12 +34,23 @@ namespace Fort.Dispatcher
 
         void Update()
         {
+            Action[] actions;
             lock (this)
             {
-                while (_actionQueue.Count>0)
+                actions = _actionQueue.ToArray();
+                _actionQueue.Clear();
+            }
+            foreach (Action action in actions)
+            {
+                try
                 {
-                    _actionQueue.Dequeue()();
+                    action();
                 }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
+                
             }
         }
     }

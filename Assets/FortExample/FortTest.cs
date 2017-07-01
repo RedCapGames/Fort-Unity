@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class FortTest : MonoBehaviour
 {
-    private WeakReference _reference;
+    //private WeakReference _reference;
 
     // Use this for initialization
     void Start()
@@ -112,8 +112,11 @@ public class FortTest : MonoBehaviour
 /*        Balance balance = new Balance();
         balance["Coin"] = 12;
         ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0, balance);*/
-        _reference = new WeakReference(new WeakAction().Action);
-        
+        //_reference = new WeakReference(new WeakAction().Action);
+/*        ServiceLocator.Resolve<ISceneLoaderService>()
+            .Load(new SceneLoadParameters(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value.SceneName));*/
+            ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(100,10);
+        int coin = ServiceLocator.Resolve<IUserManagementService>().Balance;
     }
 
     
@@ -121,8 +124,7 @@ public class FortTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GC.Collect();
-        Debug.Log(_reference.IsAlive);
+        //Debug.Log(_reference.IsAlive);
     }
 
     /*    class TestGameServerSetting : GameServerSetting
@@ -156,7 +158,7 @@ public class FortTest : MonoBehaviour
         [GameItemFilter(typeof(Text))]
         public GameItemInfo Image { get; set; }
     }*/
-    public class WeakAction
+/*    public class WeakAction
     {
         public Action Action { get; set; }
 
@@ -173,5 +175,5 @@ public class FortTest : MonoBehaviour
         {
             throw new NotImplementedException();
         }
-    }
+    }*/
 }

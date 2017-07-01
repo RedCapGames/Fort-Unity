@@ -15,6 +15,6 @@
                 }
             };
         }
-        public LanguageInfo[] Languages { get; set; }
+        public LanguageInfo[] Languages { get; set; }        
     }
 }

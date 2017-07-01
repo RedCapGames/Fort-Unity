@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Fort.Events;
 using Fort.Info;
 using Fort.Info.Achievement;
 using Fort.Inspector;
@@ -101,6 +102,7 @@ namespace Fort
             ServiceLocator.Resolve<IUserManagementService>()
                 .AddScoreAndBalance(scoreBalance.Score, scoreBalance.Balance);
             ServiceLocator.Resolve<IAnalyticsService>().StatAchievementClaimed(noneLevelBaseAchievementInfo.Id,scoreBalance);
+            ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<AchievementClaimedEvent>().Publish(new NoneLeveBaseAchievementClaimedEventArgs(noneLevelBaseAchievementInfo));
         }
 
         public void ClaimAchievement(Type levelBaseType, int achivementLevelIndex)
@@ -145,6 +147,7 @@ namespace Fort
             ServiceLocator.Resolve<IUserManagementService>()
                 .AddScoreAndBalance(scoreBalance.Score, scoreBalance.Balance);
             ServiceLocator.Resolve<IAnalyticsService>().StatAchievementClaimed(achievementLevelInfo.Id,scoreBalance);
+            ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<AchievementClaimedEvent>().Publish(new LevelBaseAchievementClaimedEventArgs((LevelBaseAchievementInfo) achievementinfo,achivementLevelIndex));
         }
 
         public bool IsAchievementClaimed(Type noneLevelBaseType)

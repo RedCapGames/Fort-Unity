@@ -7,6 +7,11 @@ namespace Fort.Info.Invitation
 {
     public class InvitationInfo
     {
+        public InvitationInfo()
+        {
+            InvitationPrize = new Balance();
+        }
         public string ShareUrl { get; set; }
+        public Balance InvitationPrize { get; set; }
     }
 }

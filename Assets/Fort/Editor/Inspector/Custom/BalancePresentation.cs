@@ -2,6 +2,7 @@
 using System.Linq;
 using Fort.Info;
 using Fort.Inspector;
+using UnityEditor;
 
 
 namespace Fort.CustomEditor
@@ -12,6 +13,13 @@ namespace Fort.CustomEditor
         #region Overrides of Presentation
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
         {
+            Change change = new Change();
+            BalancePresentationData balancePresentationData = parameter.PresentationData as BalancePresentationData??new BalancePresentationData();
+
+            bool isFoldout = balancePresentationData.IsFoldout;
+            balancePresentationData.IsFoldout = EditorGUILayout.Foldout(balancePresentationData.IsFoldout, parameter.Title);
+            change.IsPresentationChanged = isFoldout != balancePresentationData.IsFoldout;
+
             Balance balance = (Balance)parameter.Instance;
             if(balance == null)
                 balance = new Balance();
@@ -20,39 +28,49 @@ namespace Fort.CustomEditor
             NumberPresentation[] numberPresentations = _numberPresentations;
             _numberPresentations = new NumberPresentation[values.Count];
             KeyValuePair<string, int>[] pairs = values.ToArray();
-            Change change = new Change();
-            change.ChildrenChange = new Change[_numberPresentations.Length];
-            for (int i = 0; i < _numberPresentations.Length; i++)
-            {
 
-                if (i < numberPresentations.Length)
-                    _numberPresentations[i] = numberPresentations[i];
-                PresentationParamater presentationParamater = new PresentationParamater(pairs[i].Value, null,
-                    pairs[i].Key, typeof (int),
-                    new PresentationSite
-                    {
-                        Base = parameter.Instance,
-                        BaseSite = parameter.PresentationSite,
-                        BasePresentation = this,
-                        SiteType = PresentationSiteType.None
-                    }, parameter.FortInspector);
-                if (_numberPresentations[i] ==null)
+            if (balancePresentationData.IsFoldout)
+            {
+                change.ChildrenChange = new Change[_numberPresentations.Length];
+                for (int i = 0; i < _numberPresentations.Length; i++)
                 {
-                    _numberPresentations[i] = new NumberPresentation();
+
+                    if (i < numberPresentations.Length)
+                        _numberPresentations[i] = numberPresentations[i];
+                    PresentationParamater presentationParamater = new PresentationParamater(pairs[i].Value, null,
+                        pairs[i].Key, typeof(int),
+                        new PresentationSite
+                        {
+                            Base = parameter.Instance,
+                            BaseSite = parameter.PresentationSite,
+                            BasePresentation = this,
+                            SiteType = PresentationSiteType.None
+                        }, parameter.FortInspector);
+                    if (_numberPresentations[i] == null)
+                    {
+                        _numberPresentations[i] = new NumberPresentation();
+                    }
+                    PresentationResult presentationResult = _numberPresentations[i].OnInspectorGui(presentationParamater);
+                    change.ChildrenChange[i] = presentationResult.Change;
+
+                    values[pairs[i].Key] = (int)presentationResult.Result;
                 }
-                PresentationResult presentationResult = _numberPresentations[i].OnInspectorGui(presentationParamater);
-                change.ChildrenChange[i] = presentationResult.Change;
-                
-                values[pairs[i].Key] = (int) presentationResult.Result;
             }
             return new PresentationResult
             {
                 Change = change,
-                PresentationData = null,
+                PresentationData = balancePresentationData,
                 Result = balance
             };
         }
 
         #endregion
+
+        class BalancePresentationData
+        {
+            public bool IsFoldout { get; set; }
+            public object[] ChildrenPrenetation { get; set; } 
+        }
     }
+
 }

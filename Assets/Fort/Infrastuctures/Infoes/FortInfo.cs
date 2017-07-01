@@ -28,6 +28,7 @@ namespace Fort.Info
             Advertisement = new Advertisement.Advertisement();
             SkinnerBox = new SkinnerBox.SkinnerBox();
             Language = new FortLanguage();
+            StartupBalance = new Balance();
         }
 
         public IServerConnectionProvider ServerConnectionProvider { get; set; }
@@ -36,6 +37,9 @@ namespace Fort.Info
         [Inspector(Presentation = "Fort.CustomEditor.ValueDefenitionsPresenter")]
 
         public string[] ValueDefenitions { get; set; }
+
+        public Balance StartupBalance { get; set; }
+
         [PresentationTitle("Markets")]
         [PropertyInstanceResolve(typeof(MarketInfoesPropertyInstanceResolver))]
         public MarketInfo[] MarketInfos { get; set; }
@@ -51,6 +55,7 @@ namespace Fort.Info
         public Advertisement.Advertisement Advertisement { get; set; }
         public SkinnerBox.SkinnerBox SkinnerBox { get; set; }
         //public StoragePolicy StoragePolicy { get; set; }
+        public static FortInfo Instance {get { return InfoResolver.Resolve<FortInfo>(); } }
     }
     public class ActiveMarketPropertyInstanceResolver : IPropertyInstanceResolver
     {

@@ -11,16 +11,16 @@ namespace Fort.Build
 {
     public class LanguageFixPreprocessBuild//: IPreprocessBuild
     {
-        public void OnPreprocessBuild(BuildTarget target, string path)
+        public static void FixLanguage()
         {
-            LanguageItem[] languageItems = TypeHelper.FindType(InfoResolver.Resolve<FortInfo>(),typeof(LanguageItem)).Cast<LanguageItem>().ToArray();
+            LanguageItem[] languageItems = TypeHelper.FindType(InfoResolver.Resolve<FortInfo>(), typeof(LanguageItem)).Cast<LanguageItem>().ToArray();
             List<string> removedItems = new List<string>();
-            LanguageEditorInfo languageEditorInfo =EditorInfoResolver.Resolve<LanguageEditorInfo>();
+            LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
             foreach (LanguageInfo languageInfo in languageEditorInfo.Languages)
             {
                 foreach (KeyValuePair<string, object> pair in languageInfo.LanguageDatas)
                 {
-                    if(languageItems.All(item => item.Id != pair.Key))
+                    if (languageItems.All(item => item.Id != pair.Key))
                         removedItems.Add(pair.Key);
                 }
             }
@@ -41,6 +41,10 @@ namespace Fort.Build
             }
             fortInfo.Save();
             languageEditorInfo.Save();
+        }
+        public void OnPreprocessBuild(BuildTarget target, string path)
+        {
+            FixLanguage();
             //Debug.Log("MyCustomBuildProcessor.OnPreprocessBuild for target " + target + " at path " + path);
         }
     }

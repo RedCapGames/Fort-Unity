@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Fort.Dispatcher;
 using UnityEditor;
+using UnityEngine;
 
 namespace Assets.Fort.Editor.Dispatcher
 {
@@ -17,13 +18,25 @@ namespace Assets.Fort.Editor.Dispatcher
         private static void Update()
         {
             EditorDispatcher editorDispatcher = (EditorDispatcher) _dispatcher;
+            Action[] actions;
             lock (editorDispatcher)
             {
-                while (editorDispatcher._actionQueue.Count > 0)
-                {
-                    editorDispatcher._actionQueue.Dequeue()();
-                }
+                actions = editorDispatcher._actionQueue.ToArray();
+                editorDispatcher._actionQueue.Clear();
             }
+            foreach (Action action in actions)
+            {
+                try
+                {
+                    action();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
+
+            }
+
         }
 
         private static IDispatcher _dispatcher;

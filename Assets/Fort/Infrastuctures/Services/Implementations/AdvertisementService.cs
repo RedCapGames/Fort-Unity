@@ -161,7 +161,7 @@ namespace Fort
             ServerSettings serverSettings = ServiceLocator.Resolve<ISettingService>().ResolveCachedServerSetting();
             string advertisementProvider = string.Empty;
             if (serverSettings != null && serverSettings.AdvertisementSettings != null &&
-                string.IsNullOrEmpty(serverSettings.AdvertisementSettings.StandartBannerPriority))
+                string.IsNullOrEmpty(serverSettings.AdvertisementSettings.StandardBannerPriority))
             {
                 if (InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders != null)
                 {

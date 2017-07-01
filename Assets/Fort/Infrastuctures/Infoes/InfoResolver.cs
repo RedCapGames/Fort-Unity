@@ -72,8 +72,10 @@ namespace Fort.Info
             FortScriptableObject fortScriptableObject = (FortScriptableObject) Resources.Load(GetInfoResourceRelativeLocation(infoType));
             if (fortScriptableObject == null)
             {
+                LoadingSequences[infoType] = true;
                 IInfo result = (IInfo) Activator.CreateInstance(infoType);
                 Infoes[infoType] = result;
+                LoadingSequences[infoType] = false;
                 return result;
             }
             LoadingSequences[infoType] = true;
