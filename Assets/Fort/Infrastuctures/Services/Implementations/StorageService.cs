@@ -185,7 +185,7 @@ namespace Fort
             return deferred.Promise();
         }
 
-        public Promise UpdateTokenDataLatent(object data,  object token, Type dataType)
+        public Promise UpdateTokenDataLatent(object data, string token, Type dataType)
         {
             object latentData = Serializer.Helper.Clone(data);
             string mainPath = string.Format("{0}_{1}", Base64Encode(dataType.AssemblyQualifiedName), token);
@@ -212,7 +212,7 @@ namespace Fort
             return deferred.Promise();
         }
 
-        public void UpdateTokenData(object data, object token, Type dataType)
+        public void UpdateTokenData(object data, string token, Type dataType)
         {
             string mainPath = string.Format("{0}_{1}", Base64Encode(dataType.AssemblyQualifiedName), token);
             lock (this)
@@ -230,7 +230,7 @@ namespace Fort
             }
         }
 
-        public object ResolveTokenData(Type dataType, object token)
+        public object ResolveTokenData(Type dataType, string token)
         {
             try
             {
@@ -308,7 +308,15 @@ namespace Fort
         {
             private static byte Change(byte data)
             {
-                return FortEncryptionKey.Change(data);
+                try
+                {
+                    return FortEncryptionKey.Change(data);
+                }
+                catch (Exception)
+                {
+                    return (byte) (data ^ 0xff);
+                }
+                
             }
 
             private readonly System.IO.Stream _baseStream;

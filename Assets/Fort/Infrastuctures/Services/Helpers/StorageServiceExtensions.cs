@@ -37,17 +37,17 @@ namespace Fort
             return storageService.SaveOnMemoryDataLatent(typeof (T));
         }
 
-        public static Promise UpdateTokenDataLatent<T>(this IStorageService storageService, T data, object token)
+        public static Promise UpdateTokenDataLatent<T>(this IStorageService storageService, T data, string token)
         {
             return storageService.UpdateTokenDataLatent(data, token, typeof (T));
         }
 
-        public static void UpdateTokenData<T>(this IStorageService storageService, T data, object token)
+        public static void UpdateTokenData<T>(this IStorageService storageService, T data, string token)
         {
             storageService.UpdateTokenData(data,token,typeof(T));
         }
 
-        public static T ResolveTokenData<T>(this IStorageService storageService, object token)
+        public static T ResolveTokenData<T>(this IStorageService storageService, string token)
         {
             return (T) storageService.ResolveTokenData(typeof (T), token);
         }

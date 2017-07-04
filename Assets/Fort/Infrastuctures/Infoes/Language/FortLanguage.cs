@@ -9,14 +9,22 @@ namespace Fort.Info.Language
     {
         public FortLanguage()
         {
-            LanguageInfo firstLanguage = ResolveLanguageEditorInfo().Languages.FirstOrDefault();
-            if (firstLanguage == null)
+            try
+            {
+                LanguageInfo firstLanguage = ResolveLanguageEditorInfo().Languages.FirstOrDefault();
+                if (firstLanguage == null)
+                {
+                    ActiveLanguages = new LanguageInfo[0];
+                }
+                else
+                {
+                    ActiveLanguages = new[] { firstLanguage };
+                }
+
+            }
+            catch (Exception)
             {
                 ActiveLanguages = new LanguageInfo[0];
-            }
-            else
-            {
-                ActiveLanguages = new[] {firstLanguage};
             }
             
         }

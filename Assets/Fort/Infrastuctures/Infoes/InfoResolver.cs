@@ -74,13 +74,15 @@ namespace Fort.Info
             {
                 LoadingSequences[infoType] = true;
                 IInfo result = (IInfo) Activator.CreateInstance(infoType);
-                Infoes[infoType] = result;
+                if(result != null)
+                    Infoes[infoType] = result;
                 LoadingSequences[infoType] = false;
                 return result;
             }
             LoadingSequences[infoType] = true;
             IInfo info = fortScriptableObject.Load(infoType);
-            Infoes[infoType] = info;
+            if(info != null)
+                Infoes[infoType] = info;
             LoadingSequences[infoType] = false;
             return info;
         }

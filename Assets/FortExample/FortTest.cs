@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Fort;
 using Fort.Info;
+using Fort.Info.GameLevel;
 using Fort.Serializer;
 using Fort.ServerConnection;
 using Newtonsoft.Json.Linq;
@@ -115,8 +116,9 @@ public class FortTest : MonoBehaviour
         //_reference = new WeakReference(new WeakAction().Action);
 /*        ServiceLocator.Resolve<ISceneLoaderService>()
             .Load(new SceneLoadParameters(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value.SceneName));*/
-            ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(100,10);
-        int coin = ServiceLocator.Resolve<IUserManagementService>().Balance;
+            //ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(100,10);
+        //int coin = ServiceLocator.Resolve<IUserManagementService>().Balance;
+        
     }
 
     
@@ -124,7 +126,9 @@ public class FortTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(_reference.IsAlive);
+        IStorageService storageService = ServiceLocator.Resolve<IStorageService>();
+        storageService.UpdateData(new SavedData {Value = 12});
+        Debug.Log(storageService.ResolveData<SavedData>().Value);
     }
 
     /*    class TestGameServerSetting : GameServerSetting
@@ -176,4 +180,14 @@ public class FortTest : MonoBehaviour
             throw new NotImplementedException();
         }
     }*/
+    public class TestGameLevelInfo:GameLevelInfo
+    {
+        [CustomExport]
+        public int LevelScore { get; set; }
+    }
+
+    public class SavedData
+    {
+        public int Value { get; set; }
+    }
 }

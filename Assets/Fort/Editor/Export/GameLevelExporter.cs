@@ -164,7 +164,7 @@ namespace Assets.Fort.Editor.Export
                 IDictionary<string, PropertyInfo> customPossibleProperties =
                     ExportData.GetCustomPossibleProperties(
                         TypeHelper.GetAllTypes(AllTypeCategory.Game)
-                            .Where(type => typeof(GameLevelCategory).IsAssignableFrom(type))
+                            .Where(type => typeof(GameLevelInfo).IsAssignableFrom(type))
                             .ToArray());
                 Dictionary<string, Type> parameters = new Dictionary<string, Type>();
                 parameters["Id"] = typeof(string);

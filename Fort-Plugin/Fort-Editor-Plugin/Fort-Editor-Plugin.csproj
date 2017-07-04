@@ -109,6 +109,9 @@
     <Compile Include="..\..\Assets\Fort\Editor\Helpers\CustomAssetUtility.cs">
       <Link>Fort\Editor\Helpers\CustomAssetUtility.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Helpers\CustomMenuItem.cs">
+      <Link>Fort\Editor\Helpers\CustomMenuItem.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Helpers\FortInfoEditorExtentions.cs">
       <Link>Fort\Editor\Helpers\FortInfoEditorExtentions.cs</Link>
     </Compile>
@@ -191,11 +194,6 @@
       <Project>{107f7095-20d6-4b1e-a9b3-42c8e49d1d0e}</Project>
       <Name>Fort-Game-Plugin</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Assets\Fort\Resources\Version.txt">
-      <Link>Fort\Resources\Version.txt</Link>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

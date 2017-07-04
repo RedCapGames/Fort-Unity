@@ -5,15 +5,45 @@ using Fort.Info;
 
 namespace Fort
 {
+    /// <summary>
+    /// This service is used to manage Achievement actions like claiming achievement and checking if achievement is claimed
+    /// </summary>
     public interface IAchievementService
     {
+        /// <summary>
+        /// Claiming none level base achievement
+        /// </summary>
+        /// <param name="noneLevelBaseType">The type of none level base achievement</param>
         void ClaimAchievement(Type noneLevelBaseType);
+        /// <summary>
+        /// Claiming level base achievement
+        /// </summary>
+        /// <param name="levelBaseType">The type of level base achievement</param>
+        /// <param name="achivementLevelIndex">Level of achievement that must be claimed</param>
         void ClaimAchievement(Type levelBaseType, int achivementLevelIndex);
+        /// <summary>
+        /// Is none level base achievement claimed
+        /// </summary>
+        /// <param name="noneLevelBaseType">The type of none level base achievement</param>
+        /// <returns></returns>
         bool IsAchievementClaimed(Type noneLevelBaseType);
+        /// <summary>
+        /// Return the index of claimed level base achievement
+        /// </summary>
+        /// <param name="levelBaseType">index of claimed level base achievement</param>
+        /// <returns></returns>
         int GetAchievementClaimedIndex(Type levelBaseType);
+        /// <summary>
+        /// Resolving the score and balance of an achievement or achievement level by Id
+        /// </summary>
+        /// <param name="id">Id of achievement or achievement level</param>
+        /// <returns></returns>
         ScoreBalance ResolveAchievementScoreBalance(string id);
     }
 
+    /// <summary>
+    /// This class encapsulates score and balance
+    /// </summary>
     [Serializable]
     public class ScoreBalance
     {

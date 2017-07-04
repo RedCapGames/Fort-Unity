@@ -10,10 +10,12 @@ namespace Fort
     [Service(ServiceType = typeof(ILevelManagementService))]
     public class LevelManagementService : MonoBehaviour,ILevelManagementService
     {
+        private ILevelFinishStat _lastFinishStat;
         #region Implementation of ILevelManagementService
 
         public void GameLevelFinished(LevelFinishParameters parameters)
         {
+            _lastFinishStat = parameters.LevelFinishStat;
             GameLevelInfo level = GetLastLoadedLevel();
             ServiceLocator.Resolve<IAnalyticsService>().StatGameLevelFinished(level,parameters.LevelFinishStat);
             GameSavedData gameSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<GameSavedData>() ??
@@ -39,7 +41,7 @@ namespace Fort
                     {
                         AddToSceneStack = true,
                         CaptureReturnKey = false,
-                        Context= parameters.LevelFinishStat,
+                        Context= GetLastLoadedLevel(),
                         FlushSceneStack = true
                     });
                     break;
@@ -55,6 +57,11 @@ namespace Fort
             if (gameSavedData.LevelFinishStats.ContainsKey(level.Id))
                 return gameSavedData.LevelFinishStats[level.Id];
             return null;
+        }
+
+        public ILevelFinishStat GetLastGameFinishStat()
+        {
+            return _lastFinishStat;
         }
 
         public void LoadGameLevel(GameLevelInfo level)

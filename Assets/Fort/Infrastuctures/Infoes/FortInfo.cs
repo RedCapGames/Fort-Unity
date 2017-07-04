@@ -12,8 +12,8 @@ using Fort.ServerConnection;
 
 namespace Fort.Info
 {
-    [Info(typeof(FortInfoScriptable),"Fort",false)]
-    public class FortInfo: IInfo
+    [Info(typeof(FortInfoScriptable), "Fort", false)]
+    public class FortInfo : IInfo
     {
         public FortInfo()
         {
@@ -55,7 +55,7 @@ namespace Fort.Info
         public Advertisement.Advertisement Advertisement { get; set; }
         public SkinnerBox.SkinnerBox SkinnerBox { get; set; }
         //public StoragePolicy StoragePolicy { get; set; }
-        public static FortInfo Instance {get { return InfoResolver.Resolve<FortInfo>(); } }
+        public static FortInfo Instance { get { return InfoResolver.Resolve<FortInfo>(); } }
     }
     public class ActiveMarketPropertyInstanceResolver : IPropertyInstanceResolver
     {
@@ -76,23 +76,23 @@ namespace Fort.Info
 
         #endregion
     }
-    public class MarketInfoesPropertyInstanceResolver: IPropertyInstanceResolver
+    public class MarketInfoesPropertyInstanceResolver : IPropertyInstanceResolver
     {
         #region Implementation of IPropertyInstanceResolver
 
         public InstanceResolverResult ResolvePossibleData(object baseObject, object data, PropertyInfo property)
         {
-            MarketInfo[] marketInfos = (MarketInfo[]) data;
-            if(marketInfos == null)
+            MarketInfo[] marketInfos = (MarketInfo[])data;
+            if (marketInfos == null)
                 marketInfos = new MarketInfo[0];
             Type[] possibleTypes =
                 TypeHelper.GetAllTypes(AllTypeCategory.Game)
-                    .Where(type => typeof (MarketInfo).IsAssignableFrom(type) && !type.IsAbstract)
+                    .Where(type => typeof(MarketInfo).IsAssignableFrom(type) && !type.IsAbstract)
                     .Where(type => marketInfos.Select(info => info.GetType()).All(type1 => type1 != type))
                     .ToArray();
             InstanceResolverResult result = new InstanceResolverResult
             {
-                PossibleInstanceTokens = possibleTypes.Select(type => new InstanceToken(type.Name,Activator.CreateInstance(type))).ToArray(),
+                PossibleInstanceTokens = possibleTypes.Select(type => new InstanceToken(type.Name, Activator.CreateInstance(type))).ToArray(),
                 PresentableInstanceTokens = marketInfos.Select(info => new InstanceToken(info.GetType().Name, info)).ToArray(),
                 IsEditable = true,
                 UseValueTypeForEdit = true

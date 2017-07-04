@@ -40,7 +40,7 @@ namespace Fort.Serializer
             {
                 graph = Activator.CreateInstance(serializationToken.Type);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 deserializeResult.Result = null;
                 deserializeResult.Use = false;
