@@ -18,6 +18,7 @@ namespace Fort.Info
                 return;
             Values = InfoResolver.Resolve<FortInfo>().ValueDefenitions.ToDictionary(s => s, s => 0);
         }
+
         public void SyncValues()
         {
             if (Values == null)
