@@ -217,9 +217,6 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Language\OverridableLanguageAttribute.cs">
       <Link>Fort\Infrastuctures\Infoes\Language\OverridableLanguageAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\BazzarMarketInfo.cs">
-      <Link>Fort\Infrastuctures\Infoes\Market\BazzarMarketInfo.cs</Link>
-    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Market\Iap\DiscountIapData.cs">
       <Link>Fort\Infrastuctures\Infoes\Market\Iap\DiscountIapData.cs</Link>
     </Compile>
@@ -345,9 +342,6 @@
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\SkinnerBox\ValueSkinnerBoxItemInfo.cs">
       <Link>Fort\Infrastuctures\Infoes\SkinnerBox\ValueSkinnerBoxItemInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Assets\Fort\Infrastuctures\Market\Bazzar\BazzarMarket.cs">
-      <Link>Fort\Infrastuctures\Market\Bazzar\BazzarMarket.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Market\IMarket.cs">
       <Link>Fort\Infrastuctures\Market\IMarket.cs</Link>

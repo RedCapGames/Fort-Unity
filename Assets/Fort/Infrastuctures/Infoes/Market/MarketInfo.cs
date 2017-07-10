@@ -14,6 +14,8 @@ namespace Fort.Info.Market
         public string MarketDisplayName { get; private set; }
         public string ApplicationUrl { get; set; }
 
+        public abstract Type MarketProvider { get; }
+
         protected MarketInfo(string marketName,string marketDisplayName)
         {
             MarketName = marketName;

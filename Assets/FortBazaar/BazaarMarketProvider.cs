@@ -1,9 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Fort;
+using Fort.Info;
+using Fort.Market;
+using FortBazaar.Info;
+using Newtonsoft.Json;
 using UnityEngine;
 
-namespace Fort.Market
+namespace FortBazaar
 {
-    class BazzarMarket:MonoBehaviour, IMarket
+    class BazaarMarketProvider:MonoBehaviour, IMarketProvider
     {
         private Deferred<string, MarketPurchaseError> _deferred;
 
@@ -19,7 +24,7 @@ namespace Fort.Market
             {
                 PurchaseResultInfo purchaseResultInfo = JsonConvert.DeserializeObject<PurchaseResultInfo>(lastEvent);
 
-                if (purchaseResultInfo.PurchaseResult == BazzarPurchaseResult.Succeded)
+                if (purchaseResultInfo.PurchaseResult == BazaarPurchaseResult.Succeded)
                 {
                     Deferred<string, MarketPurchaseError> deferred = _deferred;
                     _deferred = null;
@@ -29,7 +34,7 @@ namespace Fort.Market
                 {
                     Deferred<string, MarketPurchaseError> deferred = _deferred;
                     _deferred = null;
-                    deferred.Reject(purchaseResultInfo.PurchaseResult == BazzarPurchaseResult.Canceled
+                    deferred.Reject(purchaseResultInfo.PurchaseResult == BazaarPurchaseResult.Canceled
                         ? MarketPurchaseError.Cancel
                         : MarketPurchaseError.Failed);
                 }
@@ -53,7 +58,7 @@ namespace Fort.Market
             // Accessing the class to call a static method on it
             var jc = new AndroidJavaClass("com.redcap.thugs.PurchaseActivity");
             // Calling a Call method to which the current activity is passed
-            jc.CallStatic("RunActivity", jo, sku, payload);
+            jc.CallStatic("RunActivity", jo, sku, payload, ((BazaarMarketInfo)FortInfo.Instance.MarketInfos.First(info => info.MarketName == "Bazaar")).Key);
             return _deferred.Promise();
         }
 
@@ -61,13 +66,13 @@ namespace Fort.Market
 
         private class PurchaseResultInfo
         {
-            public BazzarPurchaseResult PurchaseResult { get; set; }
+            public BazaarPurchaseResult PurchaseResult { get; set; }
             public string Token { get; set; }
             public string Payload { get; set; }
             public string PackageId { get; set; }
         }
 
-        private enum BazzarPurchaseResult
+        private enum BazaarPurchaseResult
         {
             Succeded,
             Canceled,

@@ -5,6 +5,7 @@ using System.Reflection;
 using Fort.Events;
 using Fort.Info;
 using Fort.Info.Language;
+using Fort.Info.Market;
 using Fort.Info.Market.Iap;
 using Fort.Info.PurchasableItem;
 using Fort.Market;
@@ -19,13 +20,9 @@ namespace Fort
     {
         #region Fields
 
-        private readonly Dictionary<string, Type> _markets = new Dictionary<string, Type>
-        {
-            {"Bazzar", typeof (BazzarMarket)}
-        };
 
         private bool _isPurchasingPackage;
-        private IMarket _market;
+        private IMarketProvider _marketProvider;
 
         #endregion
 
@@ -334,9 +331,9 @@ namespace Fort
                 return deferred.Promise();
             }
             _isPurchasingPackage = true;
-            IMarket market = GetMarket();
+            IMarketProvider marketProvider = GetMarketProvider();
             string payload = Guid.NewGuid().ToString();
-            market.PurchasePackage(iapPackage.Sku, payload).Then(purchaseToken =>
+            marketProvider.PurchasePackage(iapPackage.Sku, payload).Then(purchaseToken =>
             {
                 if (InfoResolver.Resolve<FortInfo>().ServerConnectionProvider != null)
                 {
@@ -566,15 +563,16 @@ namespace Fort
 
         #region Private Methods
 
-        private IMarket GetMarket()
+        private IMarketProvider GetMarketProvider()
         {
-            if (_market == null)
+            if (_marketProvider == null)
             {
                 GameObject marketGameObject = new GameObject("Market");
                 DontDestroyOnLoad(marketGameObject);
-                _market = (IMarket) marketGameObject.AddComponent(_markets[InfoResolver.Resolve<FortInfo>().ActiveMarket]);
+                MarketInfo marketInfo = FortInfo.Instance.MarketInfos.First(info => info.MarketName == InfoResolver.Resolve<FortInfo>().ActiveMarket);
+                _marketProvider = (IMarketProvider) marketGameObject.AddComponent(marketInfo.MarketProvider);
             }
-            return _market;
+            return _marketProvider;
         }
 
         internal void InternalPurchaseItem(PurchasableItemInfo purchasableItem, int discount, int? level)

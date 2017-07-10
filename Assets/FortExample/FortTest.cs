@@ -110,14 +110,26 @@ public class FortTest : MonoBehaviour
                     {
                         Debug.Log(f);
                     } ).Then(s => Debug.Log(s),() => Debug.LogError("Error"));*/
-/*        Balance balance = new Balance();
-        balance["Coin"] = 12;
-        ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0, balance);*/
+        /*        Balance balance = new Balance();
+                balance["Coin"] = 12;
+                ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0, balance);*/
         //_reference = new WeakReference(new WeakAction().Action);
-/*        ServiceLocator.Resolve<ISceneLoaderService>()
-            .Load(new SceneLoadParameters(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value.SceneName));*/
-            //ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(100,10);
+        /*        ServiceLocator.Resolve<ISceneLoaderService>()
+                    .Load(new SceneLoadParameters(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value.SceneName));*/
+        //ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(100,10);
         //int coin = ServiceLocator.Resolve<IUserManagementService>().Balance;
+/*        TaplighInterface.Instance.SetTestEnable(true);
+        ServiceLocator.Resolve<IAdvertisementService>().ShowVideo(null,false,false).Then(() =>
+        {
+            Debug.Log("Video succeded");
+        }, failed =>
+        {
+            Debug.Log("Video failed");
+        });*/
+        ServiceLocator.Resolve<IStoreService>().ResolvePackages().Then(infos =>
+        {
+            ServiceLocator.Resolve<IStoreService>().PurchasePackage(infos[0]).Then(() => Debug.Log("success"),result => Debug.Log(result.ToString()));
+        });
         
     }
 
@@ -126,9 +138,9 @@ public class FortTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        IStorageService storageService = ServiceLocator.Resolve<IStorageService>();
+/*        IStorageService storageService = ServiceLocator.Resolve<IStorageService>();
         storageService.UpdateData(new SavedData {Value = 12});
-        Debug.Log(storageService.ResolveData<SavedData>().Value);
+        Debug.Log(storageService.ResolveData<SavedData>().Value);*/
     }
 
     /*    class TestGameServerSetting : GameServerSetting

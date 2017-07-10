@@ -58,13 +58,15 @@ namespace Fort
         /// <param name="market">The name of the market that the purchase occurred in</param>
         /// <param name="iapRetryFail">Failed reason. Possible values (FortServerFail,FraudDetected)</param>
         void StatIapRetryFail(IapPackageInfo iapPackage, string purchaseToken, string market, IapRetryFail iapRetryFail);
+
         /// <summary>
         /// Stat video showing request
         /// </summary>
         /// <param name="advertismentProvider">The provider of advertisement</param>
         /// <param name="zone">The zone of advertisement</param>
         /// <param name="skipable">Is requested video skipable</param>
-        void StatVideoRequest(string advertismentProvider, int zone, bool skipable);
+        void StatVideoRequest(string advertismentProvider, string zone, bool skipable);
+
         /// <summary>
         /// Stat video showing result
         /// </summary>
@@ -72,7 +74,7 @@ namespace Fort
         /// <param name="zone">The zone of advertisement</param>
         /// <param name="skipable">Is requested video skipable</param>
         /// <param name="videoResult">The result of showing video.Possible values (Succeeded,Cancel,NoVideoAvilable,ProviderError)</param>
-        void StatVideoResult(string advertismentProvider, int zone, bool skipable, ShowVideoResult videoResult);
+        void StatVideoResult(string advertismentProvider, string zone, bool skipable, ShowVideoResult videoResult);
         /// <summary>
         /// Stat showing standard banner
         /// </summary>

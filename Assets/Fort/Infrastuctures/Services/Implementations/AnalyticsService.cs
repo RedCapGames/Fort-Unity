@@ -172,7 +172,7 @@ namespace Fort
                 });
         }
 
-        public void StatVideoRequest(string advertismentProvider, int zone, bool skipable)
+        public void StatVideoRequest(string advertismentProvider, string zone, bool skipable)
         {
             if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;
@@ -183,7 +183,7 @@ namespace Fort
                 new { AdvertismentProvider = advertismentProvider, Zone = zone, Skipable = skipable });
         }
 
-        public void StatVideoResult(string advertismentProvider, int zone, bool skipable, ShowVideoResult videoResult)
+        public void StatVideoResult(string advertismentProvider, string zone, bool skipable, ShowVideoResult videoResult)
         {
             if (InfoResolver.Resolve<FortInfo>().Analytic.AnalyticsProvider == null)
                 return;

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 
 namespace Fort.Inspector
@@ -7,6 +9,18 @@ namespace Fort.Inspector
     class AbstractConcretePresentation:Presentation
     {
         private Presentation _presentation;
+
+        private PropertyInfo[] ResolvePresentationSiteProperties(PresentationSite presentationSite)
+        {
+            List<PropertyInfo> result = new List<PropertyInfo>();
+            while (presentationSite != null)
+            {
+                if(presentationSite.PropertyInfo != null)
+                    result.Add(presentationSite.PropertyInfo);
+                presentationSite = presentationSite.BaseSite;
+            }
+            return result.ToArray();
+        }
         #region Overrides of Presentation
 
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
@@ -26,7 +40,8 @@ namespace Fort.Inspector
                         (IAbstractTypeChildResolver)
                             Activator.CreateInstance(abstractTypeChildResolverAttribute.ChildResolverType);
                     possibleTypes = abstractTypeChildResolver.ResolveChildrenType(parameter.DataType,
-                        parameter.PresentationSite.PropertyInfo);
+                        ResolvePresentationSiteProperties(parameter.PresentationSite));
+
                 }
                 else
                 {

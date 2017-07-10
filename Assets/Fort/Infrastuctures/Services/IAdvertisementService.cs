@@ -17,6 +17,7 @@
         /// Is any added video provider support Interstitial Banner
         /// </summary>
         bool IsInterstitialBannerSupported { get; }
+
         /// <summary>
         /// Show video
         /// </summary>
@@ -24,7 +25,7 @@
         /// <param name="skipable">Is video skipable</param>
         /// <param name="removabale">Is showing this video can be removed by purchasing RemoveAdIapPackage</param>
         /// <returns>Return a promise</returns>
-        ErrorPromise<ShowVideoFailed> ShowVideo(int zone, bool skipable,bool removabale);
+        ErrorPromise<ShowVideoFailed> ShowVideo(string zone, bool skipable,bool removabale);
 
         /// <summary>
         /// Changing standard banner Position

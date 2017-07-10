@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using Fort.Inspector;
 using Object = UnityEngine.Object;
@@ -9,12 +10,13 @@ namespace Fort.Info.GameItem
     {
         #region Implementation of IAbstractTypeChildResolver
 
-        public Type[] ResolveChildrenType(Type baseType, PropertyInfo propertyInfo)
+        public Type[] ResolveChildrenType(Type baseType, PropertyInfo[] propertyInfos)
         {
             Type directGameItemGenericType = typeof (Object);
-            if (propertyInfo != null)
+            if (propertyInfos != null)
             {
-                GameItemFilterAttribute gameItemFilterAttribute = propertyInfo.GetCustomAttribute<GameItemFilterAttribute>();
+                
+                GameItemFilterAttribute gameItemFilterAttribute = propertyInfos.Select(info => info.GetCustomAttribute<GameItemFilterAttribute>()).FirstOrDefault(attribute => attribute != null);
                 if (gameItemFilterAttribute != null)
                 {
                     directGameItemGenericType = gameItemFilterAttribute.ObjectType;

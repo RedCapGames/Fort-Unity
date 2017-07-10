@@ -6,7 +6,7 @@
         bool IsVideoSupported { get; }
         bool IsStandardBannerSupported { get; }
         bool IsInterstitialBannerSupported { get; }        
-        ErrorPromise<ShowVideoFailed> ShowVideo(int zone, bool skipable);
+        ErrorPromise<ShowVideoFailed> ShowVideo(string zone, bool skipable);
 
         void ChangeStandardBannerPosition(StandardBannerVerticalAlignment verticalAlignment,
             StandardBannerHorizantalAlignment horizantalAlignment);

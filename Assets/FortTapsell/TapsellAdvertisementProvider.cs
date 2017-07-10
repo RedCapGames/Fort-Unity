@@ -11,7 +11,7 @@ namespace FortTapsell
     {
         private ErrorDeferred<ShowVideoFailed> _deferred;
         private bool _isInitialized;
-        
+        private bool _isSkipable;
         private void Initialize()
         {
             if(_isInitialized)
@@ -24,7 +24,7 @@ namespace FortTapsell
                 {
                     if (!result.completed)
                     {
-                        if (result.rewarded)
+                        if (result.rewarded && _isSkipable)
                         {
                             ErrorDeferred<ShowVideoFailed> errorDeferred = _deferred;
                             _deferred = null;
@@ -66,16 +66,18 @@ namespace FortTapsell
                 errorDeferred.Reject(failed);
             }
         }
-        public ErrorPromise<ShowVideoFailed> ShowVideo(int zone, bool skipable)
+        public ErrorPromise<ShowVideoFailed> ShowVideo(string zone, bool skipable)
         {
             Initialize();            
             ErrorDeferred<ShowVideoFailed> deferred = new ErrorDeferred<ShowVideoFailed>();
             if (_deferred != null)
             {
                 deferred.Reject(ShowVideoFailed.AlreadyShowingVideo);
+                return deferred.Promise();
             }
             _deferred = deferred;
-            Tapsell.requestAd(zone.ToString(), false,
+            _isSkipable = skipable;
+            Tapsell.requestAd(zone, false,
                 result =>
                 {
                     // onAdAvailable

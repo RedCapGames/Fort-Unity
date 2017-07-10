@@ -41,7 +41,7 @@ namespace Fort
                         priority => priority.AdvertisementProvider.IsInterstitialBannerSupported);
             }
         }
-        public ErrorPromise<ShowVideoFailed> ShowVideo(int zone, bool skipable, bool removabale)
+        public ErrorPromise<ShowVideoFailed> ShowVideo(string zone, bool skipable, bool removabale)
         {
             if (_showingVideo)
             {

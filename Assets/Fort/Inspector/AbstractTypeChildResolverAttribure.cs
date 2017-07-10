@@ -16,6 +16,6 @@ namespace Fort.Inspector
 
     public interface IAbstractTypeChildResolver
     {
-        Type[] ResolveChildrenType(Type baseType, PropertyInfo propertyInfo);
+        Type[] ResolveChildrenType(Type baseType, PropertyInfo[] propertyInfos );
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Fort.Market
 {
-    public interface IMarket
+    public interface IMarketProvider
     {
         Promise<string, MarketPurchaseError> PurchasePackage(string sku, string payload);
     }

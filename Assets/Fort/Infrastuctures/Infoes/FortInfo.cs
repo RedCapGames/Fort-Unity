@@ -65,7 +65,7 @@ namespace Fort.Info
         {
             InstanceResolverResult result = new InstanceResolverResult
             {
-                PossibleInstanceTokens = InfoResolver.Resolve<FortInfo>().MarketInfos.Select(info => new InstanceToken(info.MarketName, info.MarketName)).ToArray()
+                PossibleInstanceTokens = InfoResolver.Resolve<FortInfo>().MarketInfos.Where(info => info != null).Select(info => new InstanceToken(info.MarketName, info.MarketName)).ToArray()
 
             };
             InstanceToken instanceToken =
@@ -88,12 +88,12 @@ namespace Fort.Info
             Type[] possibleTypes =
                 TypeHelper.GetAllTypes(AllTypeCategory.Game)
                     .Where(type => typeof(MarketInfo).IsAssignableFrom(type) && !type.IsAbstract)
-                    .Where(type => marketInfos.Select(info => info.GetType()).All(type1 => type1 != type))
+                    .Where(type => marketInfos.Where(info => info != null).Select(info => info.GetType()).All(type1 => type1 != type))
                     .ToArray();
             InstanceResolverResult result = new InstanceResolverResult
             {
                 PossibleInstanceTokens = possibleTypes.Select(type => new InstanceToken(type.Name, Activator.CreateInstance(type))).ToArray(),
-                PresentableInstanceTokens = marketInfos.Select(info => new InstanceToken(info.GetType().Name, info)).ToArray(),
+                PresentableInstanceTokens = marketInfos.Where(info => info != null).Select(info => new InstanceToken(info.GetType().Name, info)).ToArray(),
                 IsEditable = true,
                 UseValueTypeForEdit = true
             };

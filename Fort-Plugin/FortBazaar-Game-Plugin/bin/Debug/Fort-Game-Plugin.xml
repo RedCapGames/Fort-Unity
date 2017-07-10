@@ -1,0 +1,1227 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Fort-Game-Plugin</name>
+    </assembly>
+    <members>
+        <member name="T:Fort.Aggregator.DataEventArgs`1">
+            <summary>
+            Generic arguments class to pass to event handlers that need to receive data.
+            </summary>
+            <typeparam name="TData">The type of data to pass.</typeparam>
+        </member>
+        <member name="M:Fort.Aggregator.DataEventArgs`1.#ctor(`0)">
+            <summary>
+            Initializes the DataEventArgs class.
+            </summary>
+            <param name="value">Information related to the event.</param>
+        </member>
+        <member name="P:Fort.Aggregator.DataEventArgs`1.Value">
+            <summary>
+            Gets the information related to the event.
+            </summary>
+            <value>Information related to the event.</value>
+        </member>
+        <member name="T:Fort.Aggregator.DelegateReference">
+            <summary>
+            Represents a reference to a <see cref="T:System.Delegate"/> that may contain a
+            <see cref="T:System.WeakReference"/> to the target. This class is used
+            internally by the Prism Library.
+            </summary>
+        </member>
+        <member name="M:Fort.Aggregator.DelegateReference.#ctor(System.Delegate,System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:Fort.Aggregator.DelegateReference"/>.
+            </summary>
+            <param name="delegate">The original <see cref="T:System.Delegate"/> to create a reference for.</param>
+            <param name="keepReferenceAlive">If <see langword="false" /> the class will create a weak reference to the delegate, allowing it to be garbage collected. Otherwise it will keep a strong reference to the target.</param>
+            <exception cref="T:System.ArgumentNullException">If the passed <paramref name="delegate"/> is not assignable to <see cref="T:System.Delegate"/>.</exception>
+        </member>
+        <member name="P:Fort.Aggregator.DelegateReference.Target">
+            <summary>
+            Gets the <see cref="T:System.Delegate" /> (the target) referenced by the current <see cref="T:Fort.Aggregator.DelegateReference"/> object.
+            </summary>
+            <value><see langword="null"/> if the object referenced by the current <see cref="T:Fort.Aggregator.DelegateReference"/> object has been garbage collected; otherwise, a reference to the <see cref="T:System.Delegate"/> referenced by the current <see cref="T:Fort.Aggregator.DelegateReference"/> object.</value>
+        </member>
+        <member name="T:Fort.Aggregator.DispatcherEventSubscription">
+            <summary>
+             Extends <see cref="T:Fort.Aggregator.EventSubscription"/> to invoke the <see cref="P:Fort.Aggregator.EventSubscription.Action"/> delegate
+             in a specific <see cref="T:System.Threading.SynchronizationContext"/>.
+            </summary>
+        </member>
+        <member name="M:Fort.Aggregator.DispatcherEventSubscription.#ctor(Fort.Aggregator.IDelegateReference,System.Threading.SynchronizationContext)">
+            <summary>
+             Creates a new instance of <see cref="!:BackgroundEventSubscription"/>.
+            </summary>
+            <param name="actionReference">A reference to a delegate of type <see cref="T:System.Action`1"/>.</param>
+            <param name="context">The synchronization context to use for UI thread dispatching.</param>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="actionReference"/> or <see paramref="filterReference"/> are <see langword="null" />.</exception>
+            <exception cref="T:System.ArgumentException">When the target of <paramref name="actionReference"/> is not of type <see cref="T:System.Action`1"/>.</exception>
+        </member>
+        <member name="M:Fort.Aggregator.DispatcherEventSubscription.InvokeAction(System.Action)">
+            <summary>
+            Invokes the specified <see cref="T:System.Action`1"/> asynchronously in the specified <see cref="T:System.Threading.SynchronizationContext"/>.
+            </summary>
+            <param name="action">The action to execute.</param>
+        </member>
+        <member name="T:Fort.Aggregator.DispatcherEventSubscription`1">
+            <summary>
+             Extends <see cref="T:Fort.Aggregator.EventSubscription`1"/> to invoke the <see cref="P:Fort.Aggregator.EventSubscription`1.Action"/> delegate
+             in a specific <see cref="T:System.Threading.SynchronizationContext"/>.
+            </summary>
+             <typeparam name="TPayload">The type to use for the generic <see cref="T:System.Action`1"/> and <see cref="T:System.Predicate`1"/> types.</typeparam>
+        </member>
+        <member name="M:Fort.Aggregator.DispatcherEventSubscription`1.#ctor(Fort.Aggregator.IDelegateReference,Fort.Aggregator.IDelegateReference,System.Threading.SynchronizationContext)">
+            <summary>
+             Creates a new instance of <see cref="!:BackgroundEventSubscription&lt;TPayload&gt;"/>.
+            </summary>
+            <param name="actionReference">A reference to a delegate of type <see cref="T:System.Action`1"/>.</param>
+            <param name="filterReference">A reference to a delegate of type <see cref="T:System.Predicate`1"/>.</param>
+            <param name="context">The synchronization context to use for UI thread dispatching.</param>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="actionReference"/> or <see paramref="filterReference"/> are <see langword="null" />.</exception>
+            <exception cref="T:System.ArgumentException">When the target of <paramref name="actionReference"/> is not of type <see cref="T:System.Action`1"/>,
+            or the target of <paramref name="filterReference"/> is not of type <see cref="T:System.Predicate`1"/>.</exception>
+        </member>
+        <member name="M:Fort.Aggregator.DispatcherEventSubscription`1.InvokeAction(System.Action{`0},`0)">
+            <summary>
+            Invokes the specified <see cref="T:System.Action`1"/> asynchronously in the specified <see cref="T:System.Threading.SynchronizationContext"/>.
+            </summary>
+            <param name="action">The action to execute.</param>
+            <param name="argument">The payload to pass <paramref name="action"/> while invoking it.</param>
+        </member>
+        <member name="T:Fort.Aggregator.EventAggregator">
+            <summary>
+            Implements <see cref="T:Fort.Aggregator.IEventAggregator"/>.
+            </summary>
+        </member>
+        <member name="M:Fort.Aggregator.EventAggregator.GetEvent``1">
+            <summary>
+            Gets the single instance of the event managed by this EventAggregator. Multiple calls to this method with the same <typeparamref name="TEventType"/> returns the same event instance.
+            </summary>
+            <typeparam name="TEventType">The type of event to get. This must inherit from <see cref="T:Fort.Aggregator.EventBase"/>.</typeparam>
+            <returns>A singleton instance of an event object of type <typeparamref name="TEventType"/>.</returns>
+        </member>
+        <member name="T:Fort.Aggregator.EventBase">
+            <summary>
+             Defines a base class to publish and subscribe to events.
+            </summary>
+        </member>
+        <member name="P:Fort.Aggregator.EventBase.SynchronizationContext">
+            <summary>
+            Allows the SynchronizationContext to be set by the EventAggregator for UI Thread Dispatching
+            </summary>
+        </member>
+        <member name="P:Fort.Aggregator.EventBase.Subscriptions">
+            <summary>
+            Gets the list of current subscriptions.
+            </summary>
+            <value>The current subscribers.</value>
+        </member>
+        <member name="M:Fort.Aggregator.EventBase.InternalSubscribe(Fort.Aggregator.IEventSubscription)">
+            <summary>
+            Adds the specified <see cref="T:Fort.Aggregator.IEventSubscription"/> to the subscribers' collection.
+            </summary>
+            <param name="eventSubscription">The subscriber.</param>
+            <returns>The <see cref="T:Fort.Aggregator.SubscriptionToken"/> that uniquely identifies every subscriber.</returns>
+            <remarks>
+            Adds the subscription to the internal list and assigns it a new <see cref="T:Fort.Aggregator.SubscriptionToken"/>.
+            </remarks>
+        </member>
+        <member name="M:Fort.Aggregator.EventBase.InternalPublish(System.Object[])">
+            <summary>
+            Calls all the execution strategies exposed by the list of <see cref="T:Fort.Aggregator.IEventSubscription"/>.
+            </summary>
+            <param name="arguments">The arguments that will be passed to the listeners.</param>
+            <remarks>Before executing the strategies, this class will prune all the subscribers from the
+            list that return a <see langword="null" /> <see cref="T:System.Action`1"/> when calling the
+            <see cref="M:Fort.Aggregator.IEventSubscription.GetExecutionStrategy"/> method.</remarks>
+        </member>
+        <member name="M:Fort.Aggregator.EventBase.Unsubscribe(Fort.Aggregator.SubscriptionToken)">
+            <summary>
+            Removes the subscriber matching the <see cref="T:Fort.Aggregator.SubscriptionToken"/>.
+            </summary>
+            <param name="token">The <see cref="T:Fort.Aggregator.SubscriptionToken"/> returned by <see cref="T:Fort.Aggregator.EventBase"/> while subscribing to the event.</param>
+        </member>
+        <member name="M:Fort.Aggregator.EventBase.Contains(Fort.Aggregator.SubscriptionToken)">
+            <summary>
+            Returns <see langword="true"/> if there is a subscriber matching <see cref="T:Fort.Aggregator.SubscriptionToken"/>.
+            </summary>
+            <param name="token">The <see cref="T:Fort.Aggregator.SubscriptionToken"/> returned by <see cref="T:Fort.Aggregator.EventBase"/> while subscribing to the event.</param>
+            <returns><see langword="true"/> if there is a <see cref="T:Fort.Aggregator.SubscriptionToken"/> that matches; otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Fort.Aggregator.EventSubscription">
+            <summary>
+            Provides a way to retrieve a <see cref="T:System.Delegate"/> to execute an action depending
+            on the value of a second filter predicate that returns true if the action should execute.
+            </summary>
+        </member>
+        <member name="M:Fort.Aggregator.EventSubscription.#ctor(Fort.Aggregator.IDelegateReference)">
+            <summary>
+             Creates a new instance of <see cref="T:Fort.Aggregator.EventSubscription"/>.
+            </summary>
+            <param name="actionReference">A reference to a delegate of type <see cref="T:System.Action"/>.</param>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="actionReference"/> or <see paramref="filterReference"/> are <see langword="null" />.</exception>
+            <exception cref="T:System.ArgumentException">When the target of <paramref name="actionReference"/> is not of type <see cref="T:System.Action"/>.</exception>
+        </member>
+        <member name="P:Fort.Aggregator.EventSubscription.Action">
+            <summary>
+            Gets the target <see cref="T:System.Action"/> that is referenced by the <see cref="T:Fort.Aggregator.IDelegateReference"/>.
+            </summary>
+            <value>An <see cref="T:System.Action"/> or <see langword="null" /> if the referenced target is not alive.</value>
+        </member>
+        <member name="P:Fort.Aggregator.EventSubscription.SubscriptionToken">
+            <summary>
+            Gets or sets a <see cref="P:Fort.Aggregator.EventSubscription.SubscriptionToken"/> that identifies this <see cref="T:Fort.Aggregator.IEventSubscription"/>.
+            </summary>
+            <value>A token that identifies this <see cref="T:Fort.Aggregator.IEventSubscription"/>.</value>
+        </member>
+        <member name="M:Fort.Aggregator.EventSubscription.GetExecutionStrategy">
+            <summary>
+            Gets the execution strategy to publish this event.
+            </summary>
+            <returns>An <see cref="T:System.Action"/> with the execution strategy, or <see langword="null" /> if the <see cref="T:Fort.Aggregator.IEventSubscription"/> is no longer valid.</returns>
+            <remarks>
+            If <see cref="P:Fort.Aggregator.EventSubscription.Action"/>is no longer valid because it was
+            garbage collected, this method will return <see langword="null" />.
+            Otherwise it will return a delegate that evaluates the <see cref="!:Filter"/> and if it
+            returns <see langword="true" /> will then call <see cref="M:Fort.Aggregator.EventSubscription.InvokeAction(System.Action)"/>. The returned
+            delegate holds a hard reference to the <see cref="P:Fort.Aggregator.EventSubscription.Action"/> target
+            <see cref="T:System.Delegate">delegates</see>. As long as the returned delegate is not garbage collected,
+            the <see cref="P:Fort.Aggregator.EventSubscription.Action"/> references delegates won't get collected either.
+            </remarks>
+        </member>
+        <member name="M:Fort.Aggregator.EventSubscription.InvokeAction(System.Action)">
+            <summary>
+            Invokes the specified <see cref="T:System.Action`1"/> synchronously when not overridden.
+            </summary>
+            <param name="action">The action to execute.</param>
+            <exception cref="T:System.ArgumentNullException">An <see cref="T:System.ArgumentNullException"/> is thrown if <paramref name="action"/> is null.</exception>
+        </member>
+        <member name="T:Fort.Aggregator.EventSubscription`1">
+            <summary>
+            Provides a way to retrieve a <see cref="T:System.Delegate"/> to execute an action depending
+            on the value of a second filter predicate that returns true if the action should execute.
+            </summary>
+            <typeparam name="TPayload">The type to use for the generic <see cref="T:System.Action`1"/> and <see cref="T:System.Predicate`1"/> types.</typeparam>
+        </member>
+        <member name="M:Fort.Aggregator.EventSubscription`1.#ctor(Fort.Aggregator.IDelegateReference,Fort.Aggregator.IDelegateReference)">
+            <summary>
+             Creates a new instance of <see cref="T:Fort.Aggregator.EventSubscription`1"/>.
+            </summary>
+            <param name="actionReference">A reference to a delegate of type <see cref="T:System.Action`1"/>.</param>
+            <param name="filterReference">A reference to a delegate of type <see cref="T:System.Predicate`1"/>.</param>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="actionReference"/> or <see paramref="filterReference"/> are <see langword="null" />.</exception>
+            <exception cref="T:System.ArgumentException">When the target of <paramref name="actionReference"/> is not of type <see cref="T:System.Action`1"/>,
+            or the target of <paramref name="filterReference"/> is not of type <see cref="T:System.Predicate`1"/>.</exception>
+        </member>
+        <member name="P:Fort.Aggregator.EventSubscription`1.Action">
+            <summary>
+            Gets the target <see cref="T:System.Action`1"/> that is referenced by the <see cref="T:Fort.Aggregator.IDelegateReference"/>.
+            </summary>
+            <value>An <see cref="T:System.Action`1"/> or <see langword="null" /> if the referenced target is not alive.</value>
+        </member>
+        <member name="P:Fort.Aggregator.EventSubscription`1.Filter">
+            <summary>
+            Gets the target <see cref="T:System.Predicate`1"/> that is referenced by the <see cref="T:Fort.Aggregator.IDelegateReference"/>.
+            </summary>
+            <value>An <see cref="T:System.Predicate`1"/> or <see langword="null" /> if the referenced target is not alive.</value>
+        </member>
+        <member name="P:Fort.Aggregator.EventSubscription`1.SubscriptionToken">
+            <summary>
+            Gets or sets a <see cref="P:Fort.Aggregator.EventSubscription`1.SubscriptionToken"/> that identifies this <see cref="T:Fort.Aggregator.IEventSubscription"/>.
+            </summary>
+            <value>A token that identifies this <see cref="T:Fort.Aggregator.IEventSubscription"/>.</value>
+        </member>
+        <member name="M:Fort.Aggregator.EventSubscription`1.GetExecutionStrategy">
+            <summary>
+            Gets the execution strategy to publish this event.
+            </summary>
+            <returns>An <see cref="T:System.Action`1"/> with the execution strategy, or <see langword="null" /> if the <see cref="T:Fort.Aggregator.IEventSubscription"/> is no longer valid.</returns>
+            <remarks>
+            If <see cref="P:Fort.Aggregator.EventSubscription`1.Action"/> or <see cref="P:Fort.Aggregator.EventSubscription`1.Filter"/> are no longer valid because they were
+            garbage collected, this method will return <see langword="null" />.
+            Otherwise it will return a delegate that evaluates the <see cref="P:Fort.Aggregator.EventSubscription`1.Filter"/> and if it
+            returns <see langword="true" /> will then call <see cref="M:Fort.Aggregator.EventSubscription`1.InvokeAction(System.Action{`0},`0)"/>. The returned
+            delegate holds hard references to the <see cref="P:Fort.Aggregator.EventSubscription`1.Action"/> and <see cref="P:Fort.Aggregator.EventSubscription`1.Filter"/> target
+            <see cref="T:System.Delegate">delegates</see>. As long as the returned delegate is not garbage collected,
+            the <see cref="P:Fort.Aggregator.EventSubscription`1.Action"/> and <see cref="P:Fort.Aggregator.EventSubscription`1.Filter"/> references delegates won't get collected either.
+            </remarks>
+        </member>
+        <member name="M:Fort.Aggregator.EventSubscription`1.InvokeAction(System.Action{`0},`0)">
+            <summary>
+            Invokes the specified <see cref="T:System.Action`1"/> synchronously when not overridden.
+            </summary>
+            <param name="action">The action to execute.</param>
+            <param name="argument">The payload to pass <paramref name="action"/> while invoking it.</param>
+            <exception cref="T:System.ArgumentNullException">An <see cref="T:System.ArgumentNullException"/> is thrown if <paramref name="action"/> is null.</exception>
+        </member>
+        <member name="T:Fort.Aggregator.IDelegateReference">
+            <summary>
+            Represents a reference to a <see cref="T:System.Delegate"/>.
+            </summary>
+        </member>
+        <member name="P:Fort.Aggregator.IDelegateReference.Target">
+            <summary>
+            Gets the referenced <see cref="T:System.Delegate" /> object.
+            </summary>
+            <value>A <see cref="T:System.Delegate"/> instance if the target is valid; otherwise <see langword="null"/>.</value>
+        </member>
+        <member name="T:Fort.Aggregator.IEventAggregator">
+            <summary>
+            Defines an interface to get instances of an event type.
+            </summary>
+        </member>
+        <member name="T:Fort.Aggregator.IEventSubscription">
+            <summary>
+             Defines a contract for an event subscription to be used by <see cref="T:Fort.Aggregator.EventBase"/>.
+            </summary>
+        </member>
+        <member name="P:Fort.Aggregator.IEventSubscription.SubscriptionToken">
+            <summary>
+            Gets or sets a <see cref="P:Fort.Aggregator.IEventSubscription.SubscriptionToken"/> that identifies this <see cref="T:Fort.Aggregator.IEventSubscription"/>.
+            </summary>
+            <value>A token that identifies this <see cref="T:Fort.Aggregator.IEventSubscription"/>.</value>
+        </member>
+        <member name="M:Fort.Aggregator.IEventSubscription.GetExecutionStrategy">
+            <summary>
+            Gets the execution strategy to publish this event.
+            </summary>
+            <returns>An <see cref="T:System.Action`1"/> with the execution strategy, or <see langword="null" /> if the <see cref="T:Fort.Aggregator.IEventSubscription"/> is no longer valid.</returns>
+        </member>
+        <member name="T:Fort.Aggregator.PubSubEvent">
+            <summary>
+            Defines a class that manages publication and subscription to events.
+            </summary>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent.Subscribe(System.Action)">
+            <summary>
+            Subscribes a delegate to an event that will be published on the <see cref="!:ThreadOption.PublisherThread"/>.
+            <see cref="T:Fort.Aggregator.PubSubEvent"/> will maintain a <see cref="T:System.WeakReference"/> to the target of the supplied <paramref name="action"/> delegate.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is published.</param>
+            <returns>A <see cref="T:Fort.Aggregator.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            The PubSubEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent.Subscribe(System.Action,System.Boolean)">
+            <summary>
+            Subscribes a delegate to an event that will be published on the <see cref="!:ThreadOption.PublisherThread"/>.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is published.</param>
+            <param name="keepSubscriberReferenceAlive">When <see langword="true"/>, the <see cref="T:Fort.Aggregator.PubSubEvent"/> keeps a reference to the subscriber so it does not get garbage collected.</param>
+            <returns>A <see cref="T:Fort.Aggregator.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            If <paramref name="keepSubscriberReferenceAlive"/> is set to <see langword="false" />, <see cref="T:Fort.Aggregator.PubSubEvent"/> will maintain a <see cref="T:System.WeakReference"/> to the Target of the supplied <paramref name="action"/> delegate.
+            If not using a WeakReference (<paramref name="keepSubscriberReferenceAlive"/> is <see langword="true" />), the user must explicitly call Unsubscribe for the event when disposing the subscriber in order to avoid memory leaks or unexpected behavior.
+            <para/>
+            The PubSubEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent.Publish">
+            <summary>
+            Publishes the <see cref="T:Fort.Aggregator.PubSubEvent"/>.
+            </summary>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent.Unsubscribe(System.Action)">
+            <summary>
+            Removes the first subscriber matching <see cref="T:System.Action"/> from the subscribers' list.
+            </summary>
+            <param name="subscriber">The <see cref="T:System.Action"/> used when subscribing to the event.</param>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent.Contains(System.Action)">
+            <summary>
+            Returns <see langword="true"/> if there is a subscriber matching <see cref="T:System.Action"/>.
+            </summary>
+            <param name="subscriber">The <see cref="T:System.Action"/> used when subscribing to the event.</param>
+            <returns><see langword="true"/> if there is an <see cref="T:System.Action"/> that matches; otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Fort.Aggregator.PubSubEvent`1">
+            <summary>
+            Defines a class that manages publication and subscription to events.
+            </summary>
+            <typeparam name="TPayload">The type of message that will be passed to the subscribers.</typeparam>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent`1.Subscribe(System.Action{`0})">
+            <summary>
+            Subscribes a delegate to an event that will be published on the <see cref="!:ThreadOption.PublisherThread"/>.
+            <see cref="T:Fort.Aggregator.PubSubEvent`1"/> will maintain a <see cref="T:System.WeakReference"/> to the target of the supplied <paramref name="action"/> delegate.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is published.</param>
+            <returns>A <see cref="T:Fort.Aggregator.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            The PubSubEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent`1.Subscribe(System.Action{`0},System.Boolean)">
+            <summary>
+            Subscribes a delegate to an event that will be published on the <see cref="!:ThreadOption.PublisherThread"/>.
+            </summary>
+            <param name="action">The delegate that gets executed when the event is published.</param>
+            <param name="keepSubscriberReferenceAlive">When <see langword="true"/>, the <see cref="T:Fort.Aggregator.PubSubEvent`1"/> keeps a reference to the subscriber so it does not get garbage collected.</param>
+            <returns>A <see cref="T:Fort.Aggregator.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+            <remarks>
+            If <paramref name="keepSubscriberReferenceAlive"/> is set to <see langword="false" />, <see cref="T:Fort.Aggregator.PubSubEvent`1"/> will maintain a <see cref="T:System.WeakReference"/> to the Target of the supplied <paramref name="action"/> delegate.
+            If not using a WeakReference (<paramref name="keepSubscriberReferenceAlive"/> is <see langword="true" />), the user must explicitly call Unsubscribe for the event when disposing the subscriber in order to avoid memory leaks or unexpected behavior.
+            <para/>
+            The PubSubEvent collection is thread-safe.
+            </remarks>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent`1.Subscribe(System.Action{`0},System.Boolean,System.Predicate{`0})">
+             <summary>
+             Subscribes a delegate to an event.
+             </summary>
+             <param name="action">The delegate that gets executed when the event is published.</param>
+             <param name="threadOption">Specifies on which thread to receive the delegate callback.</param>
+             <param name="keepSubscriberReferenceAlive">When <see langword="true"/>, the <see cref="T:Fort.Aggregator.PubSubEvent`1"/> keeps a reference to the subscriber so it does not get garbage collected.</param>
+             <param name="filter">Filter to evaluate if the subscriber should receive the event.</param>
+             <returns>A <see cref="T:Fort.Aggregator.SubscriptionToken"/> that uniquely identifies the added subscription.</returns>
+             <remarks>
+             If <paramref name="keepSubscriberReferenceAlive"/> is set to <see langword="false" />, <see cref="T:Fort.Aggregator.PubSubEvent`1"/> will maintain a <see cref="T:System.WeakReference"/> to the Target of the supplied <paramref name="action"/> delegate.
+             If not using a WeakReference (<paramref name="keepSubscriberReferenceAlive"/> is <see langword="true" />), the user must explicitly call Unsubscribe for the event when disposing the subscriber in order to avoid memory leaks or unexpected behavior.
+            
+             The PubSubEvent collection is thread-safe.
+             </remarks>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent`1.Publish(`0)">
+            <summary>
+            Publishes the <see cref="T:Fort.Aggregator.PubSubEvent`1"/>.
+            </summary>
+            <param name="payload">Message to pass to the subscribers.</param>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent`1.Unsubscribe(System.Action{`0})">
+            <summary>
+            Removes the first subscriber matching <see cref="T:System.Action`1"/> from the subscribers' list.
+            </summary>
+            <param name="subscriber">The <see cref="T:System.Action`1"/> used when subscribing to the event.</param>
+        </member>
+        <member name="M:Fort.Aggregator.PubSubEvent`1.Contains(System.Action{`0})">
+            <summary>
+            Returns <see langword="true"/> if there is a subscriber matching <see cref="T:System.Action`1"/>.
+            </summary>
+            <param name="subscriber">The <see cref="T:System.Action`1"/> used when subscribing to the event.</param>
+            <returns><see langword="true"/> if there is an <see cref="T:System.Action`1"/> that matches; otherwise <see langword="false"/>.</returns>
+        </member>
+        <member name="T:Fort.Aggregator.SubscriptionToken">
+            <summary>
+            Subscription token returned from <see cref="T:Fort.Aggregator.EventBase"/> on subscribe.
+            </summary>
+        </member>
+        <member name="M:Fort.Aggregator.SubscriptionToken.#ctor(System.Action{Fort.Aggregator.SubscriptionToken})">
+            <summary>
+            Initializes a new instance of <see cref="T:Fort.Aggregator.SubscriptionToken"/>.
+            </summary>
+        </member>
+        <member name="M:Fort.Aggregator.SubscriptionToken.Equals(Fort.Aggregator.SubscriptionToken)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <returns>
+            <see langword="true"/> if the current object is equal to the <paramref name="other" /> parameter; otherwise, <see langword="false"/>.
+            </returns>
+            <param name="other">An object to compare with this object.</param>
+        </member>
+        <member name="M:Fort.Aggregator.SubscriptionToken.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
+            </summary>
+            <returns>
+            true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.
+            </returns>
+            <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
+            <exception cref="T:System.NullReferenceException">The <paramref name="obj" /> parameter is null.</exception><filterpriority>2</filterpriority>
+        </member>
+        <member name="M:Fort.Aggregator.SubscriptionToken.GetHashCode">
+            <summary>
+            Serves as a hash function for a particular type. 
+            </summary>
+            <returns>
+            A hash code for the current <see cref="T:System.Object" />.
+            </returns>
+            <filterpriority>2</filterpriority>
+        </member>
+        <member name="M:Fort.Aggregator.SubscriptionToken.Dispose">
+            <summary>
+            Disposes the SubscriptionToken, removing the subscription from the corresponding <see cref="T:Fort.Aggregator.EventBase"/>.
+            </summary>
+        </member>
+        <member name="T:Fort.IAchievementService">
+            <summary>
+            This service is used to manage Achievement actions like claiming achievement and checking if achievement is claimed
+            </summary>
+        </member>
+        <member name="M:Fort.IAchievementService.ClaimAchievement(System.Type)">
+            <summary>
+            Claiming none level base achievement
+            </summary>
+            <param name="noneLevelBaseType">The type of none level base achievement</param>
+        </member>
+        <member name="M:Fort.IAchievementService.ClaimAchievement(System.Type,System.Int32)">
+            <summary>
+            Claiming level base achievement
+            </summary>
+            <param name="levelBaseType">The type of level base achievement</param>
+            <param name="achivementLevelIndex">Level of achievement that must be claimed</param>
+        </member>
+        <member name="M:Fort.IAchievementService.IsAchievementClaimed(System.Type)">
+            <summary>
+            Is none level base achievement claimed
+            </summary>
+            <param name="noneLevelBaseType">The type of none level base achievement</param>
+            <returns></returns>
+        </member>
+        <member name="M:Fort.IAchievementService.GetAchievementClaimedIndex(System.Type)">
+            <summary>
+            Return the index of claimed level base achievement
+            </summary>
+            <param name="levelBaseType">index of claimed level base achievement</param>
+            <returns></returns>
+        </member>
+        <member name="M:Fort.IAchievementService.ResolveAchievementScoreBalance(System.String)">
+            <summary>
+            Resolving the score and balance of an achievement or achievement level by Id
+            </summary>
+            <param name="id">Id of achievement or achievement level</param>
+            <returns></returns>
+        </member>
+        <member name="T:Fort.ScoreBalance">
+            <summary>
+            This class encapsulates score and balance
+            </summary>
+        </member>
+        <member name="T:Fort.IAdvertisementService">
+            <summary>
+            This Service is used to manage advertisement. Ability such as adding advertisement providers and prioritize them or optimization of video fill rate 
+            </summary>
+        </member>
+        <member name="P:Fort.IAdvertisementService.IsVideoSupported">
+            <summary>
+            Is any added video provider support Video
+            </summary>
+        </member>
+        <member name="P:Fort.IAdvertisementService.IsStandardBannerSupported">
+            <summary>
+            Is any added video provider support Standard Banner ad
+            </summary>
+        </member>
+        <member name="P:Fort.IAdvertisementService.IsInterstitialBannerSupported">
+            <summary>
+            Is any added video provider support Interstitial Banner
+            </summary>
+        </member>
+        <member name="M:Fort.IAdvertisementService.ShowVideo(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Show video
+            </summary>
+            <param name="zone">zone is used in video providers to classifying advertisement</param>
+            <param name="skipable">Is video skipable</param>
+            <param name="removabale">Is showing this video can be removed by purchasing RemoveAdIapPackage</param>
+            <returns>Return a promise</returns>
+        </member>
+        <member name="M:Fort.IAdvertisementService.ChangeStandardBannerPosition(Fort.StandardBannerVerticalAlignment,Fort.StandardBannerHorizantalAlignment)">
+            <summary>
+            Changing standard banner Position
+            </summary>
+            <param name="verticalAlignment">Vertical Alignment</param>
+            <param name="horizantalAlignment">Horizantal Alignment</param>
+        </member>
+        <member name="M:Fort.IAdvertisementService.ShowStandardBanner">
+            <summary>
+            Shownig standard banner
+            </summary>
+        </member>
+        <member name="M:Fort.IAdvertisementService.HideStandardBanner">
+            <summary>
+            Hiding standard banner
+            </summary>
+        </member>
+        <member name="M:Fort.IAdvertisementService.ShowInterstiatialBanner">
+            <summary>
+            Showing interstiatial banner
+            </summary>
+        </member>
+        <member name="T:Fort.IAnalyticsService">
+            <summary>
+            This service is used to stat Fort and custom analytic item
+            </summary>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatItemPurchased(System.String,Fort.Info.Balance,System.Int32)">
+            <summary>
+            Stat item purchase
+            </summary>
+            <param name="itemId">The Id of Purchased item or Purchase item level</param>
+            <param name="cost">The cost of purchase</param>
+            <param name="discount">The discount or purchase</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatItemRent(System.String,System.TimeSpan)">
+            <summary>
+            Stat item rent
+            </summary>
+            <param name="itemId">The Id of Purchased item or Purchase item level</param>
+            <param name="duration">Rent duration</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatAchievementClaimed(System.String,Fort.ScoreBalance)">
+            <summary>
+            Stat achievemt claim
+            </summary>
+            <param name="achievementId">The Id of Achievement or Achievement item level</param>
+            <param name="award"></param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatIapPurchased(Fort.Info.Market.Iap.IapPackageInfo,System.String)">
+            <summary>
+            Stat Iap package purchase
+            </summary>
+            <param name="iapPackage">Corresponding iap package</param>
+            <param name="market">The name of the market that the purchase occurred in</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatIapFailed(Fort.Info.Market.Iap.IapPackageInfo,System.String,System.String,Fort.IapPurchaseFail)">
+            <summary>
+            Stat Iap package purchase failed
+            </summary>
+            <param name="iapPackage">Corresponding iap package</param>
+            <param name="purchaseToken">Market returned purchase token</param>
+            <param name="market">The name of the market that the purchase occurred in</param>
+            <param name="iapPurchaseFail">Failed reason. Possible values (Cancel,MarketFailed,FortServerFail,FraudDetected)</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatIapRetry(Fort.Info.Market.Iap.IapPackageInfo,System.String,System.String)">
+            <summary>
+            Stat Iap package retry
+            </summary>
+            <param name="iapPackage">Corresponding iap package</param>
+            <param name="purchaseToken">Market returned purchase token</param>
+            <param name="market">The name of the market that the purchase occurred in</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatIapRetryFail(Fort.Info.Market.Iap.IapPackageInfo,System.String,System.String,Fort.IapRetryFail)">
+            <summary>
+            Stat Iap package retry failed
+            </summary>
+            <param name="iapPackage">Corresponding iap package</param>
+            <param name="purchaseToken">Market returned purchase token</param>
+            <param name="market">The name of the market that the purchase occurred in</param>
+            <param name="iapRetryFail">Failed reason. Possible values (FortServerFail,FraudDetected)</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatVideoRequest(System.String,System.String,System.Boolean)">
+            <summary>
+            Stat video showing request
+            </summary>
+            <param name="advertismentProvider">The provider of advertisement</param>
+            <param name="zone">The zone of advertisement</param>
+            <param name="skipable">Is requested video skipable</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatVideoResult(System.String,System.String,System.Boolean,Fort.ShowVideoResult)">
+            <summary>
+            Stat video showing result
+            </summary>
+            <param name="advertismentProvider">The provider of advertisement</param>
+            <param name="zone">The zone of advertisement</param>
+            <param name="skipable">Is requested video skipable</param>
+            <param name="videoResult">The result of showing video.Possible values (Succeeded,Cancel,NoVideoAvilable,ProviderError)</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatStandardBanner(System.String)">
+            <summary>
+            Stat showing standard banner
+            </summary>
+            <param name="advertismentProvider">The provider of advertisement</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatInterstitialBanner(System.String)">
+            <summary>
+            Stat showing interstitial banner 
+            </summary>
+            <param name="advertismentProvider">The provider of advertisement</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatInvitationShare">
+            <summary>
+            Stat sharing of invitation
+            </summary>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatInvitationApplied">
+            <summary>
+            Stat applying of invitation
+            </summary>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatUserRegisterd">
+            <summary>
+            Stat user registeration
+            </summary>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatGameLevelFinished(Fort.Info.GameLevel.GameLevelInfo,Fort.ILevelFinishStat)">
+            <summary>
+            Stat the finishing of game level
+            </summary>
+            <param name="gameLevelInfo">The corresponding game level info</param>
+            <param name="levelFinishStat">The stat of game level</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StatSceneLoaded(System.String)">
+            <summary>
+            Stat loading of scene
+            </summary>
+            <param name="sceneName">The name of scene</param>
+        </member>
+        <member name="M:Fort.IAnalyticsService.StateCustomEvent(System.String,System.String,System.String,System.Object)">
+            <summary>
+            Stat custom events
+            </summary>
+            <param name="name">Name of event</param>
+            <param name="label">Label of event</param>
+            <param name="category">category of event</param>
+            <param name="value">value of event</param>
+        </member>
+        <member name="T:Fort.IAssetService">
+            <summary>
+            This service is used to manage assets of game. Asset bundle management is provided by this service.
+            </summary>
+        </member>
+        <member name="M:Fort.IAssetService.Resolve(Fort.Info.GameItem.GameItemInfo)">
+            <summary>
+            Resolving game item
+            </summary>
+            <param name="gameItem">Corresponding game item</param>
+            <returns>The asset</returns>
+        </member>
+        <member name="M:Fort.IAssetService.IsReady(Fort.Info.GameItem.GameItemInfo)">
+            <summary>
+            Is game item ready to use
+            </summary>
+            <param name="gameItem">Corresponding game item</param>
+            <returns>Is game item ready to use</returns>
+        </member>
+        <member name="M:Fort.IAssetService.GetAssetBundleList">
+            <summary>
+            Resolving the list of asset bundle
+            </summary>
+            <returns>List of asset bundles</returns>
+        </member>
+        <member name="M:Fort.IAssetService.IsAssetBundleDownloaded(System.String)">
+            <summary>
+            Is asset bundle downloaded
+            </summary>
+            <param name="assetBundle">Name of asset bundle</param>
+            <returns>Is asset bundle downloaded</returns>
+        </member>
+        <member name="M:Fort.IAssetService.DownloadAssetBundle(System.String,System.Action{Fort.ServerConnection.DownloadProgress})">
+            <summary>
+            Download single asset bundle
+            </summary>
+            <param name="assetBundle">Name of asset bundle</param>
+            <param name="progress">A call back that return progress of download</param>
+            <returns>Promise of download</returns>
+        </member>
+        <member name="M:Fort.IAssetService.DownloadAllAssetBundles(System.Action{Fort.AllAssetBundleDownloadProgressInfo})">
+            <summary>
+            Download not downloaded asset bundle
+            </summary>
+            <param name="progress">A call back that return progress of download</param>
+            <returns>Promise of download</returns>
+        </member>
+        <member name="M:Fort.IAssetService.GetNotDownloadedInfo">
+            <summary>
+            Resolve not downloaded asset bundle name and size of them
+            </summary>
+            <returns>Return not downloaded asset bundle name and size of them</returns>
+        </member>
+        <member name="T:Fort.IEventAggregatorService">
+            <summary>
+            This service used for aggregating event
+            </summary>
+        </member>
+        <member name="M:Fort.IEventAggregatorService.GetEvent``1">
+            <summary>
+            Return event
+            </summary>
+            <typeparam name="TEventType">Event class</typeparam>
+            <returns>Return event</returns>
+        </member>
+        <member name="T:Fort.IInvitationService">
+            <summary>
+            This service is used to manage invitation. 
+            </summary>
+        </member>
+        <member name="M:Fort.IInvitationService.ShareLink">
+            <summary>
+            Share Game link and invitation token 
+            </summary>
+        </member>
+        <member name="M:Fort.IInvitationService.ResolveInvitationData">
+            <summary>
+            Resolve Invititation data from server
+            </summary>
+            <returns>Invitaion Data Promise</returns>
+        </member>
+        <member name="M:Fort.IInvitationService.ResolveInvitationToken">
+            <summary>
+            Resolving invitation token from application url or cache
+            </summary>
+            <returns>invitation token</returns>
+        </member>
+        <member name="M:Fort.IInvitationService.ApplyInvitation">
+            <summary>
+            Apply invitation from cached Invitation token
+            </summary>
+            <returns>Promise of invitation applying</returns>
+        </member>
+        <member name="T:Fort.InvitationData">
+            <summary>
+            Data for invitation
+            </summary>
+        </member>
+        <member name="P:Fort.InvitationData.InvitationCount">
+            <summary>
+            Invitation applied count
+            </summary>
+        </member>
+        <member name="P:Fort.InvitationData.InvitationAddedValues">
+            <summary>
+            Applied invitation added values
+            </summary>
+        </member>
+        <member name="P:Fort.InvitationData.InvitorUserName">
+            <summary>
+            The username of invitor
+            </summary>
+        </member>
+        <member name="T:Fort.ILanguageService">
+            <summary>
+            The service that used to manage languages
+            </summary>
+        </member>
+        <member name="M:Fort.ILanguageService.ActivateLanguage(Fort.Info.Language.LanguageInfo)">
+            <summary>
+            Activating language
+            </summary>
+            <param name="language">Corresponding language</param>
+        </member>
+        <member name="M:Fort.ILanguageService.GetActiveLanguage">
+            <summary>
+            Get active language
+            </summary>
+            <returns>Active language</returns>
+        </member>
+        <member name="M:Fort.ILanguageService.GetLanguagesList">
+            <summary>
+            Get avialable language in publish
+            </summary>
+            <returns>Language list</returns>
+        </member>
+        <member name="T:Fort.ILeaderboardService">
+            <summary>
+            This service is use to load leaderboard data
+            </summary>
+        </member>
+        <member name="M:Fort.ILeaderboardService.ResolveLeaderBoardUsers">
+            <summary>
+            Resolve leaderboard user data
+            </summary>
+            <returns>promise leaderboard user list</returns>
+        </member>
+        <member name="T:Fort.ILevelManagementService">
+            <summary>
+            Service to manage game levels
+            </summary>
+        </member>
+        <member name="M:Fort.ILevelManagementService.GameLevelFinished(Fort.LevelFinishParameters)">
+            <summary>
+            Call this method whenever the game is finished
+            </summary>
+            <param name="parameters">Level finish parameter</param>
+        </member>
+        <member name="M:Fort.ILevelManagementService.GetGameFinishStat(Fort.Info.GameLevel.GameLevelInfo)">
+            <summary>
+            Resolve cached level finish stat of a game level info
+            </summary>
+            <param name="level">Corresponding game level info</param>
+            <returns>Level finish stat</returns>
+        </member>
+        <member name="M:Fort.ILevelManagementService.GetLastGameFinishStat">
+            <summary>
+            Get Last game level stat that is passed to GameLevelFinished() method
+            </summary>
+            <returns>Level finish stat.(If no cached data null value will be returned)</returns>
+        </member>
+        <member name="M:Fort.ILevelManagementService.LoadGameLevel(Fort.Info.GameLevel.GameLevelInfo)">
+            <summary>
+            Load Game Level
+            </summary>
+            <param name="level">Corresponding game level info</param>
+        </member>
+        <member name="M:Fort.ILevelManagementService.LoadGameLevelAsync(Fort.Info.GameLevel.GameLevelInfo)">
+            <summary>
+            Load game level async.(Loader scene of GameLevel in fort will be load)
+            </summary>
+            <param name="level">Corresponding game level info</param>
+        </member>
+        <member name="M:Fort.ILevelManagementService.ContinueLoadGameLevelAsync">
+            <summary>
+            Continue loading game scene after loader scene
+            </summary>
+            <returns>Unity load scene async operation</returns>
+        </member>
+        <member name="M:Fort.ILevelManagementService.GetLastLoadedLevel">
+            <summary>
+            Resolve last loaded game level info
+            </summary>
+            <returns>last loaded game level info</returns>
+        </member>
+        <member name="T:Fort.ISceneLoaderService">
+            <summary>
+            Service to manage loading of scene. Ability such as stacking level loaded sequences and return to last scene and passing context to newly loaded scene
+            </summary>
+        </member>
+        <member name="P:Fort.ISceneLoaderService.IsReturnCapable">
+            <summary>
+            Determine if any scene exists in stack to return
+            </summary>
+        </member>
+        <member name="M:Fort.ISceneLoaderService.Load(Fort.SceneLoadParameters)">
+            <summary>
+            Loading scene and returning a complition promise. Whenever another load accurred or return call the new context will pass to this promise and resolve it
+            </summary>
+            <param name="parameters">Scene loading parameters</param>
+            <returns></returns>
+        </member>
+        <member name="M:Fort.ISceneLoaderService.LoadAsync(Fort.SceneLoadParameters)">
+            <summary>
+            Load scene async.
+            </summary>
+            <param name="parameters">Scene loading parameters</param>
+            <returns>Unity load scene async operation</returns>
+        </member>
+        <member name="M:Fort.ISceneLoaderService.GetLastLoadContext">
+            <summary>
+            Returning last load context
+            </summary>
+            <returns>Last load context</returns>
+        </member>
+        <member name="M:Fort.ISceneLoaderService.Return(System.Object)">
+            <summary>
+            Return to last stacked scene
+            </summary>
+            <param name="context">The context of Load() Method promise</param>
+        </member>
+        <member name="T:Fort.SceneLoadParameters">
+            <summary>
+            Parameters for loading scene
+            </summary>
+        </member>
+        <member name="P:Fort.SceneLoadParameters.SceneName">
+            <summary>
+            Scene name
+            </summary>
+        </member>
+        <member name="P:Fort.SceneLoadParameters.Context">
+            <summary>
+            Context that will pass to GetLastLoadContext() Method of ISceneLoaderService and can be resolve by GetLastLoadContext() of ISceneLoaderService
+            </summary>
+        </member>
+        <member name="P:Fort.SceneLoadParameters.CaptureReturnKey">
+            <summary>
+            Capture return key and automatically return to last stacked scene if possible
+            </summary>
+        </member>
+        <member name="P:Fort.SceneLoadParameters.AddToSceneStack">
+            <summary>
+            Add current scene to scene stack
+            </summary>
+        </member>
+        <member name="P:Fort.SceneLoadParameters.FlushSceneStack">
+            <summary>
+            Clear all scene stack
+            </summary>
+        </member>
+        <member name="T:Fort.ISettingService">
+            <summary>
+            Fort global settings
+            </summary>
+        </member>
+        <member name="M:Fort.ISettingService.ResolveServerSettings">
+            <summary>
+            Resolving server Settings
+            </summary>
+            <returns>Promise of server settings</returns>
+        </member>
+        <member name="M:Fort.ISettingService.ResolveCachedServerSetting">
+            <summary>
+            Resolving server chached settings
+            </summary>
+            <returns>Server settings</returns>
+        </member>
+        <member name="M:Fort.ISettingService.GetVersion">
+            <summary>
+            Get deployed version can be used in android and ios and is changable in Player settings of unity
+            </summary>
+            <returns>Version of deployment</returns>
+        </member>
+        <member name="T:Fort.ISkinnerBoxService">
+            <summary>
+            Service to manage skinner box
+            </summary>
+        </member>
+        <member name="M:Fort.ISkinnerBoxService.IsFreeSkinnerBoxAvailable(Fort.Info.SkinnerBox.FreeSkinnerBoxInfo)">
+            <summary>
+            Return if skinner box available
+            </summary>
+            <param name="boxInfo">Free box info</param>
+            <returns>Is skinner box available</returns>
+        </member>
+        <member name="M:Fort.ISkinnerBoxService.GetPurchableskinnerBoxCount(Fort.Info.SkinnerBox.PurchableSkinnerBoxInfo)">
+            <summary>
+            Resolve the count of purchased box
+            </summary>
+            <param name="boxInfo"></param>
+            <returns>count of purchased box</returns>
+        </member>
+        <member name="M:Fort.ISkinnerBoxService.OpenBox(Fort.Info.SkinnerBox.SkinnerBoxInfo)">
+            <summary>
+            Opening a box
+            </summary>
+            <param name="boxInfo">Corresponding skinner box</param>
+            <returns>Returning item that is picked from skinner box</returns>
+        </member>
+        <member name="M:Fort.ISkinnerBoxService.GetFreeSkinnerBoxAvailabiltyDuration(Fort.Info.SkinnerBox.FreeSkinnerBoxInfo)">
+            <summary>
+            Returning the availability delay of free skinner box
+            </summary>
+            <param name="boxInfo">Corresponding free skinner box</param>
+            <returns>The availability delay of free skinner box</returns>
+        </member>
+        <member name="T:Fort.IStorageService">
+            <summary>
+            Service that is used to save classes
+            </summary>
+        </member>
+        <member name="M:Fort.IStorageService.ContainsData(System.Type)">
+            <summary>
+            Is any data saved for this type
+            </summary>
+            <param name="dataType">Type of class</param>
+            <returns>Is any data saved for this type</returns>
+        </member>
+        <member name="M:Fort.IStorageService.ResolveData(System.Type)">
+            <summary>
+            Resolving saved data.(null will return if no data saved for this class type)
+            </summary>
+            <param name="dataType">Type of class</param>
+            <returns>Returning saved data.(null will return if no data saved for this class type)</returns>
+        </member>
+        <member name="M:Fort.IStorageService.UpdateData(System.Object,System.Type)">
+            <summary>
+            Updating data
+            </summary>
+            <param name="data">Data to update</param>
+            <param name="dataType">Type of class</param>
+        </member>
+        <member name="M:Fort.IStorageService.UpdateDataLatent(System.Object,System.Type)">
+            <summary>
+            Updating data in another thread. Data will be cloned and a copy of it will be saved
+            </summary>
+            <param name="data">Data to update</param>
+            <param name="dataType">Type of class</param>
+            <returns>Promise of updating</returns>
+        </member>
+        <member name="M:Fort.IStorageService.UpdateOnMemory(System.Object,System.Type)">
+            <summary>
+            Update data only on cache of storage
+            </summary>
+            <param name="data">Data to update</param>
+            <param name="dataType">Type of class</param>
+        </member>
+        <member name="M:Fort.IStorageService.SaveOnMemoryData(System.Type)">
+            <summary>
+            Save cached data to storage
+            </summary>
+            <param name="dataType">Type of class</param>
+        </member>
+        <member name="M:Fort.IStorageService.SaveOnMemoryDataLatent(System.Type)">
+            <summary>
+            Save cached data to storage in another thread. Data will be cloned and a copy of it will be saved
+            </summary>
+            <param name="dataType">Type of class</param>
+            <returns>Promise of updating</returns>
+        </member>
+        <member name="M:Fort.IStorageService.UpdateTokenDataLatent(System.Object,System.String,System.Type)">
+            <summary>
+            Save data with a token in another thread. Data will be cloned and a copy of it will be saved
+            </summary>
+            <param name="data">Data to update</param>
+            <param name="token">Token for save</param>
+            <param name="dataType">Type of class</param>
+            <returns>Promise of updating</returns>
+        </member>
+        <member name="M:Fort.IStorageService.UpdateTokenData(System.Object,System.String,System.Type)">
+            <summary>
+            Save data with a token
+            </summary>
+            <param name="data">Data to update</param>
+            <param name="token">Token for save</param>
+            <param name="dataType">Type of class</param>
+        </member>
+        <member name="M:Fort.IStorageService.ResolveTokenData(System.Type,System.String)">
+            <summary>
+            Resolving data that contain a token
+            </summary>
+            <param name="dataType">Type of class</param>
+            <param name="token">Token for load</param>
+            <returns>Returning saved data.(null will return if no data saved for this class type)</returns>
+        </member>
+        <member name="M:Fort.IStoreService.RentItem(Fort.Info.PurchasableItem.NoneLevelBasePurchasableItemInfo,System.Int32,System.TimeSpan)">
+            <summary>
+            Rent none level base purchasable item
+            </summary>
+            <param name="noneLevelBasePurchasableItemInfo">Item to rent</param>
+            <param name="discount">Discout for rent.(value betwean 0 and 100)</param>
+            <param name="rentDuration">The duration of rent.</param>
+        </member>
+        <member name="M:Fort.IStoreService.RentItem(Fort.Info.PurchasableItem.PurchasableLevelInfo,System.Int32,System.TimeSpan)">
+            <summary>
+            Rent Level base purchasable item
+            </summary>
+            <param name="purchasableLevelInfo">Level of item</param>
+            <param name="discount">Discout for rent.(value betwean 0 and 100)</param>
+            <param name="rentDuration">The duration of rent.</param>
+        </member>
+        <member name="M:Fort.IStoreService.PurchaseItem(Fort.Info.PurchasableItem.PurchasableItemInfo,System.Int32)">
+            <summary>
+            Purchase item.In Level base purchasable item first posibble Level will be purchased
+            </summary>
+            <param name="purchasableItem">Item to purchase</param>
+            <param name="discount">Discout for purchase.(value betwean 0 and 100)</param>
+        </member>
+        <member name="M:Fort.IStoreService.IsItemUsable(System.String)">
+            <summary>
+            Return if item can be use in game.(purchased or rented)
+            </summary>
+            <param name="id">Id of purchase item or id of Level of purchase item</param>
+            <returns>Item can be use in game.(purchased or rented)</returns>
+        </member>
+        <member name="M:Fort.IStoreService.ResolvePurchasableItemCost(System.String)">
+            <summary>
+            Return if item purchase and rent cost
+            </summary>
+            <param name="id">Id of purchase item or id of Level of purchase item</param>
+            <returns>Item purchase and rent cost</returns>
+        </member>
+        <member name="M:Fort.IStoreService.IsItemPurchased(System.String)">
+            <summary>
+            Return if item purchased
+            </summary>
+            <param name="id">Id of purchase item or id of Level of purchase item</param>
+            <returns>Is item purchased</returns>
+        </member>
+        <member name="M:Fort.IStoreService.IsItemRented(System.String)">
+            <summary>
+            Return if item Rented
+            </summary>
+            <param name="id">Id of purchase item or id of Level of purchase item</param>
+            <returns>Is item rented</returns>
+        </member>
+        <member name="M:Fort.IStoreService.IsEnoughFundToPurchaseItem(Fort.Info.PurchasableItem.PurchasableItemInfo,System.Int32)">
+            <summary>
+            Return if user has enough fund to purchase this item
+            </summary>
+            <param name="purchasableItem">Item to purchase</param>
+            <param name="discount">Discout for purchase.(value betwean 0 and 100)</param>
+            <returns>User has enough fund to purchase this item</returns>
+        </member>
+        <member name="M:Fort.IStoreService.SetDiscount(System.Type,System.Int32,System.TimeSpan)">
+            <summary>
+            Set discount for Iap package
+            </summary>
+            <param name="packageType">Type of IapPackageInfo</param>
+            <param name="discount">Discout for Iap package.(value betwean 0 and 100)</param>
+            <param name="duration">Duration of discount</param>
+        </member>
+        <member name="M:Fort.IStoreService.GetDiscount(System.Type)">
+            <summary>
+            Get discount of Iap package
+            </summary>
+            <param name="packageType">Type of IapPackageInfo</param>
+            <returns>Discount</returns>
+        </member>
+        <member name="M:Fort.IStoreService.RemoveDiscount(System.Type)">
+            <summary>
+            Removing discount of Iap package
+            </summary>
+            <param name="packageType"></param>
+        </member>
+        <member name="M:Fort.IStoreService.PurchasePackage(Fort.Info.Market.Iap.IapPackageInfo)">
+            <summary>
+            Purchase Iap package
+            </summary>
+            <param name="iapPackage">Corresponding Iap package</param>
+            <returns>Promise of purchasing Iap package</returns>
+        </member>
+        <member name="M:Fort.IStoreService.ReportPurchasePackage(Fort.Info.Market.Iap.IapPackageInfo,System.String)">
+            <summary>
+            In some cases the purchasing of Iap package Encounter a problem.Report Iap package will retry purchase Iap package.
+            </summary>
+            <param name="iapPackage">Corresponding Iap package</param>
+            <param name="purchaseToken">Market purchase token</param>
+            <returns>Promise of purchasing Iap package</returns>
+        </member>
+        <member name="M:Fort.IStoreService.ResolvePackages">
+            <summary>
+            Resolving Iap package list. If server provider added this list will be loaded from server and prices will be synced from server.
+            </summary>
+            <returns>Promise of Iap package list.</returns>
+        </member>
+        <member name="T:Fort.IUserManagementService">
+            <summary>
+            Service to manage user
+            </summary>
+        </member>
+        <member name="P:Fort.IUserManagementService.IsRegistered">
+            <summary>
+            Is user registered
+            </summary>
+        </member>
+        <member name="P:Fort.IUserManagementService.Username">
+            <summary>
+            Get username
+            </summary>
+        </member>
+        <member name="P:Fort.IUserManagementService.Score">
+            <summary>
+            Get user score
+            </summary>
+        </member>
+        <member name="P:Fort.IUserManagementService.Balance">
+            <summary>
+            Get user balance
+            </summary>
+        </member>
+        <member name="M:Fort.IUserManagementService.Register(System.String,System.String)">
+            <summary>
+            Register user
+            </summary>
+            <param name="username">The username of user</param>
+            <param name="password">The password of user</param>
+            <returns></returns>
+        </member>
+        <member name="M:Fort.IUserManagementService.Login(System.String,System.String)">
+            <summary>
+            Login user
+            </summary>
+            <param name="username">The username of user</param>
+            <param name="password">The password of user</param>
+            <returns></returns>
+        </member>
+        <member name="M:Fort.IUserManagementService.AddScoreAndBalance(System.Int32,Fort.Info.Balance)">
+            <summary>
+            Adding score and balance.Data will update to server in full update
+            </summary>
+            <param name="score">Added score</param>
+            <param name="balance">Added balance</param>
+        </member>
+        <member name="M:Fort.IUserManagementService.FullUpdate">
+            <summary>
+            Full update user score, balance, claimed achievement and purchased item
+            </summary>
+            <returns>Promise of update</returns>
+        </member>
+        <member name="M:Fort.IUserManagementService.GetSystemId">
+            <summary>
+            return a unique id of system
+            </summary>
+            <returns>Unique id of system</returns>
+        </member>
+    </members>
+</doc>
