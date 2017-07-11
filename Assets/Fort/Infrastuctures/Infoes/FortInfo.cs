@@ -54,18 +54,8 @@ namespace Fort.Info
         public Analytic Analytic { get; set; }
         public Advertisement.Advertisement Advertisement { get; set; }
         public SkinnerBox.SkinnerBox SkinnerBox { get; set; }
-        public Test Test { get; set; }
         //public StoragePolicy StoragePolicy { get; set; }
         public static FortInfo Instance { get { return InfoResolver.Resolve<FortInfo>(); } }
-    }
-
-    public class Test
-    {
-        public int Maz { get; set; }
-        //public Mest[] Mest1 { get; set; }
-        /*        public Mest Mest1 { get; set; }
-                public Mest Mest2 { get; set; }
-                public Mest Mest3 { get; set; }*/
     }
 
     public class Mest

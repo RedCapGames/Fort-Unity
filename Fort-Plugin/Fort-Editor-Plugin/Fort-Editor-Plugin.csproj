@@ -121,6 +121,9 @@
     <Compile Include="..\..\Assets\Fort\Editor\Helpers\LanguageHelper.cs">
       <Link>Fort\Editor\Helpers\LanguageHelper.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\InfoGenerator.cs">
+      <Link>Fort\Editor\InfoGenerator.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Inspector\AbstractConcretePresentation.cs">
       <Link>Fort\Editor\Inspector\AbstractConcretePresentation.cs</Link>
     </Compile>
@@ -133,8 +136,14 @@
     <Compile Include="..\..\Assets\Fort\Editor\Inspector\ConcretePresentation.cs">
       <Link>Fort\Editor\Inspector\ConcretePresentation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\CurvePresentation.cs">
+      <Link>Fort\Editor\Inspector\CurvePresentation.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\AchievementsPresentation.cs">
       <Link>Fort\Editor\Inspector\Custom\AchievementsPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\AssetBundleGameItemPresentation.cs">
+      <Link>Fort\Editor\Inspector\Custom\AssetBundleGameItemPresentation.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Editor\Inspector\Custom\BalancePresentation.cs">
       <Link>Fort\Editor\Inspector\Custom\BalancePresentation.cs</Link>
