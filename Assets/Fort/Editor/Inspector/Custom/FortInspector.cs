@@ -7,7 +7,7 @@ namespace Fort.Inspector
 {
     public abstract class FortInspector : Editor
     {
-
+        public const float ItemSpacing = 15f;
         
         private object _presentationData;
         private Presentation _presentation;

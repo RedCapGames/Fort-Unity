@@ -66,6 +66,7 @@ namespace Fort.CustomEditor
         private static Change ApplyNotOvveriededLanguageItem(PresentationParamater parameter, LanguageItem languageItem,
             Type itemType, PresentationSite presentationSite, PresentationData presentationData)
         {
+            GUIStyle guiStyle = new GUIStyle();
             Change change = new Change();
             List<Change> changes = new List<Change>();
             LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
@@ -100,9 +101,9 @@ namespace Fort.CustomEditor
                 change.IsPresentationChanged = oldFoldout != presentationData.IsFoldout;
                 if (presentationData.IsFoldout)
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    GUILayoutUtility.GetRect(3f, 6f);
-                    EditorGUILayout.BeginVertical();
+                    EditorGUILayout.BeginHorizontal(guiStyle);
+                    GUILayout.Space(FortInspector.ItemSpacing);
+                    EditorGUILayout.BeginVertical(guiStyle);
                     foreach (LanguageInfo languageInfo in languageInfos)
                     {
                         ApplyLanguagePrenetation(parameter, languageInfo, languageItem, itemType, presentationSite,
@@ -140,6 +141,7 @@ namespace Fort.CustomEditor
         private static Change ApplyOvveriededLanguageItem(PresentationParamater parameter, LanguageItem languageItem,
     Type itemType, PresentationSite presentationSite, PresentationData presentationData)
         {
+            GUIStyle guiStyle = new GUIStyle();
             Change change = new Change();
             List<Change> changes = new List<Change>();
             LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
@@ -179,9 +181,9 @@ namespace Fort.CustomEditor
                 change.IsPresentationChanged = oldFoldout != presentationData.IsFoldout;
                 if (presentationData.IsFoldout)
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    GUILayoutUtility.GetRect(3f, 6f);
-                    EditorGUILayout.BeginVertical();
+                    EditorGUILayout.BeginHorizontal(guiStyle);
+                    GUILayout.Space(FortInspector.ItemSpacing);
+                    EditorGUILayout.BeginVertical(guiStyle);
                     bool oldUseOverridedValue = infoLanguageItem.UseOverridedValue;
                     infoLanguageItem.UseOverridedValue = EditorGUILayout.Toggle("Ovveride", infoLanguageItem.UseOverridedValue);
                     change.IsDataChanged |= oldUseOverridedValue != infoLanguageItem.UseOverridedValue;

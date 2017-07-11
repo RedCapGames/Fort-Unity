@@ -14,6 +14,7 @@ namespace Fort.Inspector
 
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
         {
+            GUIStyle guiStyle = new GUIStyle();
             if (_propertyInstanceResolver == null)
                 _propertyInstanceResolver =
                     (IPropertyInstanceResolver)
@@ -43,7 +44,7 @@ namespace Fort.Inspector
                     parameter.PresentationSite.PropertyInfo);
                 if (parameter.DataType.IsArray)
                 {
-                    EditorGUILayout.BeginVertical();
+                    EditorGUILayout.BeginVertical(guiStyle);
                     List<int> removedIndex = new List<int>();
                     object[] innerPresentationData = propertyResolvablePresentationData.PresentationDatas;
                     if(innerPresentationData == null || innerPresentationData.Length == 0)
@@ -59,8 +60,8 @@ namespace Fort.Inspector
                     change.ChildrenChange = new Change[instanceResolverResult.PresentableInstanceTokens.Length];
                     for (int i = 0; i < instanceResolverResult.PresentableInstanceTokens.Length; i++)
                     {
-                        EditorGUILayout.BeginVertical();
-                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.BeginVertical(guiStyle);
+                        EditorGUILayout.BeginHorizontal(guiStyle);
                         EditorGUILayout.LabelField(instanceResolverResult.PresentableInstanceTokens[i].DisplayName);
                         if (GUILayout.Button("-"))
                         {
@@ -84,12 +85,17 @@ namespace Fort.Inspector
                             parameter.FortInspector.GetResolver()
                                 .Resolve(new PresentationResolverParameter(elementType, instanceResolverResult.PresentableInstanceTokens[i].Value,
                                     presentationSite));
+                            EditorGUILayout.BeginHorizontal(guiStyle);
+                            GUILayout.Space(FortInspector.ItemSpacing);
+                            EditorGUILayout.BeginVertical(guiStyle);
                             PresentationResult presentationResult =
                                 presentation.OnInspectorGui(
                                     new PresentationParamater(
                                         instanceResolverResult.PresentableInstanceTokens[i].Value,
                                         finalInnerPresentationData[i], string.Format("Element {0}", i),
                                         elementType, presentationSite, parameter.FortInspector));
+                            EditorGUILayout.EndVertical();
+                            EditorGUILayout.EndHorizontal();
                             results[i] = presentationResult.Result;
                             finalInnerPresentationData[i] = presentationResult.PresentationData;
                             change.ChildrenChange[i] = presentationResult.Change;                            
@@ -135,12 +141,15 @@ namespace Fort.Inspector
                     int selectedIndex = parameter.Instance == null || instanceResolverResult.PresentableInstanceTokens.Length==0
                         ? 0
                         : instanceResolverResult.PossibleInstanceTokens.ToList().IndexOf(instanceResolverResult.PresentableInstanceTokens.Single()) + 1;
-
+                    EditorGUILayout.BeginHorizontal(guiStyle);
+                    GUILayout.Space(FortInspector.ItemSpacing);
+                    EditorGUILayout.BeginVertical(guiStyle);
                     selectedIndex = EditorGUILayout.Popup("", selectedIndex,
                             new[] { "None" }.Concat(
                                 instanceResolverResult.PossibleInstanceTokens.Select(token => token.DisplayName))
                                 .ToArray());
-
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.EndHorizontal();
                     if (selectedIndex == 0)
                     {
                         result = null;

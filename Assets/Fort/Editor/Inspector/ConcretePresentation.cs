@@ -43,6 +43,8 @@ namespace Fort.Inspector
 
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
         {
+            GUIStyle guiStyle = new GUIStyle();
+            //EditorGUILayout.BeginVertical();
             if (parameter.PresentationSite != null && parameter.PresentationSite.Base != null &&
                 parameter.DataType == parameter.PresentationSite.Base.GetType() && parameter.Instance == null)
             {
@@ -71,14 +73,18 @@ namespace Fort.Inspector
             }
             if (!isRoot)
             {
+/*                if (_isFoldout)
+                {
+                    GUILayout.Space(-10f);
+                }*/
                 concretePresentationData.IsFoldout = EditorGUILayout.Foldout(_isFoldout, parameter.Title);
                 change.IsPresentationChanged |= _isFoldout != concretePresentationData.IsFoldout;
                 _isFoldout = concretePresentationData.IsFoldout;
-                EditorGUILayout.BeginHorizontal();
-                GUILayoutUtility.GetRect(3f, 6f);
+/*                EditorGUILayout.BeginHorizontal();
+                GUILayoutUtility.GetRect(3f, 6f);*/
             }
             
-            EditorGUILayout.BeginVertical();
+            
             object data = parameter.Instance;
             if (data == null)
             {
@@ -91,6 +97,15 @@ namespace Fort.Inspector
                 int i = 0;
                 foreach (PresentationField presentationField in _presentationFieldInfos)
                 {
+                    EditorGUILayout.BeginHorizontal(guiStyle);
+                    if(!isRoot)
+                        GUILayout.Space(FortInspector.ItemSpacing);
+                    else
+                    {
+                        GUILayout.Space(0f);
+                    }
+
+                    EditorGUILayout.BeginVertical(guiStyle);
                     if (!concretePresentationData.InnerPresentationData.ContainsKey(presentationField.PropertyInfo.Name))
                         concretePresentationData.InnerPresentationData[presentationField.PropertyInfo.Name] = null;
                     object objectData = presentationField.PropertyInfo.GetValue(data, new object[0]);
@@ -126,13 +141,16 @@ namespace Fort.Inspector
                     concretePresentationData.InnerPresentationData[presentationField.PropertyInfo.Name] =
                         presentationResult.PresentationData;
                     i++;
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.EndHorizontal();
                 }
             }
-            EditorGUILayout.EndVertical();
+            
             if (!isRoot)
             {
-                EditorGUILayout.EndHorizontal();
+                //EditorGUILayout.EndHorizontal();
             }
+            //EditorGUILayout.EndVertical();
             return new PresentationResult
             {
                 Result = data,
@@ -145,7 +163,8 @@ namespace Fort.Inspector
 
         private PresentationResult OnCircularRefrence(PresentationParamater paramater)
         {
-            EditorGUILayout.BeginHorizontal();
+            GUIStyle guiStyle = new GUIStyle();
+            EditorGUILayout.BeginHorizontal(guiStyle);
             EditorGUILayout.LabelField(paramater.Title);
             bool isDataChanged = false;
             object result = null;

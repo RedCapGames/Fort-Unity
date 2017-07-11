@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 
 namespace Fort.Inspector
 {
@@ -25,11 +26,14 @@ namespace Fort.Inspector
 
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
         {
+            GUIStyle guiStyle = new GUIStyle();
             AbstractConcretePresentationData presentationData =  parameter.PresentationData as AbstractConcretePresentationData ?? new AbstractConcretePresentationData();
-            presentationData.IsFoldout = EditorGUILayout.Foldout(presentationData.IsFoldout, parameter.Title);
-
-            object data = parameter.Instance;
             Change change = new Change();
+            bool isFoldout = presentationData.IsFoldout;
+            presentationData.IsFoldout = EditorGUILayout.Foldout(presentationData.IsFoldout, parameter.Title);
+            change.IsPresentationChanged = isFoldout != presentationData.IsFoldout;
+            object data = parameter.Instance;
+            
             if (presentationData.IsFoldout)
             {
                 Type[] possibleTypes;
@@ -58,12 +62,17 @@ namespace Fort.Inspector
                     selectedIndex = possibleTypes.ToList().IndexOf(parameter.Instance.GetType()) + 1;
 
                 }
+                EditorGUILayout.BeginHorizontal(guiStyle);
+                GUILayout.Space(FortInspector.ItemSpacing);
+                EditorGUILayout.BeginVertical(guiStyle);
                 selectedIndex = EditorGUILayout.Popup("Class Type", selectedIndex,
                     new[] { "None" }.Concat(possibleTypes.Select(type =>
                     {
                         PresentationTitleAttribute presentationTitleAttribute = type.GetCustomAttribute<PresentationTitleAttribute>();
                         return presentationTitleAttribute == null ? CamelCaseSplit.SplitCamelCase(type.Name) : presentationTitleAttribute.Title;
                     })).ToArray());
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndHorizontal();
                 object oldData = data;
                 bool changed = false;
                 if (selectedIndex > 0)
@@ -99,8 +108,13 @@ namespace Fort.Inspector
                                 .Resolve(new PresentationResolverParameter(possibleTypes[selectedIndex - 1], data,
                                     presentationSite));
                     }
+                    EditorGUILayout.BeginHorizontal(guiStyle);
+                    GUILayout.Space(FortInspector.ItemSpacing);
+                    EditorGUILayout.BeginVertical(guiStyle);
                     PresentationResult presentationResult = _presentation.OnInspectorGui(new PresentationParamater(data, presentationData.InnerPresentationData,
                         string.Empty, possibleTypes[selectedIndex - 1], presentationSite, parameter.FortInspector));
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.EndHorizontal();
                     presentationData.InnerPresentationData = presentationResult.PresentationData;
                     data = presentationResult.Result;
                     change.ChildrenChange = new[] { presentationResult.Change };

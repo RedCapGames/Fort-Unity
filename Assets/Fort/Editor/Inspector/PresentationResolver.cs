@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fort.Info;
+using UnityEngine;
 
 namespace Fort.Inspector
 {
@@ -66,6 +67,10 @@ namespace Fort.Inspector
             else if (typeof(UnityEngine.Object).IsAssignableFrom(type))
             {
                 presentation = new UnityObjectPresentation();
+            }
+            else if (typeof (AnimationCurve) == type)
+            {
+                presentation = new CurvePresentation();
             }
             else
             {

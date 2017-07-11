@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEditor;
-using Object = UnityEngine.Object;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Fort.Inspector
 {
@@ -13,7 +9,7 @@ namespace Fort.Inspector
 
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
         {
-            Object result = EditorGUILayout.ObjectField(parameter.Title, (UnityEngine.Object)parameter.Instance, parameter.DataType,false);
+            Object result = EditorGUILayout.ObjectField(parameter.Title, (Object)parameter.Instance, parameter.DataType,false);
             return new PresentationResult
             {
                 Result = result,

@@ -3,6 +3,7 @@ using System.Linq;
 using Fort.Info;
 using Fort.Inspector;
 using UnityEditor;
+using UnityEngine;
 
 
 namespace Fort.CustomEditor
@@ -13,6 +14,8 @@ namespace Fort.CustomEditor
         #region Overrides of Presentation
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
         {
+            GUIStyle guiStyle = new GUIStyle();
+            EditorGUILayout.BeginVertical(guiStyle);
             Change change = new Change();
             BalancePresentationData balancePresentationData = parameter.PresentationData as BalancePresentationData??new BalancePresentationData();
 
@@ -50,12 +53,18 @@ namespace Fort.CustomEditor
                     {
                         _numberPresentations[i] = new NumberPresentation();
                     }
+                    EditorGUILayout.BeginHorizontal(guiStyle);
+                    GUILayout.Space(FortInspector.ItemSpacing);
+                    EditorGUILayout.BeginVertical(guiStyle);
                     PresentationResult presentationResult = _numberPresentations[i].OnInspectorGui(presentationParamater);
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.EndHorizontal();
                     change.ChildrenChange[i] = presentationResult.Change;
 
                     values[pairs[i].Key] = (int)presentationResult.Result;
                 }
             }
+            EditorGUILayout.EndVertical();
             return new PresentationResult
             {
                 Change = change,

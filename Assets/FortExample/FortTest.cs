@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Fort;
 using Fort.Info;
+using Fort.Info.GameItem;
 using Fort.Info.GameLevel;
 using Fort.Serializer;
 using Fort.ServerConnection;
@@ -196,6 +197,9 @@ public class FortTest : MonoBehaviour
     {
         [CustomExport]
         public int LevelScore { get; set; }
+
+        public GameItemInfo Data { get; set; }
+        public AnimationCurve AnimationCurve { get; set; }
     }
 
     public class SavedData

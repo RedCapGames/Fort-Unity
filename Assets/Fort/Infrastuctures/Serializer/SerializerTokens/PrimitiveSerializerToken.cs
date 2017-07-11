@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Fort.Serializer
 {
@@ -25,7 +26,7 @@ namespace Fort.Serializer
         {
             resultSerializationToken.TokenType = SerializationTokenType.Data;
             resultSerializationToken.Type = graph.GetType();
-            resultSerializationToken.Data = graph;            
+            resultSerializationToken.Data = graph;
         }
 
         public void Deserialize(SerializationToken serializationToken, IGenericSerialierToken serializerToken, DeserializeResult deserializeResult)

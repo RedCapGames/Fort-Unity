@@ -13,6 +13,7 @@ namespace Fort.CustomEditor
 
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
         {
+            GUIStyle guiStyle = new GUIStyle();
             Change change = new Change();
             object presentationData = parameter.PresentationData;
             AchievementsPresentationData achievementPresentationData;
@@ -33,9 +34,9 @@ namespace Fort.CustomEditor
             AchievementInfo[] achievementInfos = (AchievementInfo[])parameter.Instance;
             if(achievementInfos == null)
                 achievementInfos = new AchievementInfo[0];
-            EditorGUILayout.BeginHorizontal();
-            GUILayoutUtility.GetRect(3f, 6f);
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginHorizontal(guiStyle);
+            GUILayout.Space(FortInspector.ItemSpacing);
+            EditorGUILayout.BeginVertical(guiStyle);
             if (_isFoldout)
             {
                 ConcretePresentation[] concretePresentations = _concretePresentations;

@@ -46,6 +46,7 @@ namespace Fort.Inspector
         }
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
         {
+            GUIStyle guiStyle = new GUIStyle();
             Change change = new Change();
             object presentationData = parameter.PresentationData;
             if (presentationData != null && !((presentationData) is ArrayPresentationData))
@@ -63,8 +64,8 @@ namespace Fort.Inspector
             arrayPresentationData.IsFoldout = EditorGUILayout.Foldout(_isFoldout, parameter.Title);
             change.IsPresentationChanged |= arrayPresentationData.IsFoldout != _isFoldout;
             _isFoldout = arrayPresentationData.IsFoldout;
-            EditorGUILayout.BeginHorizontal();
-            GUILayoutUtility.GetRect(3f, 6f);
+            EditorGUILayout.BeginHorizontal(guiStyle);
+            GUILayout.Space(FortInspector.ItemSpacing);
             object data = parameter.Instance;
             if (data == null)
             {
@@ -75,7 +76,7 @@ namespace Fort.Inspector
             Initialize(arrayData,parameter);
             if (_isFoldout)
             {
-                EditorGUILayout.BeginVertical();
+                EditorGUILayout.BeginVertical(guiStyle);
                 GUI.SetNextControlName(_sizeControlName);
                 _elementSize = EditorGUILayout.IntField("Size", _elementSize);
                 //Debug.Log(_elementSize);
@@ -111,20 +112,6 @@ namespace Fort.Inspector
                                     BaseSite = parameter.PresentationSite,
                                     SiteType = PresentationSiteType.ArrayElement
                                 }));
-/*
-                                PresentationParamater elementInitializationParameter =
-                                new PresentationParamater(null,null,
-                                    string.Empty, parameter.DataType.GetElementType(),
-                                    new PresentationSite
-                                    {
-                                        Base = parameter.Instance,
-                                        BasePresentation = this,
-                                        BaseSite = parameter.PresentationSite,
-                                        SiteType = PresentationSiteType.ArrayElement
-                                    }, parameter.FortInspector);
-*/
-
-                                //_arrayElementPresentations[i].Initialize(elementInitializationParameter);
                             }
                             else
                             {
@@ -134,9 +121,9 @@ namespace Fort.Inspector
                         change.IsDataChanged = true;
                     }
                 }
-                EditorGUILayout.BeginHorizontal();
-                GUILayoutUtility.GetRect(3f, 6f);
-                EditorGUILayout.BeginVertical();
+                EditorGUILayout.BeginHorizontal(guiStyle);
+                GUILayout.Space(FortInspector.ItemSpacing);
+                EditorGUILayout.BeginVertical(guiStyle);
                 object[] elementPresentationData = new object[_arrayElementPresentations.Length];
                 
                 change.ChildrenChange = new Change[arrayData.Length];
