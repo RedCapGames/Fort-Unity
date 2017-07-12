@@ -127,10 +127,10 @@ public class FortTest : MonoBehaviour
         {
             Debug.Log("Video failed");
         });*/
-        ServiceLocator.Resolve<IStoreService>().ResolvePackages().Then(infos =>
+/*        ServiceLocator.Resolve<IStoreService>().ResolvePackages().Then(infos =>
         {
             ServiceLocator.Resolve<IStoreService>().PurchasePackage(infos[0]).Then(() => Debug.Log("success"),result => Debug.Log(result.ToString()));
-        });
+        });*/
         
     }
 
