@@ -1,3 +1,4 @@
+
 # Fort Unity Plugin 
 
 Fort is a premade Backbone for videogame projects, if you are making a Free-to-play Videogame, or you're making a game or an application with Store or User sign up features using Unity, you can use Fort to Speed up your work. 
@@ -30,4 +31,4 @@ http://www.aparat.com/fortproject
 ## License
 
 Fort is Secure, fast and Reliable. it is free and it will always remain free. 
-Fort Project uses the MIT license for code.
+Fort Project uses the [MIT](https://github.com/RedCapGames/Fort-Unity/blob/master/LICENSE) license for code.
