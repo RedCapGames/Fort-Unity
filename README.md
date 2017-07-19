@@ -2,7 +2,11 @@
 # Fort Unity Plugin 
 
 Fort is a premade Backbone for videogame projects, if you are making a Free-to-play Videogame, or you're making a game or an application with Store or User sign up features using Unity, you can use Fort to Speed up your work. 
+There is a lot of development and programing is needed to make an awesome game. Also there is a lot of mechanisms has to be deployed using programing tools and development methods, Such as User Management, In-game Store Purchase System, Achievements and Missions, In App Purchase, Multilingual Export, Level Management, Invitation (Invite friends procedures), Energy Systems (Skinner Box), Asset Bundle, Analytics and Game Values (In-game Currency).
+As you know, there are many many different tools and plugins available on Unity asset store, but we have to mind about waste time for inefficient, feeble and weak tools.
+
 using Fort is easy, Just drag and drop the Plugin into the assets folder. 
+Fort, One Step Forward 
 
 ## Download
 
