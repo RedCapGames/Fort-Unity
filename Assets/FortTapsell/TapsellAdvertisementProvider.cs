@@ -12,7 +12,7 @@ namespace FortTapsell
         private ErrorDeferred<ShowVideoFailed> _deferred;
         private bool _isInitialized;
         private bool _isSkipable;
-        private void Initialize()
+        public void Initialize()
         {
             if(_isInitialized)
                 return;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Fort.Analytics;
 using Fort.Info;
 using Fort.Info.GameLevel;
 using Fort.Info.Market.Iap;
@@ -17,12 +18,15 @@ namespace Fort
         /// <param name="cost">The cost of purchase</param>
         /// <param name="discount">The discount or purchase</param>
         void StatItemPurchased(string itemId, Balance cost, int discount);
+
         /// <summary>
         /// Stat item rent
         /// </summary>
         /// <param name="itemId">The Id of Purchased item or Purchase item level</param>
+        /// <param name="cost">Cost of rent</param>
+        /// <param name="discount">Discount of rent</param>
         /// <param name="duration">Rent duration</param>
-        void StatItemRent(string itemId, TimeSpan duration);
+        void StatItemRent(string itemId,Balance cost,int discount, TimeSpan duration);
         /// <summary>
         /// Stat achievemt claim
         /// </summary>
@@ -115,7 +119,7 @@ namespace Fort
         /// <param name="label">Label of event</param>
         /// <param name="category">category of event</param>
         /// <param name="value">value of event</param>
-        void StateCustomEvent(string name, string label, string category, object value);
+        void StateCustomEvent(string name, string label, string category, IAnalyticStatValue value);
     }
 
     public enum IapPurchaseFail

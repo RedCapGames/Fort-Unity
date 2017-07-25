@@ -107,7 +107,7 @@ namespace Fort
 
             purchasableItemStoredData.Rents[noneLevelBasePurchasableItemInfo.Id] = rentTime;
             ServiceLocator.Resolve<IStorageService>().UpdateData(purchasableItemStoredData);
-            ServiceLocator.Resolve<IAnalyticsService>().StatItemRent(noneLevelBasePurchasableItemInfo.Id, rentDuration);
+            ServiceLocator.Resolve<IAnalyticsService>().StatItemRent(noneLevelBasePurchasableItemInfo.Id,cost,discount, rentDuration);
         }
 
         public void RentItem(PurchasableLevelInfo purchasableLevelInfo, int discount, TimeSpan rentDuration)
@@ -127,7 +127,7 @@ namespace Fort
             ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0, -cost);
 
             ServiceLocator.Resolve<IStorageService>().UpdateData(purchasableItemStoredData);
-            ServiceLocator.Resolve<IAnalyticsService>().StatItemRent(purchasableLevelInfo.Id, rentDuration);
+            ServiceLocator.Resolve<IAnalyticsService>().StatItemRent(purchasableLevelInfo.Id,cost,discount, rentDuration);
         }
 
         public void PurchaseItem(PurchasableItemInfo purchasableItem, int discount)

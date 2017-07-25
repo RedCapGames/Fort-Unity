@@ -20,7 +20,14 @@ namespace Assets.Fort.Editor.Export
                 return;
             using (Stream writer = File.Create(path))
             {
-                LanguageItem[] allLanguageItems = TypeHelper.FindType(InfoResolver.Resolve<FortInfo>(),typeof(LanguageItem<string>)).Cast<LanguageItem>().ToArray();
+
+                LanguageItem[] allLanguageItems =
+                    TypeHelper.GetAllTypes(AllTypeCategory.All)
+                        .Where(type => typeof (IInfo).IsAssignableFrom(type))
+                        .Select(type => TypeHelper.FindType(InfoResolver.Resolve(type), typeof (LanguageItem<string>)))
+                        .SelectMany(objects => objects)
+                        .Cast<LanguageItem>()
+                        .ToArray();
                 LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
                 string[] languageNames = languageEditorInfo.Languages.Select(info => info.Name).ToArray();
 
@@ -79,7 +86,13 @@ namespace Assets.Fort.Editor.Export
                 int index = 0;
                 List<string> languageNames = new List<string>();
                 LanguageEditorInfo languageEditorInfo = EditorInfoResolver.Resolve<LanguageEditorInfo>();
-                LanguageItem[] allLanguageItems = TypeHelper.FindType(InfoResolver.Resolve<FortInfo>(), typeof(LanguageItem<string>)).Cast<LanguageItem>().ToArray();
+                LanguageItem[] allLanguageItems =
+                    TypeHelper.GetAllTypes(AllTypeCategory.All)
+                        .Where(type => typeof (IInfo).IsAssignableFrom(type))
+                        .Select(type => TypeHelper.FindType(InfoResolver.Resolve(type), typeof (LanguageItem<string>)))
+                        .SelectMany(objects => objects)
+                        .Cast<LanguageItem>()
+                        .ToArray();
                 while (true)
                 {
                     IRow row = sheet.GetRow(index);

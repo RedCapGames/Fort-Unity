@@ -20,6 +20,7 @@ namespace Fort
             ServiceLocator.Resolve<IAnalyticsService>().StatGameLevelFinished(level,parameters.LevelFinishStat);
             GameSavedData gameSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<GameSavedData>() ??
                                           new GameSavedData();
+            gameSavedData.LastFinishedLevelId = level.Id;
             if (gameSavedData.LevelFinishStats.ContainsKey(level.Id))
             {
                 if (gameSavedData.LevelFinishStats[level.Id].CompareTo(parameters.LevelFinishStat) == -1)
@@ -69,6 +70,10 @@ namespace Fort
             string gameLevelSceneName = ResolveGameLevelSceneName(level);
             if(string.IsNullOrEmpty(gameLevelSceneName))
                 throw new Exception(string.Format("Scene name of Level {0} cannot be resloved.",level.Name));
+            GameSavedData gameSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<GameSavedData>() ??
+                              new GameSavedData();
+            gameSavedData.LastLoadedLevelId = level.Id;
+            ServiceLocator.Resolve<IStorageService>().UpdateData(gameSavedData);
             ServiceLocator.Resolve<ISceneLoaderService>().Load(new SceneLoadParameters(gameLevelSceneName)
             {
                 AddToSceneStack = true,
@@ -108,7 +113,24 @@ namespace Fort
 
         public GameLevelInfo GetLastLoadedLevel()
         {
-            return (GameLevelInfo) ServiceLocator.Resolve<ISceneLoaderService>().GetLastLoadContext();
+            GameSavedData gameSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<GameSavedData>() ??
+                                          new GameSavedData();
+            if(string.IsNullOrEmpty(gameSavedData.LastLoadedLevelId))
+                return null;
+            if(!FortInfo.Instance.GameLevel.GameLevelInfos.ContainsKey(gameSavedData.LastLoadedLevelId))
+                return null;
+            return FortInfo.Instance.GameLevel.GameLevelInfos[gameSavedData.LastLoadedLevelId];            
+        }
+
+        public GameLevelInfo GetLastFinishedLevel()
+        {
+            GameSavedData gameSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<GameSavedData>() ??
+                                          new GameSavedData();
+            if (string.IsNullOrEmpty(gameSavedData.LastFinishedLevelId))
+                return null;
+            if (!FortInfo.Instance.GameLevel.GameLevelInfos.ContainsKey(gameSavedData.LastFinishedLevelId))
+                return null;
+            return FortInfo.Instance.GameLevel.GameLevelInfos[gameSavedData.LastFinishedLevelId];
         }
 
         #endregion
@@ -139,7 +161,9 @@ namespace Fort
             {
                 LevelFinishStats = new Dictionary<string, ILevelFinishStat>();
             }
-            public Dictionary<string,ILevelFinishStat> LevelFinishStats { get; set; } 
+            public Dictionary<string,ILevelFinishStat> LevelFinishStats { get; set; }
+            public string LastLoadedLevelId { get; set; }
+            public string LastFinishedLevelId { get; set; }
         }
     }
     

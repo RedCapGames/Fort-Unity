@@ -46,6 +46,8 @@ namespace Fort
         /// </summary>
         /// <returns>last loaded game level info</returns>
         GameLevelInfo GetLastLoadedLevel();
+
+        GameLevelInfo GetLastFinishedLevel();
     }
 
     public interface ILevelFinishStat:IComparable<ILevelFinishStat>

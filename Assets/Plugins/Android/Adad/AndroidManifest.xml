@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.redcap.adad"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+  <uses-sdk
+      android:minSdkVersion="11"
+      android:targetSdkVersion="23" />
+
+  <application android:icon="@drawable/app_icon"
+      android:label="@string/app_name"
+      android:debuggable="false"
+      android:supportsRtl="true"
+      android:allowBackup="true">
+
+    <meta-data android:name="AdadToken" android:value="6477928b082c448390adf11fa8938e14" />
+    <meta-data android:name="AdadTestMode" android:value="true" />
+    <meta-data android:name="AdadBannersEnabledOnStart" android:value="true" />
+    <meta-data android:name="AdadShowRemoveAds" android:value="true" />
+
+    <activity
+      android:name="ir.adad.client.AdadActivity"
+      android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+      android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+    </activity>
+  </application>
+
+</manifest>

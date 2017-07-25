@@ -11,7 +11,7 @@ namespace FortTapligh
     {
         private ErrorDeferred<ShowVideoFailed> _deferred;
         private bool _initialized;
-        private void Initialize()
+        public void Initialize()
         {
             if (_initialized)
                 return;
@@ -82,7 +82,6 @@ namespace FortTapligh
         public bool IsInterstitialBannerSupported { get { return true; } }
         public ErrorPromise<ShowVideoFailed> ShowVideo(string zone, bool skipable)
         {
-            Initialize();
             if (_deferred != null)
             {
                 ErrorDeferred<ShowVideoFailed> deferred = new ErrorDeferred<ShowVideoFailed>();
@@ -103,7 +102,6 @@ namespace FortTapligh
 
         public void ShowStandardBanner()
         {
-            Initialize();
             TaplighInterface.Instance.ShowImageAd();
         }
 
@@ -114,9 +112,9 @@ namespace FortTapligh
 
         public void ShowInterstiatialBanner()
         {
-            Initialize();
             TaplighInterface.Instance.ShowInterstitialAd();
         }
+
 
         #endregion
     }

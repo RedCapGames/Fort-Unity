@@ -46,6 +46,8 @@
         /// Showing interstiatial banner
         /// </summary>
         void ShowInterstiatialBanner();
+
+        void RemoveAds();
     }
 
     public enum StandardBannerVerticalAlignment

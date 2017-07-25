@@ -150,7 +150,7 @@ namespace Fort
                 return TimeSpan.Zero;
             if (skinnerBoxSavedData.FreeItemUseTime[boxInfo.Id] <= DateTime.Now)
                 return TimeSpan.Zero;
-            return DateTime.Now - skinnerBoxSavedData.FreeItemUseTime[boxInfo.Id];
+            return skinnerBoxSavedData.FreeItemUseTime[boxInfo.Id]- DateTime.Now;
         }
 
         #endregion

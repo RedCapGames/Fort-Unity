@@ -76,6 +76,9 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Events\LanguageActivatedEvent.cs">
       <Link>Fort\Infrastuctures\Events\LanguageActivatedEvent.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Events\RemoveAdRequestedEvent.cs">
+      <Link>Fort\Infrastuctures\Events\RemoveAdRequestedEvent.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\ArrayHelper.cs">
       <Link>Fort\Infrastuctures\Helpers\ArrayHelper.cs</Link>
     </Compile>
@@ -192,6 +195,9 @@
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\GameLevel\SimpleGameLevelInfo.cs">
       <Link>Fort\Infrastuctures\Infoes\GameLevel\SimpleGameLevelInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\Helpers\InfoExtenstions.cs">
+      <Link>Fort\Infrastuctures\Infoes\Helpers\InfoExtenstions.cs</Link>
     </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Infoes\IInfo.cs">
       <Link>Fort\Infrastuctures\Infoes\IInfo.cs</Link>

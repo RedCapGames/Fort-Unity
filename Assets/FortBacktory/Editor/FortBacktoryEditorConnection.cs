@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using Assets.Fort.Editor.Dispatcher;
-using Assets.FortBacktory;
 using Fort.Dispatcher;
 using Fort.Info;
 using Fort.ServerConnection;
 using Fort.Stream;
 using FortBacktory.Info;
 using Newtonsoft.Json;
-using UnityEditor;
-using Debug = UnityEngine.Debug;
+using UnityEngine;
 
 namespace Fort.Backtory
 {

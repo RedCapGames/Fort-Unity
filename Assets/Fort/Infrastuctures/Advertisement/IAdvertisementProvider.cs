@@ -13,5 +13,6 @@
         void ShowStandardBanner();
         void HideStandardBanner();
         void ShowInterstiatialBanner();
+        void Initialize();
     }
 }

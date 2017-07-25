@@ -6,7 +6,7 @@ namespace Fort.Info.GameLevel
 {
     public abstract class GameLevelInfo
     {
-        public GameLevelInfo()
+        protected GameLevelInfo()
         {
             Id = Guid.NewGuid().ToString();
             Scene = new InfoLanguageItem<FortScene> { UseOverridedValue = true,OverridedValue = new FortScene()};

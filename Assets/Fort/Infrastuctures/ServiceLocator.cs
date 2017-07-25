@@ -36,7 +36,7 @@ namespace Fort
             return (TService)Resolve(typeof(TService));
         }
 
-        private static void Initialize()
+        public static void Initialize()
         {
             if (_isInitialized)
                 return;
@@ -48,6 +48,16 @@ namespace Fort
                 if (serviceAttribute != null && serviceAttribute.ServiceType != null)
                 {
                     Register(serviceAttribute.ServiceType,type);
+                }
+            }
+
+            foreach (Type type in unityAssemblyTypes)
+            {
+                ServiceAttribute serviceAttribute = type.GetCustomAttribute<ServiceAttribute>();
+                if (serviceAttribute != null && serviceAttribute.ServiceType != null)
+                {
+                    if (serviceAttribute.LoadOnInitialize)
+                        Resolve(serviceAttribute.ServiceType);
                 }
             }
         }
@@ -88,6 +98,7 @@ namespace Fort
     public class ServiceAttribute : Attribute
     {
         public Type ServiceType { get; set; }
+        public bool LoadOnInitialize { get; set; }
     }
 
 }

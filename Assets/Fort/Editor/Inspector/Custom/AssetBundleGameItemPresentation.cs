@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
 using Fort.Info.GameItem;
 using Fort.Inspector;
-using Newtonsoft.Json.Utilities;
 using UnityEditor;
 
 namespace Fort.CustomEditor
@@ -15,7 +11,7 @@ namespace Fort.CustomEditor
         #region Overrides of Presentation
 
         public override PresentationResult OnInspectorGui(PresentationParamater parameter)
-        {
+        {            
             AssetBundleGameItemPresentationData presentationData =
                 parameter.PresentationData as AssetBundleGameItemPresentationData ??
                 new AssetBundleGameItemPresentationData();

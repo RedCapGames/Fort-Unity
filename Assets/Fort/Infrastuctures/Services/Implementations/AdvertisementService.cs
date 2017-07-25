@@ -7,9 +7,18 @@ using UnityEngine;
 
 namespace Fort
 {
-    [Service(ServiceType = typeof(IAdvertisementService))]
+    [Service(ServiceType = typeof(IAdvertisementService),LoadOnInitialize = true)]
     public class AdvertisementService : MonoBehaviour, IAdvertisementService
     {
+        void Start()
+        {
+            if(FortInfo.Instance.Advertisement.AdvertisementProviders != null)
+                foreach (AdvertisementPriority advertisementPriority in FortInfo.Instance.Advertisement.AdvertisementProviders.Where(priority => priority != null))
+                {
+                    if(advertisementPriority.AdvertisementProvider != null)
+                        advertisementPriority.AdvertisementProvider.Initialize();
+                }
+        }
         private bool _showingVideo;
 
         #region Implementation of IAdvertisementService
@@ -260,6 +269,13 @@ namespace Fort
                 InfoResolver.Resolve<FortInfo>().Advertisement.AdvertisementProviders.First(priority => priority.AdvertisementProvider.Name == advertisementProvider).AdvertisementProvider.ShowStandardBanner();
                 ServiceLocator.Resolve<IAnalyticsService>().StatInterstitialBanner(advertisementProvider);
             }
+        }
+
+        public void RemoveAds()
+        {
+            ServiceLocator.Resolve<IStorageService>().UpdateData(new AdvertisementSavedData { IsAdRemoved = true });
+            if (ServiceLocator.Resolve<IAdvertisementService>().IsStandardBannerSupported)
+                ServiceLocator.Resolve<IAdvertisementService>().HideStandardBanner();
         }
 
         #endregion
