@@ -1,22 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Fort.Events;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Fort
 {
-    [Service(ServiceType = typeof(ISceneLoaderService))]
+    [Service(ServiceType = typeof(ISceneLoaderService),LoadOnInitialize = true)]
     public class SceneLoaderService : MonoBehaviour,ISceneLoaderService
     {
         private readonly Stack<string> _sceneStack = new Stack<string>(); 
         private ComplitionDeferred<object> _lastLoadDeferred;
-        private bool _captureReturnKey;
+        private bool _captureReturnKey=true;
         private object _lastContext;
 
         void Update()
         {
-            if(_captureReturnKey && Input.GetKeyUp(KeyCode.Escape) && IsReturnCapable)
-                Return(null);
+            if (_captureReturnKey && Input.GetKeyUp(KeyCode.Escape))
+            {
+                SceneBackEventArgs e = new SceneBackEventArgs(SceneManager.GetActiveScene().name,IsReturnCapable?_sceneStack.Last():string.Empty,IsReturnCapable);
+                ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<SceneBackEvent>().Publish(e);
+                if (IsReturnCapable && e.AutoReturn)
+                {
+                    Return(null);
+                }
+            }            
         }
 
         #region Implementation of ISceneLoaderService
@@ -80,7 +89,8 @@ namespace Fort
                 _lastLoadDeferred = null;
                 lastLoadDeferred.Resolve(context);
             }
-
+            string sceneName = _sceneStack.Pop();
+            SceneManager.LoadScene(FixSceneName(sceneName));
         }
 
         #endregion

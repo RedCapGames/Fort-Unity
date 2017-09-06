@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Fort.Info.GameLevel;
 using Fort.Info.PurchasableItem;
 
@@ -21,5 +23,34 @@ namespace Fort.Info
         {
             return FortInfo.Instance.Purchase.PurchasableTokens[purchasableItemInfo.Id].Parent;
         }
+
+        public static PurchasableItemInfo[] GetItems(this Purchase purchase, Type type)
+        {
+            return purchase.GetAllPurchasableItemInfos().Where(info => info != null && info.GetType() == type).ToArray();
+        }
+
+        public static T[] GetItems<T>(this Purchase purchase)
+        {
+            return purchase.GetAllPurchasableItemInfos().OfType<T>().ToArray();
+        }
+
+        public static PurchasableItemInfo GetItem(this Purchase purchase, Type type)
+        {
+            return purchase.GetAllPurchasableItemInfos().First(info => info != null && info.GetType() == type);
+        }
+
+        public static T GetItem<T>(this Purchase purchase) where T : PurchasableItemInfo
+        {
+            return (T) GetItem(purchase, typeof (T));
+        }
+        public static T GetItem<T>(this Purchase purchase,string name) where T : PurchasableItemInfo
+        {
+            return purchase.GetAllPurchasableItemInfos().OfType<T>().First(arg1 => arg1.Name == name);
+        }
+        public static PurchasableItemInfo GetItem(this Purchase purchase, string name) 
+        {
+            return purchase.GetAllPurchasableItemInfos().First(arg1 => arg1.Name == name);
+        }
+
     }
 }

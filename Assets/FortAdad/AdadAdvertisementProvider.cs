@@ -28,6 +28,8 @@ namespace Assets.FortAdad
 
         public void Initialize()
         {
+            if(Application.platform != RuntimePlatform.Android)
+                return;
             if (!_initialized)
             {
                 Debug.Log("Initialized");
@@ -74,6 +76,9 @@ namespace Assets.FortAdad
         public void ChangeStandardBannerPosition(StandardBannerVerticalAlignment verticalAlignment,
             StandardBannerHorizantalAlignment horizantalAlignment)
         {
+            if (Application.platform != RuntimePlatform.Android)
+                return;
+
             _adadUnityObject.Call("createBannerAds", _activity, GetHorizantal(horizantalAlignment),
                 GetVertical(verticalAlignment), new AdListener(), 0, 0, 0, 0);
             _verticalAlignment = verticalAlignment;
@@ -86,6 +91,9 @@ namespace Assets.FortAdad
 
         public void ShowStandardBanner()
         {
+            if (Application.platform != RuntimePlatform.Android)
+                return;
+
             AdadPosition adadPosition = ServiceLocator.Resolve<IStorageService>().ResolveData<AdadPosition>() ?? new AdadPosition();
             if (_verticalAlignment == null || _horizantalAlignment == null)
             {
@@ -104,12 +112,18 @@ namespace Assets.FortAdad
 
         public void HideStandardBanner()
         {
+            if (Application.platform != RuntimePlatform.Android)
+                return;
+
             //Initinalize();
             _adadUnityObject.Call("disableBannerAds");
         }
 
         public void ShowInterstiatialBanner()
         {
+            if (Application.platform != RuntimePlatform.Android)
+                return;
+
             //Initinalize();
             _adadUnityObject.Call("prepareInterstitial", new InterstitialAdListener(_adadUnityObject, _activity));
         }

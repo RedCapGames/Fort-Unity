@@ -109,7 +109,7 @@ namespace Fort
         {
             AchievementInfo achievementinfo = InfoResolver.Resolve<FortInfo>().Achievement.AchievementTypes[levelBaseType];
             Array achivementLevelInfos =
-                (Array) achievementinfo.GetType().GetProperty("LevelInfo").GetValue(achievementinfo, new object[0]);
+                (Array) achievementinfo.GetType().GetProperty("LevelInfoes").GetValue(achievementinfo, new object[0]);
             if (achivementLevelIndex >= achivementLevelInfos.Length)
                 throw new Exception("Claim Achievement AchievementLevelInfoes out of index");
             //AchivementLevelInfo achivementLevelInfo = (AchivementLevelInfo)achivementLevelInfos.GetValue(achivementLevelIndex);

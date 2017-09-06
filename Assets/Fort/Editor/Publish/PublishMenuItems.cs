@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-//using Assets.FortBacktory;
 using Fort;
 using Fort.AssetBundle;
 using Fort.Build;
@@ -157,7 +155,6 @@ namespace Assets.Fort.Editor.Publish
         private static Promise InternalUpdateServerSettings(bool showDialog)
         {
             Deferred deferred = new Deferred();
-            //BacktoryCloudUrl.Url = "http://localhost:8086";
             ServerSettings serverSettings = new ServerSettings();
             serverSettings.ValuesDefenition = InfoResolver.Resolve<FortInfo>().ValueDefenitions;
             serverSettings.InvitationPrize = InfoResolver.Resolve<FortInfo>().InvitationInfo.InvitationPrize;

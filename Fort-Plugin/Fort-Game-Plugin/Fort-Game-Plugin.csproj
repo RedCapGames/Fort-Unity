@@ -79,6 +79,9 @@
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Events\RemoveAdRequestedEvent.cs">
       <Link>Fort\Infrastuctures\Events\RemoveAdRequestedEvent.cs</Link>
     </Compile>
+    <Compile Include="..\..\Assets\Fort\Infrastuctures\Events\SceneBackEvent.cs">
+      <Link>Fort\Infrastuctures\Events\SceneBackEvent.cs</Link>
+    </Compile>
     <Compile Include="..\..\Assets\Fort\Infrastuctures\Helpers\ArrayHelper.cs">
       <Link>Fort\Infrastuctures\Helpers\ArrayHelper.cs</Link>
     </Compile>

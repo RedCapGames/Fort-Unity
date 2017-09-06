@@ -10,7 +10,7 @@ namespace Fort.Info
     [Serializable]
     [Inspector(Presentation = "Fort.CustomEditor.BalancePresentation")]
     [JsonConverter(typeof(BalanceJsonConverter))]
-    public sealed class Balance
+    public sealed class Balance:ICloneable
     {
         public Balance()
         {
@@ -175,6 +175,11 @@ namespace Fort.Info
             if (Values.Count == 1)
                 return Values.First().Value.ToString();
             return JsonConvert.SerializeObject(Values);
+        }
+
+        public object Clone()
+        {
+            return new Balance() {Values = Values.ToArray().ToDictionary(pair => pair.Key,pair => pair.Value)};
         }
 
         #endregion

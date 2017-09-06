@@ -4,6 +4,7 @@ using Fort.Advertisement;
 using Fort.Info;
 using FortTapsell.Info;
 using TapsellSDK;
+using UnityEngine;
 
 namespace FortTapsell
 {
@@ -80,6 +81,7 @@ namespace FortTapsell
             Tapsell.requestAd(zone, false,
                 result =>
                 {
+                    Debug.Log("On ad exists");
                     // onAdAvailable
                     TapsellShowOptions showOptions = new TapsellShowOptions();
                     showOptions.backDisabled = false;
@@ -91,25 +93,28 @@ namespace FortTapsell
 
                 zoneId =>
                 {
-
+                    Debug.Log("On no ad available");
                     // onNoAdAvailable
                     FailedDefered(ShowVideoFailed.NoVideoAvilable);
                 },
 
                 error =>
                 {
+                    Debug.Log("On Error");
                     // onError
                     FailedDefered(ShowVideoFailed.ProviderError);
                 },
 
                 zoneId =>
                 {
+                    Debug.Log("On no network");
                     // onNoNetwork
                     FailedDefered(ShowVideoFailed.ProviderError);
                 },
 
                 result =>
                 {
+                    Debug.Log("On Expire");
                     // onExpiring
                     FailedDefered(ShowVideoFailed.ProviderError);
                     // this ad is expired, you must download a new ad for this zone

@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace Fort
 {
-    [Service(ServiceType = typeof (IStoreService))]
+    [Service(ServiceType = typeof(IStoreService))]
     public class StoreService : MonoBehaviour, IStoreService
     {
         #region Fields
@@ -89,7 +89,7 @@ namespace Fort
 
         public void RentItem(NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo, int discount, TimeSpan rentDuration)
         {
-            if(noneLevelBasePurchasableItemInfo is ValuePurchasableItemInfo)
+            if (noneLevelBasePurchasableItemInfo is ValuePurchasableItemInfo)
                 throw new Exception("Value purchasable item cannot be rented");
             PurchasableItemStoredData purchasableItemStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemStoredData>() ??
@@ -99,7 +99,7 @@ namespace Fort
                 purchasableItemStoredData.Rents[noneLevelBasePurchasableItemInfo.Id] > rentTime)
                 return;
             Balance balance = ServiceLocator.Resolve<IUserManagementService>().Balance;
-            Balance cost = ResolvePurchasableItemCost(noneLevelBasePurchasableItemInfo.Id).Rent * discount / 100f;
+            Balance cost = ResolvePurchasableItemCost(noneLevelBasePurchasableItemInfo.Id).Rent * (1 - (discount / 100f));
             if (cost > balance)
                 throw new Exception("Insufficient funds");
 
@@ -107,7 +107,7 @@ namespace Fort
 
             purchasableItemStoredData.Rents[noneLevelBasePurchasableItemInfo.Id] = rentTime;
             ServiceLocator.Resolve<IStorageService>().UpdateData(purchasableItemStoredData);
-            ServiceLocator.Resolve<IAnalyticsService>().StatItemRent(noneLevelBasePurchasableItemInfo.Id,cost,discount, rentDuration);
+            ServiceLocator.Resolve<IAnalyticsService>().StatItemRent(noneLevelBasePurchasableItemInfo.Id, cost, discount, rentDuration);
         }
 
         public void RentItem(PurchasableLevelInfo purchasableLevelInfo, int discount, TimeSpan rentDuration)
@@ -121,13 +121,13 @@ namespace Fort
                 return;
             purchasableItemStoredData.Rents[purchasableLevelInfo.Id] = rentTime;
             Balance balance = ServiceLocator.Resolve<IUserManagementService>().Balance;
-            Balance cost = ResolvePurchasableItemCost(purchasableLevelInfo.Id).Rent * discount / 100f;
+            Balance cost = ResolvePurchasableItemCost(purchasableLevelInfo.Id).Rent * (1 - (discount / 100f));
             if (cost > balance)
                 throw new Exception("Insufficient funds");
             ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0, -cost);
 
             ServiceLocator.Resolve<IStorageService>().UpdateData(purchasableItemStoredData);
-            ServiceLocator.Resolve<IAnalyticsService>().StatItemRent(purchasableLevelInfo.Id,cost,discount, rentDuration);
+            ServiceLocator.Resolve<IAnalyticsService>().StatItemRent(purchasableLevelInfo.Id, cost, discount, rentDuration);
         }
 
         public void PurchaseItem(PurchasableItemInfo purchasableItem, int discount)
@@ -151,7 +151,7 @@ namespace Fort
             }
             PurchasableToken purchasableToken = InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[id];
             if (purchasableToken.NoneLevelBase)
-                return ((NoneLevelBasePurchasableItemInfo) purchasableToken.PurchasableItemInfo).Costs;
+                return ((NoneLevelBasePurchasableItemInfo)purchasableToken.PurchasableItemInfo).Costs;
             return purchasableToken.PurchasableLevelInfo.Costs;
         }
 
@@ -161,7 +161,7 @@ namespace Fort
             if (purchasableToken.Parent != null)
             {
                 parents.Add(purchasableToken.Parent);
-                GetParentList(purchasableToken.Parent.Id,parents);
+                GetParentList(purchasableToken.Parent.Id, parents);
             }
         }
 
@@ -173,9 +173,9 @@ namespace Fort
 
             string[] involvedItemIds =
                 parents.Select(info => info.Id)
-                    .Concat(new[] {id})
+                    .Concat(new[] { id })
                     .SelectMany(s => InfoResolver.Resolve<FortInfo>().Purchase.PurchasableTokens[s].Bundles.Select(info => info.Id))
-                    .Concat(parents.Select(info => info.Id).Concat(new[] {id}))
+                    .Concat(parents.Select(info => info.Id).Concat(new[] { id }))
                     .ToArray();
             PurchasableItemStoredData purchasableItemStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemStoredData>() ??
@@ -241,9 +241,9 @@ namespace Fort
             PurchasableItemStoredData purchasableItemStoredData =
                 ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemStoredData>() ??
                 new PurchasableItemStoredData();
-/*            PurchasableItemCache purchasableItemCache =
-                ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemCache>() ??
-                new PurchasableItemCache();*/
+            /*            PurchasableItemCache purchasableItemCache =
+                            ServiceLocator.Resolve<IStorageService>().ResolveData<PurchasableItemCache>() ??
+                            new PurchasableItemCache();*/
             NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo =
                 purchasableItem as NoneLevelBasePurchasableItemInfo;
             if (noneLevelBasePurchasableItemInfo != null)
@@ -251,7 +251,7 @@ namespace Fort
                 if (purchasableItemStoredData.PurchasableItems.ContainsKey(noneLevelBasePurchasableItemInfo.Id))
                     throw new Exception("Item already purchased");
                 Balance balance = ServiceLocator.Resolve<IUserManagementService>().Balance;
-                Balance cost = ResolvePurchasableItemCost(noneLevelBasePurchasableItemInfo.Id).Purchase * discount / 100f;
+                Balance cost = ResolvePurchasableItemCost(noneLevelBasePurchasableItemInfo.Id).Purchase * (1 - (discount / 100f));
                 if (cost > balance)
                     return false;
                 return true;
@@ -263,7 +263,7 @@ namespace Fort
                 Array levelInfo =
                     (Array)
                         levelBasePurchasableItemInfo.GetType()
-                            .GetProperty("LevelInfo")
+                            .GetProperty("LevelInfoes")
                             .GetValue(purchasableItem, new object[0]);
                 if (levelInfo == null || levelInfo.Length == 0)
                     throw new Exception("No levels info defined for this purchasable item");
@@ -278,14 +278,14 @@ namespace Fort
 
                 PurchasableLevelInfo purchasableLevelInfo = purchasableLevelInfos[purchaseLevelIndex];
                 Balance balance = ServiceLocator.Resolve<IUserManagementService>().Balance;
-                Balance cost = ResolvePurchasableItemCost(purchasableLevelInfo.Id).Purchase * discount / 100f;
+                Balance cost = ResolvePurchasableItemCost(purchasableLevelInfo.Id).Purchase * (1 - (discount / 100f));
                 if (cost > balance)
                     return false;
                 return true;
 
             }
         }
-
+        
         public void SetDiscount(Type packageType, int discount, TimeSpan duration)
         {
             DiscountSavedData discountSavedData =
@@ -399,7 +399,7 @@ namespace Fort
                 }
                 else
                 {
-                    ApplyIapPackageInfo(iapPackage).Then(() => deferred.Resolve(),() => deferred.Resolve());
+                    ApplyIapPackageInfo(iapPackage).Then(() => deferred.Resolve(), () => deferred.Resolve());
                     ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<IapPackagePurchasedEvent>().Publish(new IapPackagePurchasedEventArgs(iapPackage));
                 }
 
@@ -430,7 +430,7 @@ namespace Fort
         public ErrorPromise<PurchasePackageErrorResult> ReportPurchasePackage(IapPackageInfo iapPackage,
             string purchaseToken)
         {
-            if(InfoResolver.Resolve<FortInfo>().ServerConnectionProvider == null)
+            if (InfoResolver.Resolve<FortInfo>().ServerConnectionProvider == null)
                 throw new Exception("Report purchase package only supported on server mode of fort");
             ErrorDeferred<PurchasePackageErrorResult> deferred = new ErrorDeferred<PurchasePackageErrorResult>();
             PackagePurchaseCache packagePurchaseCache =
@@ -570,7 +570,7 @@ namespace Fort
                 GameObject marketGameObject = new GameObject("Market");
                 DontDestroyOnLoad(marketGameObject);
                 MarketInfo marketInfo = FortInfo.Instance.MarketInfos.First(info => info.MarketName == InfoResolver.Resolve<FortInfo>().ActiveMarket);
-                _marketProvider = (IMarketProvider) marketGameObject.AddComponent(marketInfo.MarketProvider);
+                _marketProvider = (IMarketProvider)marketGameObject.AddComponent(marketInfo.MarketProvider);
             }
             return _marketProvider;
         }
@@ -590,7 +590,7 @@ namespace Fort
                 if (purchasableItemStoredData.PurchasableItems.ContainsKey(noneLevelBasePurchasableItemInfo.Id))
                     throw new Exception("Item already purchased");
                 Balance balance = ServiceLocator.Resolve<IUserManagementService>().Balance;
-                Balance cost = ResolvePurchasableItemCost(noneLevelBasePurchasableItemInfo.Id).Purchase*discount/100f;
+                Balance cost = ResolvePurchasableItemCost(noneLevelBasePurchasableItemInfo.Id).Purchase * (1 - (discount / 100f));
                 if (cost > balance)
                     throw new Exception("Insufficient funds");
 
@@ -602,16 +602,16 @@ namespace Fort
                 purchasableItemStoredData.PurchasableItems[noneLevelBasePurchasableItemInfo.Id] = 0;
                 purchasableItemCache.ServerPurchasableitemIds[noneLevelBasePurchasableItemInfo.Id] = false;
                 ServiceLocator.Resolve<IAnalyticsService>().StatItemPurchased(purchasableItem.Id, cost, discount);
-                ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<ItemPurchasedEvent>().Publish(new NoneLevelBaseItemPurchasedEventArgs((NoneLevelBasePurchasableItemInfo) purchasableItem,cost));
+                ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<ItemPurchasedEvent>().Publish(new NoneLevelBaseItemPurchasedEventArgs((NoneLevelBasePurchasableItemInfo)purchasableItem, cost));
             }
             else
             {
                 LevelBasePurchasableItemInfo levelBasePurchasableItemInfo =
-                    (LevelBasePurchasableItemInfo) purchasableItem;
+                    (LevelBasePurchasableItemInfo)purchasableItem;
                 Array levelInfo =
                     (Array)
                         levelBasePurchasableItemInfo.GetType()
-                            .GetProperty("LevelInfo")
+                            .GetProperty("LevelInfoes")
                             .GetValue(purchasableItem, new object[0]);
                 if (levelInfo == null || levelInfo.Length == 0)
                     throw new Exception("No levels info defined for this purchasable item");
@@ -627,14 +627,14 @@ namespace Fort
                     purchaseLevelIndex = level.Value;
                 PurchasableLevelInfo purchasableLevelInfo = purchasableLevelInfos[purchaseLevelIndex];
                 Balance balance = ServiceLocator.Resolve<IUserManagementService>().Balance;
-                Balance cost = ResolvePurchasableItemCost(purchasableLevelInfo.Id).Purchase*discount/100f;
+                Balance cost = ResolvePurchasableItemCost(purchasableLevelInfo.Id).Purchase * (1 - (discount / 100f));
                 if (cost > balance)
                     throw new Exception("Insufficient funds");
                 ServiceLocator.Resolve<IUserManagementService>().AddScoreAndBalance(0, -cost);
                 purchasableItemStoredData.PurchasableItems[levelBasePurchasableItemInfo.Id] = purchaseLevelIndex;
                 purchasableItemCache.ServerPurchasableitemIds[purchasableLevelInfo.Id] = false;
                 ServiceLocator.Resolve<IAnalyticsService>().StatItemPurchased(purchasableLevelInfo.Id, cost, discount);
-                ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<ItemPurchasedEvent>().Publish(new LevelBaseItemPurchasedEventArgs((LevelBasePurchasableItemInfo) purchasableItem, purchaseLevelIndex,cost));
+                ServiceLocator.Resolve<IEventAggregatorService>().GetEvent<ItemPurchasedEvent>().Publish(new LevelBaseItemPurchasedEventArgs((LevelBasePurchasableItemInfo)purchasableItem, purchaseLevelIndex, cost));
             }
             ServiceLocator.Resolve<IStorageService>().UpdateData(purchasableItemStoredData);
             ServiceLocator.Resolve<IStorageService>().UpdateData(purchasableItemCache);
@@ -667,13 +667,13 @@ namespace Fort
             if (purchasableToken.NoneLevelBase)
             {
                 NoneLevelBasePurchasableItemInfo noneLevelBasePurchasableItemInfo =
-                    (NoneLevelBasePurchasableItemInfo) purchasableToken.PurchasableItemInfo;
+                    (NoneLevelBasePurchasableItemInfo)purchasableToken.PurchasableItemInfo;
                 return purchasableItemStoredData.PurchasableItems.ContainsKey(noneLevelBasePurchasableItemInfo.Id) ||
                        (purchasableItemStoredData.Rents.ContainsKey(noneLevelBasePurchasableItemInfo.Id) &&
                         purchasableItemStoredData.Rents[noneLevelBasePurchasableItemInfo.Id] <= DateTime.Now);
             }
             LevelBasePurchasableItemInfo levelBasePurchasableItemInfo =
-                (LevelBasePurchasableItemInfo) purchasableToken.PurchasableItemInfo;
+                (LevelBasePurchasableItemInfo)purchasableToken.PurchasableItemInfo;
             if (purchasableItemStoredData.PurchasableItems.ContainsKey(levelBasePurchasableItemInfo.Id) &&
                 purchasableItemStoredData.PurchasableItems[levelBasePurchasableItemInfo.Id] >= purchasableToken.Index)
                 return true;
@@ -740,7 +740,7 @@ namespace Fort
             }
             if (iapPackage is RemoveAdsIapPackageInfo)
             {
-                ServiceLocator.Resolve<IStorageService>().UpdateData(new AdvertisementSavedData {IsAdRemoved = true});
+                ServiceLocator.Resolve<IStorageService>().UpdateData(new AdvertisementSavedData { IsAdRemoved = true });
                 if (ServiceLocator.Resolve<IAdvertisementService>().IsStandardBannerSupported)
                     ServiceLocator.Resolve<IAdvertisementService>().HideStandardBanner();
             }
@@ -763,9 +763,9 @@ namespace Fort
                 Type type = Type.GetType(package.PackageType);
                 if (type == null)
                     return null;
-                IapPackageInfo iapPackage = (IapPackageInfo) Activator.CreateInstance(type);
+                IapPackageInfo iapPackage = (IapPackageInfo)Activator.CreateInstance(type);
                 iapPackage.Sku = package.Sku;
-                iapPackage.DisplayName = new CustomLanguageItem<string>(InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Select(info => info.Id).ToDictionary(s => s,s => package.DisplayName));
+                iapPackage.DisplayName = new CustomLanguageItem<string>(InfoResolver.Resolve<FortInfo>().Language.ActiveLanguages.Select(info => info.Id).ToDictionary(s => s, s => package.DisplayName));
                 iapPackage.Markets =
                     package.Markets.Select(
                         s => InfoResolver.Resolve<FortInfo>().MarketInfos.FirstOrDefault(info => info.MarketName == s))
@@ -775,7 +775,7 @@ namespace Fort
                 PropertyInfo propertyInfo = type.GetProperty("PackageData");
                 if (propertyInfo != null)
                 {
-                    if (propertyInfo.PropertyType == typeof (DiscountIapData))
+                    if (propertyInfo.PropertyType == typeof(DiscountIapData))
                     {
                         DiscountIapData discountIapData = new DiscountIapData();
                         discountIapData.Discount = package.PackageData.GetValue("Discount").ToObject<int>();
@@ -827,6 +827,7 @@ namespace Fort
             {
                 PurchasableItems = new Dictionary<string, int>();
                 ServerPurchasableItemInfos = new Dictionary<string, ItemCosts>();
+                Rents = new Dictionary<string, DateTime>();
             }
 
             #endregion

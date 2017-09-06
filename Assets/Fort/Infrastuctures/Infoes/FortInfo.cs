@@ -58,16 +58,6 @@ namespace Fort.Info
         public static FortInfo Instance { get { return InfoResolver.Resolve<FortInfo>(); } }
     }
 
-    public class Mest
-    {
-        //public string S { get; set; }
-        public Gest Gest { get; set; }
-    }
-    public class Gest
-    {
-        public string S { get; set; }
-    }
-
     public class ActiveMarketPropertyInstanceResolver : IPropertyInstanceResolver
     {
         #region Implementation of IPropertyInstanceResolver

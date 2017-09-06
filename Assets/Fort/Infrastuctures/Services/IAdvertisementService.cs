@@ -46,7 +46,9 @@
         /// Showing interstiatial banner
         /// </summary>
         void ShowInterstiatialBanner();
-
+        /// <summary>
+        /// Remove all advertisements from game
+        /// </summary>
         void RemoveAds();
     }
 

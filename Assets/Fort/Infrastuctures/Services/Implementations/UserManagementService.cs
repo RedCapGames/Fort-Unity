@@ -7,6 +7,7 @@ using Fort.Info.PurchasableItem;
 using Fort.ServerConnection;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace Fort
 {
@@ -46,9 +47,7 @@ namespace Fort
         {
             get
             {
-                UserInfo userInfo = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>();
-                if (userInfo == null)
-                    return 0;
+                UserInfo userInfo = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>()??new UserInfo();
                 return userInfo.Score;
             }
         }
@@ -57,13 +56,7 @@ namespace Fort
         {
             get
             {
-                UserInfo userInfo = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>();
-                if (userInfo == null)
-                {
-                    Balance result = new Balance();
-                    result.SyncValues();
-                    return result;
-                }
+                UserInfo userInfo = ServiceLocator.Resolve<IStorageService>().ResolveData<UserInfo>()??new UserInfo();
                 return userInfo.Balance;
 
             }
@@ -277,7 +270,7 @@ namespace Fort
         {
             AddedScoreBalance = new ScoreBalance();
             NotSyncedScoreBalances = new Dictionary<string, ScoreBalance>();
-            Balance = new Balance();
+            Balance = (Balance) FortInfo.Instance.StartupBalance.Clone();
         }
         public int Score { get; set; }
         public Balance Balance { get; set; }

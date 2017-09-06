@@ -7,7 +7,6 @@ namespace Fort
 {
     public static class StoreServiceExtensions
     {
-
         public static ComplitionPromise<IapPackageInfo[]> ResolvePackages<T>(this IStoreService storeService) where T : IapPackageInfo
         {
             ComplitionDeferred<IapPackageInfo[]> deferred = new ComplitionDeferred<IapPackageInfo[]>();
@@ -23,7 +22,6 @@ namespace Fort
             }, () => deferred.Reject());
             return deferred.Promise();
         }
-
         public static void SetDiscount<T>(this IStoreService storeService, int discount, TimeSpan duration)
             where T : IapPackageInfo
         {
@@ -38,12 +36,10 @@ namespace Fort
         {
             storeService.SetDiscount(packageType, discount, TimeSpan.MaxValue);
         }
-
         public static int GetDiscount<T>(this IStoreService storeService)
         {
             return storeService.GetDiscount(typeof (T));
         }
-
         public static void RemoveDiscount<T>(this IStoreService storeService)
         {
             storeService.RemoveDiscount(typeof(T));
@@ -72,5 +68,46 @@ namespace Fort
         {
             return ServiceLocator.Resolve<IStoreService>().IsItemRented(purchasableLevelInfo.Id);
         }
+        public static void PurchaseItem(this IStoreService storeService, PurchasableItemInfo purchasableItem)
+        {
+            storeService.PurchaseItem(purchasableItem,0);
+        }
+        public static int GetLastPurchasedLevelIndex(this LevelBasePurchasableItemInfo purchasableItemInfo)
+        {
+            var lastItem = purchasableItemInfo.GetPurchasableLevelInfos()
+                .Select((info, i) => new {Index = i, Info = info})
+                .LastOrDefault(arg1 => arg1.Info.IsItemPurchased());
+            if (lastItem == null)
+                return -1;
+            return lastItem.Index;
+        }
+        public static int GetLastUsableLevelIndex(this LevelBasePurchasableItemInfo purchasableItemInfo)
+        {
+            var lastItem = purchasableItemInfo.GetPurchasableLevelInfos()
+                .Select((info, i) => new { Index = i, Info = info })
+                .LastOrDefault(arg1 => arg1.Info.IsItemUsable());
+            if (lastItem == null)
+                return -1;
+            return lastItem.Index;
+        }
+        public static T GetLastPurchasedLevel<T>(this LevelBasePurchasableItemInfo<T> purchasableItemInfo)
+            where T : PurchasableLevelInfo
+        {
+            int lastPurchasedLevelIndex = GetLastPurchasedLevelIndex(purchasableItemInfo);
+            if (lastPurchasedLevelIndex < 0)
+                return null;
+            return purchasableItemInfo.LevelInfoes[lastPurchasedLevelIndex];
+
+        }
+        public static T GetLastUsableLevel<T>(this LevelBasePurchasableItemInfo<T> purchasableItemInfo)
+            where T : PurchasableLevelInfo
+        {
+            int lastUsableLevelIndex = GetLastUsableLevelIndex(purchasableItemInfo);
+            if (lastUsableLevelIndex < 0)
+                return null;
+            return purchasableItemInfo.LevelInfoes[lastUsableLevelIndex];
+
+        }
+
     }
 }

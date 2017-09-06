@@ -28,10 +28,10 @@ namespace Fort
         /// <returns></returns>
         bool IsAchievementClaimed(Type noneLevelBaseType);
         /// <summary>
-        /// Return the index of claimed level base achievement
+        /// Return the index of claimed level base achievement -1 if not claimed yet
         /// </summary>
-        /// <param name="levelBaseType">index of claimed level base achievement</param>
-        /// <returns></returns>
+        /// <param name="levelBaseType">The type of level base achievement</param>
+        /// <returns>index of claimed level base achievement</returns>
         int GetAchievementClaimedIndex(Type levelBaseType);
         /// <summary>
         /// Resolving the score and balance of an achievement or achievement level by Id

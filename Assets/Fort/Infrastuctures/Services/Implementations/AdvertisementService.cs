@@ -130,7 +130,7 @@ namespace Fort
                          case ShowVideoFailed.NoVideoAvilable:
                          case ShowVideoFailed.ProviderError:
                              ServiceLocator.Resolve<IAnalyticsService>().StatVideoResult(providers[index].Name, zone, skipable, failed==ShowVideoFailed.NoVideoAvilable?ShowVideoResult.NoVideoAvilable : ShowVideoResult.ProviderError);
-                             if (index == providers.Length)
+                             if (index == providers.Length-1)
                              {
                                  _showingVideo = false;
                                  deferred.Reject(failed);

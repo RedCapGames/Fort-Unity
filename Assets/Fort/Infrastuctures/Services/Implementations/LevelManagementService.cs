@@ -11,6 +11,7 @@ namespace Fort
     public class LevelManagementService : MonoBehaviour,ILevelManagementService
     {
         private ILevelFinishStat _lastFinishStat;
+        private GameLevelInfo _lastLoadGameAsync;
         #region Implementation of ILevelManagementService
 
         public void GameLevelFinished(LevelFinishParameters parameters)
@@ -76,7 +77,7 @@ namespace Fort
             ServiceLocator.Resolve<IStorageService>().UpdateData(gameSavedData);
             ServiceLocator.Resolve<ISceneLoaderService>().Load(new SceneLoadParameters(gameLevelSceneName)
             {
-                AddToSceneStack = true,
+                AddToSceneStack = false,
                 CaptureReturnKey = false,
                 Context = level,
                 FlushSceneStack = true
@@ -87,9 +88,10 @@ namespace Fort
         {
             if(FortScene.IsNullOrEmpty(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value))
                 throw new Exception("No Loader Scene is defined in Game Level config");
+            _lastLoadGameAsync = level;
             ServiceLocator.Resolve<ISceneLoaderService>().Load(new SceneLoadParameters(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value.SceneName)
             {
-                AddToSceneStack = true,
+                AddToSceneStack = false,
                 CaptureReturnKey = false,
                 Context = level,
                 FlushSceneStack = true
@@ -99,12 +101,15 @@ namespace Fort
 
         public AsyncOperation ContinueLoadGameLevelAsync()
         {
-
+            GameSavedData gameSavedData = ServiceLocator.Resolve<IStorageService>().ResolveData<GameSavedData>() ??
+                  new GameSavedData();
+            gameSavedData.LastLoadedLevelId = _lastLoadGameAsync.Id;
+            ServiceLocator.Resolve<IStorageService>().UpdateData(gameSavedData);
             return
                 ServiceLocator.Resolve<ISceneLoaderService>()
-                    .LoadAsync(new SceneLoadParameters(InfoResolver.Resolve<FortInfo>().GameLevel.LoaderScene.Value.SceneName)
+                    .LoadAsync(new SceneLoadParameters(ResolveGameLevelSceneName(_lastLoadGameAsync))
                     {
-                        AddToSceneStack = true,
+                        AddToSceneStack = false,
                         CaptureReturnKey = false,
                         Context = GetLastLoadedLevel(),
                         FlushSceneStack = true
